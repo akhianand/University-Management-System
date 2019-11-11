@@ -13,3 +13,6 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# Files at GOPATH (current directory of each microservice ) 
+pkg
+github.com

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	app "./go"
+	app "coursesMS/go"
 )
 
 func main() {
