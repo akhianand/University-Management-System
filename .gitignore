@@ -16,3 +16,4 @@
 # Files at GOPATH (current directory of each microservice ) 
 pkg
 github.com
+bin

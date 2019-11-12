@@ -30,9 +30,15 @@ func NewRouter() *mux.Router {
 
 var routes = Routes{
 	Route{
-		"pingHandler",
+		"PingHandler",
 		"GET",
 		"/ping",
 		PingHandler,
+	},
+	Route{
+		"CreateCourseHandler",
+		"POST",
+		"/course",
+		CreateCourseHandler,
 	},
 }
