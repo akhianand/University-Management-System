@@ -1,6 +1,7 @@
 package courses
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -24,7 +25,9 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
-
+	fmt.Println("MongoURL", mongoURL)
+	fmt.Println("Database", database)
+	fmt.Println("Collection", collection)
 	return router
 }
 
