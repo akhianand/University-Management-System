@@ -2,6 +2,7 @@ package courses
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/unrolled/render"
 )
@@ -31,6 +32,7 @@ type Classtime struct {
 
 // Course struct defining a course
 type Course struct {
+	CourseID       int
 	CourseName     string
 	Instructor     string
 	ClassTime      []Classtime
@@ -40,3 +42,13 @@ type Course struct {
 	DepartmentName string
 	Fees           float64
 }
+
+// IDGenerator keeps a auto incremented sequence for a key
+type IDGenerator struct {
+	N   int    `bson:"n"`
+	Key string `bson:"key"`
+}
+
+var mongoURL string = os.Getenv("MONGO_URL")
+var database string = os.Getenv("DATABASE")
+var collection string = os.Getenv("COLLECTION")
