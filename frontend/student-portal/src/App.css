@@ -20,3 +20,26 @@
 .App-link {
   color: #09d3ac;
 }
+
+/* Custom Styling Begins */
+
+.logo{
+  height: auto;
+  max-height: 75px;
+  width: auto;
+  max-width: 100%;
+  background-color: #ebffff;
+}
+
+.flt-right{
+  float:right;
+}
+
+.header-container {
+  background-color: #ebffff;
+}
+
+.section-headline {
+  color: rgb(171,91,26);
+  font-weight: bold;
+}
