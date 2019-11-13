@@ -23,6 +23,38 @@ func logErrorWithoutFailing(err error, msg string) {
 	}
 }
 
+func errorHandler(formatter *render.Render, w http.ResponseWriter, err error) {
+	switch err.(type) {
+	case *BadRequestError:
+		formatter.JSON(w, http.StatusBadRequest, struct {
+			Success bool
+			Message string
+		}{
+			false,
+			err.Error(),
+		})
+		return
+	case *InternalServerError:
+		formatter.JSON(w, http.StatusInternalServerError, struct {
+			Success bool
+			Message string
+		}{
+			false,
+			err.Error(),
+		})
+		return
+	default:
+		log.Printf("Internal Server Error: %s", err)
+		formatter.JSON(w, http.StatusInternalServerError, struct {
+			Success bool
+			Message string
+		}{
+			false,
+			"Internal Server Error",
+		})
+	}
+}
+
 //NewRouter returns a new mux router for courses api
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
