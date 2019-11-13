@@ -43,3 +43,23 @@
   color: rgb(171,91,26);
   font-weight: bold;
 }
+
+.text-align-center {
+  text-align: center;
+}
+
+.signup-container-logo {
+  height: auto;
+  max-height: 100px;
+  width: auto;
+  max-width: 100%;
+  background-color: #ebffff;
+}
+
+.signup-parent-container, .home-parent-container {
+  background-color: #f9f9f9;
+}
+
+.signup-container, .courses-container, .payment-container, .grades-container, .profile-container {
+  background-color: white;
+}
