@@ -94,4 +94,10 @@ var routes = Routes{
 		"/course",
 		CreateCourseHandler,
 	},
+	Route{
+		"GetCoursesHandler",
+		"GET",
+		"/courses",
+		GetCoursesHandler,
+	},
 }

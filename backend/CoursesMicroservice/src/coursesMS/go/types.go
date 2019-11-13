@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/unrolled/render"
+	"gopkg.in/mgo.v2/bson"
 )
 
 //Route struct containing Name, Method, Pattern, and HandlerFunc
@@ -32,21 +33,29 @@ type Classtime struct {
 
 // Course struct defining a course
 type Course struct {
-	CourseID       int
-	CourseName     string
-	Instructor     string
-	ClassTime      []Classtime
-	Capacity       int
-	Credit         int
-	Term           string
-	DepartmentName string
-	Fees           float64
+	CourseID       int         `bson:"courseid"`
+	CourseName     string      `bson:"coursename"`
+	Instructor     string      `bson:"instructor"`
+	ClassTime      []Classtime `bson:"classtime"`
+	Capacity       int         `bson:"capacity"`
+	Credit         int         `bson:"credit"`
+	Term           string      `bson:"term"`
+	DepartmentName string      `bson:"departmentname"`
+	Fees           float64     `bson:"fees"`
 }
 
 // IDGenerator keeps a auto incremented sequence for a key
 type IDGenerator struct {
 	N   int    `bson:"n"`
 	Key string `bson:"key"`
+}
+
+//QueryFilter search query filter
+type QueryFilter struct {
+	CourseID       bson.M     `bson:"courseid"`
+	Term           string     `bson:"term"`
+	CourseName     bson.RegEx `bson:"coursename"`
+	DepartmentName string     `bson:"departmentname"`
 }
 
 var mongoURL string = os.Getenv("MONGO_URL")
