@@ -1,3 +1,13 @@
+# CoursesMicroservice
+## Table of contents
+<!--ts-->
+* [How To Run](#how-to-run)
+* [Routes](#routes)
+  * [GET Ping](#get-ping)
+  * [POST Course](#post-course)
+  * [GET Courses](#get-courses)
+<!--te-->
+
 ## How To Run
 * set go path to CoursesMicroservice directory
 ```shell
@@ -15,9 +25,88 @@ make go-get
 ```shell
 make build
 ```
-
 * start courses microservice server
 ```shell
+export MONGO_URL=<mongo connection url>
+export DATABASE=<name of the database>
+export Collection=<name of the courses collection>
 make start
 ```
 
+## Routes
+### GET Ping
+* **/ping** : GET route for health check
+
+  **Response** 
+  ```json 
+  {
+    "Message": "Courses API is alive!"
+  }
+  ```
+### POST Course
+* **/course** : POST route to create a course (course id will be auto increamented).
+
+  **Request**
+  ```json
+  {
+	  "CourseName": "Cloud Computing",
+  	"Instructor": "Paul Nguyen",
+	  "ClassTime":[
+		  {
+			  "Day": "Saturday",
+  			"StartHour": 9,
+	  		"StartMinutes": 30,
+		  	"EndHour": 12,
+			  "EndMinutes": 30
+		  }
+	  ],
+	  "Capacity": 60,
+  	"Credit": 3,
+	  "Term": "Fall 2019",
+  	"DepartmentName": "CMPE",
+	  "Fees": 3000
+  }
+  ```
+  **Response**
+  ```json
+  {
+    "Success": true,
+    "Message": "creating course asynchronusly"
+  }
+  ```
+### GET Courses
+* **/courses?DepartmentName=&Term=&CourseID=&Comparator=&CourseName=** : GET route to fetch all courses matching filter criteria
+  
+  **Query Parameters**
+  ```
+  DepartmentName:     exact match  
+  Term:               exact match  
+  CourseID:           matches based on the value of Comparator query param  
+  Comparator:         comparator for course id, values supported: eq, gte, lte
+  CourseName:         contains match
+  ```
+  **Response**
+  ```json
+  [
+    {
+        "CourseID": 100,
+        "CourseName": "Cloud Computing",
+        "Instructor": "Paul Ngyuen",
+        "ClassTime": [
+        {
+            "Day": "Saturday",
+            "StartHour": 9,
+            "StartMinutes": 30,
+            "EndHour": 12,
+            "EndMinutes": 30
+        }
+        ],
+        "Capacity": 60,
+        "Credit": 3,
+        "Term": "Fall 2019",
+        "DepartmentName": "CMPE",
+        "Fees": 3000
+      }
+    ]
+  ```
+  
