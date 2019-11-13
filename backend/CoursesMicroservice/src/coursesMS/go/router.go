@@ -2,11 +2,26 @@ package courses
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
+	"gopkg.in/mgo.v2"
 )
+
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
+		panic(fmt.Sprintf("%s: %s", msg, err))
+	}
+}
+
+func logErrorWithoutFailing(err error, msg string) {
+	if err != nil {
+		log.Printf("%s: %s", msg, err)
+	}
+}
 
 //NewRouter returns a new mux router for courses api
 func NewRouter() *mux.Router {
@@ -25,9 +40,12 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
-	fmt.Println("MongoURL", mongoURL)
-	fmt.Println("Database", database)
-	fmt.Println("Collection", collection)
+	fmt.Println("MongoURL:", mongoURL)
+	fmt.Println("Database:", database)
+	fmt.Println("Collection:", collection)
+	session, err := mgo.Dial(mongoURL)
+	failOnError(err, "Mongo Dial Error")
+	defer session.Close()
 	return router
 }
 
