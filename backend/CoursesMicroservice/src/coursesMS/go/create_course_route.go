@@ -15,20 +15,28 @@ func CreateCourseHandler(formatter *render.Render) http.HandlerFunc {
 		_ = json.NewDecoder(req.Body).Decode(&c)
 		//storing course into mongo asynchronusly
 		go storeToMongo(c)
-		formatter.JSON(w, http.StatusOK, struct{ Message string }{"creating course asynchronusly"})
+		formatter.JSON(w, http.StatusOK, struct {
+			Success bool
+			Message string
+		}{
+			true,
+			"creating course asynchronusly",
+		})
 	}
 }
 
 func storeToMongo(course Course) {
 	session, err := mgo.Dial(mongoURL)
 	if err != nil {
-		panic(err)
+		//this will crash the server
+		failOnError(err, "Mongo Dial Error")
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(database).C(collection)
 	course.CourseID, _ = NextSequence("course")
 	if err := c.Insert(course); err != nil {
-		panic(err)
+		//this will crash the server
+		failOnError(err, "Mongo Insert Error")
 	}
 }
