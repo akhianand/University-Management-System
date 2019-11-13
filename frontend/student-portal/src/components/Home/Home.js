@@ -8,7 +8,7 @@ import ProfileContainer from '../Profile/ProfileContainer';
 class Home extends Component {
     render() {
         return (
-            <div>
+            <div className="home-parent-container">
                 <Header />            
                 <div className="row mt-5 container">
 
@@ -27,7 +27,7 @@ class Home extends Component {
                     </div>
                     <div className="main-container col-9">
                         
-                        <div className="p-4 border">                        
+                        <div className="p-4">                        
                             <CoursesContainer/>
                             <PaymentContainer/>                            
                             <GradeContainer/>
