@@ -26,6 +26,7 @@ type User struct {
 	Role      string
 	Email     string
 	Password  string
+	Image     string
 }
 
 // Login Structure

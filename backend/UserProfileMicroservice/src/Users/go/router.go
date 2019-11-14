@@ -50,4 +50,10 @@ var routes = Routes{
 		"/login",
 		LoginHandler,
 	},
+	Route{
+		"UpdateHandler",
+		"PUT",
+		"/login",
+		UpdateHandler,
+	},
 }
