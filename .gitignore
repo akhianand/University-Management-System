@@ -18,3 +18,5 @@ pkg
 github.com
 bin
 gopkg.in
+
+/terraform/.terraform/*
