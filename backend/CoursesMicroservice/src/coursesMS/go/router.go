@@ -43,6 +43,14 @@ func errorHandler(formatter *render.Render, w http.ResponseWriter, err error) {
 			err.Error(),
 		})
 		return
+	case *EntityNotFoundError:
+		formatter.JSON(w, http.StatusNotFound, struct {
+			Success bool
+			Message string
+		}{
+			false,
+			err.Error(),
+		})
 	default:
 		log.Printf("Internal Server Error: %s", err)
 		formatter.JSON(w, http.StatusInternalServerError, struct {
