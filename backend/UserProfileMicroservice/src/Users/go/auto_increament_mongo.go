@@ -1,4 +1,4 @@
-package courses
+package users
 
 import (
 	"gopkg.in/mgo.v2"
@@ -13,8 +13,7 @@ const (
 func NextSequence(key string) (int, error) {
 	session, err := mgo.Dial(mongoURL)
 	if err != nil {
-		//this will crash the server
-		failOnError(err, "Auto Increament Sequence Mongo Dial Error")
+		panic(err)
 	}
 	defer session.Close()
 	change := mgo.Change{
@@ -26,12 +25,12 @@ func NextSequence(key string) (int, error) {
 	_, err = c.Find(bson.M{"key": key}).Apply(change, &result)
 
 	if err == mgo.ErrNotFound {
-		//initial value for sequence is 100
-		err = c.Insert(IDGenerator{Key: key, N: 100})
+		//initial value for sequence is 10000000
+		err = c.Insert(IDGenerator{Key: key, N: 10000000})
 		if err != nil {
 			return -1, err
 		}
-		return 100, nil
+		return 10000000, nil
 	} else if err != nil {
 		return -1, err
 	}
