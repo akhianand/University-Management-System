@@ -27,18 +27,18 @@ make start
 ```
 
 
-## Routes
+## API
 ### GET Ping
-* **/ping** : GET route for health check
+ **/ping** : GET route for health check
 
   **Response** 
   ```json 
-  {
-    "Message": "Courses API is alive!"
-  }
+	{
+		"Message": "Courses API is alive!"
+	}
   ```
 ### POST Signup
-* **/signup** : POST route to create a user (user id will be auto increamented).
+ **/signup** : POST route to create a user (user id will be auto increamented).
 
   **Request Body**
   ```json
@@ -52,14 +52,14 @@ make start
   ```
   **Response**
   ```json
-  {
-    "Success": true,
-    "Message": "Storing User to Database"
-  }
+	{
+		"Success": true,
+		"Message": "Storing User to Database"
+	}
   ```
 
 ### POST Login
-* **/login** : POST route to login a user.
+ **/login** : POST route to login a user.
 
   **Request Body**
   ```json
@@ -71,33 +71,33 @@ make start
   **Response**
   ```json
 	{
-	"UserID": 10000001,
-	"Firstname": "Akhilesh",
-	"Lastname": "Anand",
-	"Role": "student",
-	"Email": "akhileshmalini@gmail.com",
-	"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
-	"Image": ""
+		"UserID": 10000001,
+		"Firstname": "Akhilesh",
+		"Lastname": "Anand",
+		"Role": "student",
+		"Email": "akhileshmalini@gmail.com",
+		"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
+		"Image": ""
 	}
   ```
 
 ### GET User
-* **/profile?UserID=** : GET route to fetch user by ID
+ **/profile?UserID=** : GET route to fetch user by ID
   
   **Query Parameters**
   ```
-	UserID:     exact match  
+	UserID:     int 
   ```
   **Response**
   ```json
 	{
-	"UserID": 10000001,
-	"Firstname": "Akhilesh",
-	"Lastname": "Anand",
-	"Role": "student",
-	"Email": "akhileshmalini@gmail.com",
-	"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
-	"Image": ""
+		"UserID": 10000001,
+		"Firstname": "Akhilesh",
+		"Lastname": "Anand",
+		"Role": "student",
+		"Email": "akhileshmalini@gmail.com",
+		"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
+		"Image": ""
 	}
   ```
   
