@@ -6,7 +6,7 @@ phases:
       golang: 1.13
   pre_build:
     commands:
-      - echo Pre-Build started on `date`
+      - aws s3 cp s3:///itselavia-kops-state-store/.kube/config
   build:
     commands:
       - echo Build started on `date`
