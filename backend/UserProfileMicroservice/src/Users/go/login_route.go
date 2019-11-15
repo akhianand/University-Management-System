@@ -7,8 +7,6 @@ import (
 
 	"github.com/unrolled/render"
 	"golang.org/x/crypto/bcrypt"
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
 //LoginHandler : returns the Handler for Login Request
@@ -25,7 +23,7 @@ func LoginHandler(formatter *render.Render) http.HandlerFunc {
 		email := login.Email
 		password := login.Password
 
-		user, err := retrieveUser(email)
+		user, err := retrieveUserByEmail(email)
 		if err != nil {
 			errorHandler(formatter, w, err)
 			return
@@ -41,25 +39,6 @@ func LoginHandler(formatter *render.Render) http.HandlerFunc {
 		}
 
 	}
-}
-
-func retrieveUser(email string) (*User, error) {
-	session, err := mgo.Dial(mongoURL)
-	if err != nil {
-		return nil, NewInternalServerError("Mongo Dial Error " + err.Error())
-	}
-	defer session.Close()
-	session.SetMode(mgo.Monotonic, true)
-	c := session.DB(database).C(collection)
-	var user User
-	err = c.Find(bson.M{"email": email}).One(&user)
-	if err == mgo.ErrNotFound {
-		return nil, NewEntityNotFoundError(email)
-	}
-	if err != nil {
-		return nil, NewInternalServerError("Mongo find Error " + err.Error())
-	}
-	return &user, nil
 }
 
 func comparePasswords(hashedPwd string, plainPwd []byte) bool {
