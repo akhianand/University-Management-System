@@ -99,7 +99,7 @@ var routes = Routes{
 	Route{
 		"UpdateHandler",
 		"PUT",
-		"/login",
+		"/profile",
 		UpdateProfileHandler,
 	},
 	Route{

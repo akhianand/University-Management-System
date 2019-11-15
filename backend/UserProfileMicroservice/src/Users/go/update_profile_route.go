@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -14,8 +13,7 @@ import (
 //UpdateProfileHandler returns a Handler for UpdateProfile Request
 func UpdateProfileHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		params := mux.Vars(req)
-		userID, err := strconv.Atoi(params["UserID"])
+		userID, err := strconv.Atoi(req.URL.Query()["UserID"][0])
 		if err != nil {
 			err = NewBadRequestError("UserID must be integer")
 			errorHandler(formatter, w, err)
