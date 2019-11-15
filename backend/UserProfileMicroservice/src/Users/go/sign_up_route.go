@@ -16,12 +16,22 @@ func SignUpHandler(formatter *render.Render) http.HandlerFunc {
 		var user User
 		_ = json.NewDecoder(req.Body).Decode(&user)
 
-		var pwd = user.Password
-		hash := hashAndSalt([]byte(pwd))
-		user.Password = hash
-		//Creating User
-		go storeToMongo(user)
-		formatter.JSON(w, http.StatusOK, struct{ Message string }{"Storing User to Database"})
+		email := user.Email
+		usx, err := retrieveUser(email)
+		if err != nil {
+			var pwd = user.Password
+			hash := hashAndSalt([]byte(pwd))
+			user.Password = hash
+			//Creating User
+			go storeToMongo(user)
+			formatter.JSON(w, http.StatusOK, struct{ Message string }{"Storing User to Database"})
+		} else {
+
+			err = NewBadRequestError("User " + usx.Email + " already Exists")
+			errorHandler(formatter, w, err)
+			return
+		}
+
 	}
 }
 

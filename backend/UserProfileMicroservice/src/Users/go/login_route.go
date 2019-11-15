@@ -35,7 +35,9 @@ func LoginHandler(formatter *render.Render) http.HandlerFunc {
 		if pwdMatch {
 			formatter.JSON(w, http.StatusOK, user)
 		} else {
-			formatter.JSON(w, http.StatusNotFound, struct{ Message string }{"Passswords Don't Match"})
+			err = NewBadRequestError("Passwwords Don't Match")
+			errorHandler(formatter, w, err)
+			return
 		}
 
 	}
