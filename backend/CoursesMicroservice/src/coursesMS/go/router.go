@@ -109,9 +109,15 @@ var routes = Routes{
 		GetCoursesHandler,
 	},
 	Route{
-		"GetCoursesHandler",
+		"GetCourseHandler",
 		"GET",
 		"/courses/{CourseID}",
 		GetCourseHandler,
+	},
+	Route{
+		"UpdateCourseHandler",
+		"PUT",
+		"/courses/{CourseID}",
+		UpdateCourseHandler,
 	},
 }
