@@ -81,7 +81,7 @@ make start
 	}
   ```
 
-### GET User
+### GET Profile
  **/profile?UserID=** : GET route to fetch user by ID
   
   **Query Parameters**
@@ -101,3 +101,36 @@ make start
 	}
   ```
   
+
+### PUT User
+ **/profile?UserID=** : PUT route to update user by ID
+  
+  **Query Parameters**
+  ```
+	UserID:     int 
+  ```
+  **Request Body**
+  ```json
+	{
+		"UserID": 10000001,
+		"Firstname": "Akhilesh",
+		"Lastname": "Anand",
+		"Role": "student",
+		"Email": "akhileshmalini@gmail.com",
+		"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
+		"Image": "Image"
+	}
+  ```
+
+  **Response**
+  ```json
+	{
+		"UserID": 10000001,
+		"Firstname": "Akhilesh",
+		"Lastname": "Anand",
+		"Role": "student",
+		"Email": "akhileshmalini@gmail.com",
+		"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
+		"Image": "Image"
+	}
+  ```
