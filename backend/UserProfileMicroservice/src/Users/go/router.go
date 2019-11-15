@@ -97,4 +97,10 @@ var routes = Routes{
 		"/login",
 		UpdateHandler,
 	},
+	Route{
+		"GetUserHandler",
+		"GET",
+		"/profile",
+		GetUserHandler,
+	},
 }
