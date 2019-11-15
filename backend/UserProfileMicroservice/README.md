@@ -42,13 +42,13 @@ make start
 
   **Request Body**
   ```json
-{
-	"firstname": "Akhilesh",
-	"lastname": "Anand",
-	"role" : "student",
-	"email" : "akhilesh.anand@sjsu.com",
-	"password" : "abc123"
-}
+	{
+		"firstname": "Akhilesh",
+		"lastname": "Anand",
+		"role" : "student",
+		"email" : "akhilesh.anand@sjsu.com",
+		"password" : "abc123"
+	}
   ```
   **Response**
   ```json
@@ -63,22 +63,22 @@ make start
 
   **Request Body**
   ```json
-{
-	"email" : "akhilesh.anand@sjsu.edu",
-	"password" : "abc123"
-}
+	{
+		"email" : "akhilesh.anand@sjsu.edu",
+		"password" : "abc123"
+	}
   ```
   **Response**
   ```json
-{
-  "UserID": 10000001,
-  "Firstname": "Akhilesh",
-  "Lastname": "Anand",
-  "Role": "student",
-  "Email": "akhileshmalini@gmail.com",
-  "Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
-  "Image": ""
-}
+	{
+	"UserID": 10000001,
+	"Firstname": "Akhilesh",
+	"Lastname": "Anand",
+	"Role": "student",
+	"Email": "akhileshmalini@gmail.com",
+	"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
+	"Image": ""
+	}
   ```
 
 ### GET User
@@ -86,18 +86,18 @@ make start
   
   **Query Parameters**
   ```
-  UserID:     exact match  
+	UserID:     exact match  
   ```
   **Response**
   ```json
-{
-  "UserID": 10000001,
-  "Firstname": "Akhilesh",
-  "Lastname": "Anand",
-  "Role": "student",
-  "Email": "akhileshmalini@gmail.com",
-  "Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
-  "Image": ""
-}
+	{
+	"UserID": 10000001,
+	"Firstname": "Akhilesh",
+	"Lastname": "Anand",
+	"Role": "student",
+	"Email": "akhileshmalini@gmail.com",
+	"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
+	"Image": ""
+	}
   ```
   
