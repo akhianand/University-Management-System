@@ -24,9 +24,15 @@ func SignUpHandler(formatter *render.Render) http.HandlerFunc {
 			user.Password = hash
 			//Creating User
 			go storeToMongo(user)
-			formatter.JSON(w, http.StatusOK, struct{ Message string }{"Storing User to Database"})
-		} else {
+			formatter.JSON(w, http.StatusOK, struct {
+				Success bool
+				Message string
+			}{
+				true,
+				"Storing User to Database",
+			})
 
+		} else {
 			err = NewBadRequestError("User " + usx.Email + " already Exists")
 			errorHandler(formatter, w, err)
 			return
