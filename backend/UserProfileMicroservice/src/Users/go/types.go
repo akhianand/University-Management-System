@@ -2,7 +2,6 @@ package users
 
 import (
 	"net/http"
-	"os"
 
 	"github.com/unrolled/render"
 )
@@ -44,6 +43,10 @@ type IDGenerator struct {
 	Key string `bson:"key"`
 }
 
-var mongoURL string = os.Getenv("MONGO_URL")
-var database string = os.Getenv("DATABASE")
-var collection string = os.Getenv("COLLECTION")
+// var mongoURL string = os.Getenv("MONGO_URL")
+// var database string = os.Getenv("DATABASE")
+// var collection string = os.Getenv("COLLECTION")
+
+var mongoURL string = "mongodb://localhost:27017"
+var database string = "UniversityPortal"
+var collection string = "Users"

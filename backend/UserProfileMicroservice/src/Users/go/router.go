@@ -2,6 +2,7 @@ package users
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -29,6 +30,46 @@ func NewRouter() *mux.Router {
 	fmt.Println("Database", database)
 	fmt.Println("Collection", collection)
 	return router
+}
+
+func errorHandler(formatter *render.Render, w http.ResponseWriter, err error) {
+	switch err.(type) {
+	case *BadRequestError:
+		formatter.JSON(w, http.StatusBadRequest, struct {
+			Success bool
+			Message string
+		}{
+			false,
+			err.Error(),
+		})
+		return
+	case *InternalServerError:
+		formatter.JSON(w, http.StatusInternalServerError, struct {
+			Success bool
+			Message string
+		}{
+			false,
+			err.Error(),
+		})
+		return
+	case *EntityNotFoundError:
+		formatter.JSON(w, http.StatusNotFound, struct {
+			Success bool
+			Message string
+		}{
+			false,
+			err.Error(),
+		})
+	default:
+		log.Printf("Internal Server Error: %s", err)
+		formatter.JSON(w, http.StatusInternalServerError, struct {
+			Success bool
+			Message string
+		}{
+			false,
+			"Internal Server Error",
+		})
+	}
 }
 
 var routes = Routes{
