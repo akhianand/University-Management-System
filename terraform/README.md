@@ -9,9 +9,12 @@ kops create cluster \
 --master-count=1 \
 --master-size=t2.micro \
 --master-zones=us-east-1a \
---networking=amazon-vpc-routed-eni \
+--networking=calico \
 --node-count=3 \
 --node-size=t2.micro \
---target=terraform \
 --topology=private \
 --zones=us-east-1a,us-east-1b,us-east-1c
+
+Command to install Kafka on Kubernetes:
+
+helm install my-kafka incubator/kafka
