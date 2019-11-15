@@ -9,7 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-//GetCoursesHandler returns a Handler for CreateCourse Request
+//GetCoursesHandler returns a Handler for Get Courses Request
 func GetCoursesHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		filter, err := createFilter(req)
