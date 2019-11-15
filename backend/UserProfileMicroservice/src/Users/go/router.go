@@ -31,6 +31,11 @@ func NewRouter() *mux.Router {
 	fmt.Println("Collection", collection)
 	return router
 }
+func logErrorWithoutFailing(err error, msg string) {
+	if err != nil {
+		log.Printf("%s: %s", msg, err)
+	}
+}
 
 func errorHandler(formatter *render.Render, w http.ResponseWriter, err error) {
 	switch err.(type) {
@@ -95,7 +100,7 @@ var routes = Routes{
 		"UpdateHandler",
 		"PUT",
 		"/login",
-		UpdateHandler,
+		UpdateProfileHandler,
 	},
 	Route{
 		"GetUserHandler",
