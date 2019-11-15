@@ -111,9 +111,11 @@ make start
   ]
   ```
   
-  ### GET Course
-  * **/courses/{CourseID}** : GET route to retrieve single course detail specified by course id
-  
+### GET Course
+* **/courses/{CourseID}** : GET route to retrieve single course detail specified by course id
+    
+    **Request** /courses/100
+    
     **Response**
     ```json
     {
@@ -137,3 +139,50 @@ make start
     }
     ```
   
+  ### PUT Course
+ * **/courses/{CourseID}** : PUT route to update a course specified by course id
+   
+   **Request** /courses/100
+   ```json
+   {
+     "CourseName": "Cloud Computing",
+     "Instructor": "Paul Nguyen",
+     "ClassTime":[
+       {
+         "Day": "Saturday",
+         "StartHour": 9,
+         "StartMinutes": 00,
+         "EndHour": 12,
+         "EndMinutes": 00
+       }
+     ],
+     "Capacity": 60,
+     "Credit": 3,
+     "Term": "Fall 2019",
+     "DepartmentName": "CMPE",
+     "Fees": 3000
+   }
+   ```
+   
+   **Response**
+   ```json
+   {
+     "CourseID":100,
+     "CourseName": "Cloud Computing",
+     "Instructor": "Paul Nguyen",
+     "ClassTime":[
+       {
+         "Day": "Saturday",
+         "StartHour": 9,
+         "StartMinutes": 00,
+         "EndHour": 12,
+         "EndMinutes": 00
+       }
+     ],
+     "Capacity": 60,
+     "Credit": 3,
+     "Term": "Fall 2019",
+     "DepartmentName": "CMPE",
+     "Fees": 3000
+   }
+   ```
