@@ -2,9 +2,11 @@ package users
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/unrolled/render"
+	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2"
 )
 
@@ -13,6 +15,10 @@ func SignUpHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		var user User
 		_ = json.NewDecoder(req.Body).Decode(&user)
+
+		var pwd = user.Password
+		hash := hashAndSalt([]byte(pwd))
+		user.Password = hash
 		//Creating User
 		go storeToMongo(user)
 		formatter.JSON(w, http.StatusOK, struct{ Message string }{"Storing User to Database"})
@@ -31,4 +37,12 @@ func storeToMongo(user User) {
 	if err := c.Insert(user); err != nil {
 		panic(err)
 	}
+}
+
+func hashAndSalt(pwd []byte) string {
+	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+	if err != nil {
+		log.Println(err)
+	}
+	return string(hash)
 }
