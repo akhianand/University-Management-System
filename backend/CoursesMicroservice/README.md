@@ -7,6 +7,8 @@
   * [POST Course](#post-course)
   * [GET Courses](#get-courses)
   * [GET Course](#get-course)
+  * [PUT Course](#put-course)
+  * [DELETE Course](#delete-course)
 <!--te-->
 
 ## How To Run
