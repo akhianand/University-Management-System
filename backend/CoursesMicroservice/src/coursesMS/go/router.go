@@ -120,4 +120,10 @@ var routes = Routes{
 		"/courses/{CourseID}",
 		UpdateCourseHandler,
 	},
+	Route{
+		"DeleteCourseHandler",
+		"DELETE",
+		"/courses/{CourseID}",
+		DeleteCourseHandler,
+	},
 }
