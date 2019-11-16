@@ -23,4 +23,5 @@ phases:
   post_build:
     commands:
       - echo "Pushing to Kubernetes"
-      - /usr/local/bin/kubectl cluster-info 
+      - cd backend/AnnouncementsMicroservice
+      - /usr/local/bin/kubectl apply -f AnnouncementsMicroservice.yaml
