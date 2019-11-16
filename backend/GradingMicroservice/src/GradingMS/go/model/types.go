@@ -24,7 +24,7 @@ type FormatHandlerFunc func(*render.Render) http.HandlerFunc
 
 // GradeQueryFilter query filter to retrieve grade
 type GradeQueryFilter struct {
-	StudentID bson.M
-	CourseID  bson.M
-	Term      bson.RegEx
+	StudentID bson.M     `bson:"studentid"`
+	CourseID  bson.M     `bson:"courseid"`
+	Term      bson.RegEx `bson:"term"`
 }

@@ -21,3 +21,26 @@ make build
 make start
 ```
 
+## Routes
+
+### POST Course
+* **/grades** : POST route to submit a grade
+
+  **Request**
+  ```json
+  {
+	"StudentID":3,
+	"CourseID":3,
+	"Term":"Fall 2019",
+	"Grade":"A",
+	"InstructorID":2
+
+  }
+  ```
+  **Response**
+  ```json
+  {
+  "Success": true,
+  "Message": "Grade Submitted Successfully"
+  }
+  ```
