@@ -12,11 +12,12 @@ phases:
       - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/linux/amd64/kubectl
       - chmod +x ./kubectl
       - mv ./kubectl /usr/local/bin
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   build:
     commands:
       - echo "Starting the build"
       - cd backend/AnnouncementsMicroservice
-      - sudo service docker start
       - docker build -t itselavia/announcements .
       - echo $DOCKER_HUB_PASSWORD | docker login --username itselavia --password-stdin
       - docker push itselavia/announcements
