@@ -139,8 +139,8 @@ make start
     }
     ```
   
-  ### PUT Course
- * **/courses/{CourseID}** : PUT route to update a course specified by course id
+### PUT Course
+* **/courses/{CourseID}** : PUT route to update a course specified by course id
    
    **Request** /courses/100
    ```json
@@ -186,3 +186,17 @@ make start
      "Fees": 3000
    }
    ```
+   
+### DELETE Course
+
+* **/courses/{CourseID}** : DELETE route to delete a course specified by course id
+  
+  **Request** /courses/100
+  
+  **Response**
+  ```json
+  {
+    "Success": true,
+    "Message": "Course 100 is Successfully deleted"
+  }
+  ```
