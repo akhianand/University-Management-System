@@ -7,7 +7,8 @@ phases:
   pre_build:
     commands:
       - echo "Installing and downloading essentials"
-      - aws s3 cp s3://itselavia-kops-state-store/.kube/config
+      - mkdir ~/.kube
+      - aws s3 cp s3://itselavia-kops-state-store/.kube/config ~/.kube/config
       - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/linux/amd64/kubectl
       - chmod +x ./kubectl
       - mv ./kubectl /usr/local/bin
