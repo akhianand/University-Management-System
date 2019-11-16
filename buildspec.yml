@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.13
+  pre_build:
+    commands:
+      - echo "Installing and downloading essentials"
+      - mkdir ~/.kube
+      - aws s3 cp s3://itselavia-kops-state-store/.kube/config ~/.kube/config
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl
+      - mv ./kubectl /usr/local/bin
+  build:
+    commands:
+      - echo "Starting the build"
+      - cd backend/AnnouncementsMicroservice
+      - service docker start
+      - docker build -t itselavia/announcements .
+      - echo $DOCKER_HUB_PASSWORD | docker login --username itselavia --password-stdin
+      - docker push itselavia/announcements
+  post_build:
+    commands:
+      - echo "Pushing to Kubernetes"
+      - cd backend/AnnouncementsMicroservice
+      - /usr/local/bin/kubectl apply -f AnnouncementsMicroservice.yaml

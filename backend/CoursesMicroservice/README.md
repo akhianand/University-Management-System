@@ -6,6 +6,7 @@
   * [GET Ping](#get-ping)
   * [POST Course](#post-course)
   * [GET Courses](#get-courses)
+  * [GET Course](#get-course)
 <!--te-->
 
 ## How To Run
@@ -29,7 +30,7 @@ make build
 ```shell
 export MONGO_URL=<mongo connection url>
 export DATABASE=<name of the database>
-export Collection=<name of the courses collection>
+export COLLECTION=<name of the courses collection>
 make start
 ```
 
@@ -49,22 +50,22 @@ make start
   **Request**
   ```json
   {
-	  "CourseName": "Cloud Computing",
-  	"Instructor": "Paul Nguyen",
-	  "ClassTime":[
-		  {
-			  "Day": "Saturday",
-  			"StartHour": 9,
-	  		"StartMinutes": 30,
-		  	"EndHour": 12,
-			  "EndMinutes": 30
-		  }
-	  ],
-	  "Capacity": 60,
-  	"Credit": 3,
-	  "Term": "Fall 2019",
-  	"DepartmentName": "CMPE",
-	  "Fees": 3000
+    "CourseName": "Cloud Computing",
+    "Instructor": "Paul Nguyen",
+    "ClassTime":[
+      {
+        "Day": "Saturday",
+	"StartHour": 9,
+	"StartMinutes": 30,
+	"EndHour": 12,
+	"EndMinutes": 30
+      }
+    ],
+    "Capacity": 60,
+    "Credit": 3,
+    "Term": "Fall 2019",
+    "DepartmentName": "CMPE",
+    "Fees": 3000
   }
   ```
   **Response**
@@ -106,7 +107,82 @@ make start
         "Term": "Fall 2019",
         "DepartmentName": "CMPE",
         "Fees": 3000
-      }
-    ]
+    }
+  ]
   ```
   
+### GET Course
+* **/courses/{CourseID}** : GET route to retrieve single course detail specified by course id
+    
+    **Request** /courses/100
+    
+    **Response**
+    ```json
+    {
+      "CourseID": 100,
+      "CourseName": "Cloud Computing",
+      "Instructor": "Paul Nguyen",
+      "ClassTime": [
+        {
+      	  "Day": "Saturday",
+          "StartHour": 9,
+          "StartMinutes": 30,
+          "EndHour": 12,
+          "EndMinutes": 30
+        }
+      ],
+      "Capacity": 60,
+      "Credit": 3,
+      "Term": "Fall 2019",
+      "DepartmentName": "CMPE",
+      "Fees": 3000
+    }
+    ```
+  
+  ### PUT Course
+ * **/courses/{CourseID}** : PUT route to update a course specified by course id
+   
+   **Request** /courses/100
+   ```json
+   {
+     "CourseName": "Cloud Computing",
+     "Instructor": "Paul Nguyen",
+     "ClassTime":[
+       {
+         "Day": "Saturday",
+         "StartHour": 9,
+         "StartMinutes": 00,
+         "EndHour": 12,
+         "EndMinutes": 00
+       }
+     ],
+     "Capacity": 60,
+     "Credit": 3,
+     "Term": "Fall 2019",
+     "DepartmentName": "CMPE",
+     "Fees": 3000
+   }
+   ```
+   
+   **Response**
+   ```json
+   {
+     "CourseID":100,
+     "CourseName": "Cloud Computing",
+     "Instructor": "Paul Nguyen",
+     "ClassTime":[
+       {
+         "Day": "Saturday",
+         "StartHour": 9,
+         "StartMinutes": 00,
+         "EndHour": 12,
+         "EndMinutes": 00
+       }
+     ],
+     "Capacity": 60,
+     "Credit": 3,
+     "Term": "Fall 2019",
+     "DepartmentName": "CMPE",
+     "Fees": 3000
+   }
+   ```

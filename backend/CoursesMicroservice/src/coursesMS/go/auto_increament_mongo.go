@@ -13,8 +13,9 @@ const (
 func NextSequence(key string) (int, error) {
 	session, err := mgo.Dial(mongoURL)
 	if err != nil {
-		//this will crash the server
-		failOnError(err, "Auto Increament Sequence Mongo Dial Error")
+		//Instead of crashing the server on error  only logging the error
+		logErrorWithoutFailing(err, "Auto Increament Sequence Mongo Dial Error")
+		return -1, err
 	}
 	defer session.Close()
 	change := mgo.Change{

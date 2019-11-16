@@ -25,18 +25,21 @@ func CreateCourseHandler(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
-func storeToMongo(course Course) {
+func storeToMongo(course Course) error {
 	session, err := mgo.Dial(mongoURL)
 	if err != nil {
-		//this will crash the server
-		failOnError(err, "Mongo Dial Error")
+		//Instead of crashing the server on error, only logging
+		logErrorWithoutFailing(err, "Mongo Dial Error")
+		return err
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(database).C(collection)
 	course.CourseID, _ = NextSequence("course")
 	if err := c.Insert(course); err != nil {
-		//this will crash the server
-		failOnError(err, "Mongo Insert Error")
+		//Instead of crashing the server on error, only logging
+		logErrorWithoutFailing(err, "Mongo Insert Error")
+		return err
 	}
+	return nil
 }
