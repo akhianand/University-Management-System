@@ -16,6 +16,7 @@ phases:
     commands:
       - echo "Starting the build"
       - cd backend/AnnouncementsMicroservice
+      - sudo service docker start
       - docker build -t itselavia/announcements .
       - echo $DOCKER_HUB_PASSWORD | docker login --username itselavia --password-stdin
       - docker push itselavia/announcements
