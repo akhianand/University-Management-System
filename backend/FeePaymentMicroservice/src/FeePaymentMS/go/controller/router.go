@@ -1,8 +1,8 @@
 package controller
 
 import (
-	model "GradingMS/go/model"
-	"GradingMS/go/util"
+	model "FeePaymentMS/go/model"
+	"FeePaymentMS/go/util"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -26,6 +26,9 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
+	//	fmt.Println("MongoURL", mongoURL)
+	//	fmt.Println("Database", database)
+	//	fmt.Println("Collection", collection)
 	return router
 }
 
@@ -35,11 +38,5 @@ var routes = model.Routes{
 		"GET",
 		"/ping",
 		PingHandler,
-	},
-	model.Route{
-		"SubmitGrade",
-		"POST",
-		"/grade",
-		SubmitGradeHandler,
 	},
 }
