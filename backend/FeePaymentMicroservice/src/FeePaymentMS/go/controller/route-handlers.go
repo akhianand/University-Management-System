@@ -21,13 +21,15 @@ func MakePaymentHandler(formatter *render.Render) http.HandlerFunc {
 		log.Printf("Make payment handler function")
 		var payment model.Payment
 		_ = json.NewDecoder(req.Body).Decode(&payment)
-		service.MakePayment(&payment)
+		transactionID, _ := service.MakePayment(&payment)
 		formatter.JSON(w, http.StatusOK, struct {
-			Success bool
-			Message string
+			Success       bool
+			Message       string
+			TransactionID int
 		}{
 			true,
 			"Fee Payment Transaction Recorded Successfully",
+			transactionID,
 		})
 	}
 }

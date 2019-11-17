@@ -26,9 +26,6 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
-	//	fmt.Println("MongoURL", mongoURL)
-	//	fmt.Println("Database", database)
-	//	fmt.Println("Collection", collection)
 	return router
 }
 

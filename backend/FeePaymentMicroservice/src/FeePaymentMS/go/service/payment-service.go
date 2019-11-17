@@ -10,10 +10,10 @@ import (
 )
 
 //MakePayment creates the Fee Payment transaction record in DB
-func MakePayment(payment *model.Payment) {
-
+func MakePayment(payment *model.Payment) (int, error) {
 	log.Printf("Make payment service method")
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
+	payment.TransactionID, _ = util.NextSequence("payment")
 	if err != nil {
 		//this will crash the server
 		util.FailOnError(err, "Mongo Dial Error")
@@ -25,4 +25,5 @@ func MakePayment(payment *model.Payment) {
 		//this will crash the server
 		util.FailOnError(err, "Mongo Insert Error")
 	}
+	return payment.TransactionID, nil
 }
