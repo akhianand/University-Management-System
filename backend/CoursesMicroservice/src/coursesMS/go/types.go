@@ -61,3 +61,5 @@ type QueryFilter struct {
 var mongoURL string = os.Getenv("MONGO_URL")
 var database string = os.Getenv("DATABASE")
 var collection string = os.Getenv("COLLECTION")
+var kafkaServer string = os.Getenv("KAFKA_SERVER")
+var kafkaClickTopic string = os.Getenv("COURSE_CLICK_TOPIC")

@@ -7,7 +7,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
-	"gopkg.in/mgo.v2"
 )
 
 func failOnError(err error, msg string) {
@@ -80,12 +79,14 @@ func NewRouter() *mux.Router {
 			Name(route.Name).
 			Handler(handler)
 	}
-	fmt.Println("MongoURL:", mongoURL)
-	fmt.Println("Database:", database)
-	fmt.Println("Collection:", collection)
-	session, err := mgo.Dial(mongoURL)
-	failOnError(err, "Mongo Dial Error")
-	defer session.Close()
+	fmt.Println("MONGO_URL:", mongoURL)
+	fmt.Println("DATABASE:", database)
+	fmt.Println("COLLECTION:", collection)
+	fmt.Println("KAFKA_SERVER", kafkaServer)
+	fmt.Println("COURSE_CLICK_TOPIC", kafkaClickTopic)
+	// session, err := mgo.Dial(mongoURL)
+	// failOnError(err, "Mongo Dial Error")
+	// defer session.Close()
 	return router
 }
 
@@ -99,7 +100,7 @@ var routes = Routes{
 	Route{
 		"CreateCourseHandler",
 		"POST",
-		"/course",
+		"/courses",
 		CreateCourseHandler,
 	},
 	Route{
@@ -119,5 +120,11 @@ var routes = Routes{
 		"PUT",
 		"/courses/{CourseID}",
 		UpdateCourseHandler,
+	},
+	Route{
+		"DeleteCourseHandler",
+		"DELETE",
+		"/courses/{CourseID}",
+		DeleteCourseHandler,
 	},
 }
