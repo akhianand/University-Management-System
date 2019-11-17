@@ -10,6 +10,7 @@ go-get:
 	go get -v github.com/gorilla/mux
 	go get -v gopkg.in/mgo.v2
 	go get -v gopkg.in/mgo.v2/bson
+	go get -v github.com/confluentinc/confluent-kafka-go/kafka
 build:
 	go build coursesMS
 
