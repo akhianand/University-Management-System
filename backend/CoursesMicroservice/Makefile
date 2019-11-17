@@ -19,3 +19,15 @@ start:
 
 test-ping:
 	curl localhost:8080/ping
+
+network-create:
+	docker network create coursesmicroservice_network
+
+docker-build:
+	docker build -t course_ms .
+
+startup: network-create
+	docker-compose scale node=5
+
+teardown:
+	docker-compose down

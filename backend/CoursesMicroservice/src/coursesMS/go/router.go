@@ -7,7 +7,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
-	"gopkg.in/mgo.v2"
 )
 
 func failOnError(err error, msg string) {
@@ -85,9 +84,9 @@ func NewRouter() *mux.Router {
 	fmt.Println("COLLECTION:", collection)
 	fmt.Println("KAFKA_SERVER", kafkaServer)
 	fmt.Println("COURSE_CLICK_TOPIC", kafkaClickTopic)
-	session, err := mgo.Dial(mongoURL)
-	failOnError(err, "Mongo Dial Error")
-	defer session.Close()
+	// session, err := mgo.Dial(mongoURL)
+	// failOnError(err, "Mongo Dial Error")
+	// defer session.Close()
 	return router
 }
 
