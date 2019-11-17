@@ -19,3 +19,9 @@ type Routes []Route
 
 //FormatHandlerFunc returns a handler function formatted as passed in argument
 type FormatHandlerFunc func(*render.Render) http.HandlerFunc
+
+// IDGenerator keeps a auto incremented sequence for a key
+type IDGenerator struct {
+	N   int    `bson:"n"`
+	Key string `bson:"key"`
+}

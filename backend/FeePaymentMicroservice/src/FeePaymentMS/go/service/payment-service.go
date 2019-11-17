@@ -11,6 +11,7 @@ import (
 
 //MakePayment creates the Fee Payment transaction record in DB
 func MakePayment(payment *model.Payment) {
+
 	log.Printf("Make payment service method")
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {
