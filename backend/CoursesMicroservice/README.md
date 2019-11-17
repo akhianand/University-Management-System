@@ -58,11 +58,14 @@ make start
   ```
   
 * Set environment variables in docker-compose.yml  
-  MONGO_URL=mongo connection url 
-  DATABASE=name of the database  
-  COLLECTION=name of the courses collection  
-  KAFKA_SERVER=localhost:9092  
-  COURSE_CLICK_TOPIC=topic name  
+  ```yml
+  environment:
+    - MONGO_URL=<mongo connection url> 
+    - DATABASE=<name of the database>  
+    - COLLECTION=<name of the courses collection>  
+    - KAFKA_SERVER=<ipAddressOfKafkaServer:9092>  
+    - COURSE_CLICK_TOPIC=<topic name>  
+  ```
   
 * startup cluster
   ```shell
