@@ -4,6 +4,7 @@ package model
 type Payment struct {
 	TransactionID int     `bson:"transactionid"`
 	StudentID     int     `bson:"studentid"`
+	StudentName   string  `bson:"string"`
 	Term          string  `bson:"term"`
-	Amount        float64 `bson:"amount"`
+	Fee           float64 `bson:"fees"`
 }
