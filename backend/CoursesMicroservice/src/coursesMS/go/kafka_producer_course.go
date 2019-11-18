@@ -2,23 +2,20 @@ package courses
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
+	"strconv"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
 func saveCourseToKafka(course Course) {
-
-	fmt.Println("save to kafka")
-
 	jsonString, err := json.Marshal(course)
 
 	courseString := string(jsonString)
-	fmt.Print(courseString)
-
+	log.Println("Logging Course Search to kafka CourseID:" + strconv.Itoa(course.CourseID))
 	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": kafkaServer})
 	if err != nil {
-		panic(err)
+		logErrorWithoutFailing(err, "Kafka Click producer")
 	}
 
 	// Produce messages to topic (asynchronously)

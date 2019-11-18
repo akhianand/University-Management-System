@@ -1,14 +1,18 @@
 package main
 
 import (
+	app "Users/go"
 	"log"
 	"net/http"
 
-	app "Users/go"
+	"github.com/gorilla/handlers"
 )
 
 func main() {
 	log.Printf("Server Started on Port 8000")
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
 	router := app.NewRouter()
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
