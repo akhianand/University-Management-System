@@ -36,4 +36,10 @@ var routes = model.Routes{
 		"/ping",
 		PingHandler,
 	},	
+	model.Route{
+		"AddCourseToCartHandler",
+		"POST",
+		"/addToCart",
+		AddCourseToCartHandler,
+	},
 }
