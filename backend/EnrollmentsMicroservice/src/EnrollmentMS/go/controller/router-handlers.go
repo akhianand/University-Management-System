@@ -6,8 +6,11 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
+	"EnrollmentMS/go/util"
 	"github.com/unrolled/render"
+	"strconv"
+	//"github.com/gorilla/mux"
+	
 )
 
 //PingHandler returns a Handler for Ping Request
@@ -30,5 +33,28 @@ func AddCourseToCartHandler(formatter *render.Render) http.HandlerFunc {
 			true,
 			"Course Added to Cart Successfully",
 		})
+	}
+}
+
+func CartHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		log.Printf("Inside Cart handler function")
+		keys, queryErr := req.URL.Query()["StudentId"]
+		if !queryErr || len(keys[0]) < 1 {
+			util.FailOnError(nil, "Query params error")
+			//return
+		}
+		// params := mux.Vars(req)
+		//log.Printf("req: ", req.URL.Query(), "params: ", params)
+		//studentId, err := strconv.Atoi(params["StudentId"])
+		studentId, err := strconv.Atoi(keys[0])
+		if err != nil {
+			util.FailOnError(err, "Conversion error")
+			//return
+		}
+		// 
+		log.Printf("student ID ", studentId)
+		var cart []model.CartItem = service.GetCart(studentId)
+		formatter.JSON(w, http.StatusOK, cart)
 	}
 }

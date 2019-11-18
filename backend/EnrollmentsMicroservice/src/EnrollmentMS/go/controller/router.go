@@ -42,4 +42,10 @@ var routes = model.Routes{
 		"/addToCart",
 		AddCourseToCartHandler,
 	},
+	model.Route{
+		"GetCart",
+		"GET",
+		"/cart",
+		CartHandler,
+	},
 }
