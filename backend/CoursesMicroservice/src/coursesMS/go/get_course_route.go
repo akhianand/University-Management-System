@@ -26,6 +26,7 @@ func GetCourseHandler(formatter *render.Render) http.HandlerFunc {
 			return
 		}
 		formatter.JSON(w, http.StatusOK, course)
+		go saveCourseToKafka(*course)
 	}
 }
 

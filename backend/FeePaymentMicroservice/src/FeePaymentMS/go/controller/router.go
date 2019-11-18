@@ -1,15 +1,15 @@
 package controller
 
 import (
-	model "GradingMS/go/model"
-	"GradingMS/go/util"
+	model "FeePaymentMS/go/model"
+	"FeePaymentMS/go/util"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 )
 
-//NewRouter returns a new mux router for grading api
+//NewRouter returns a new mux router for courses api
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	formatter := render.New(render.Options{
@@ -37,15 +37,9 @@ var routes = model.Routes{
 		PingHandler,
 	},
 	model.Route{
-		"SubmitGrade",
+		"MakePaymentHandler",
 		"POST",
-		"/grade",
-		SubmitGradeHandler,
-	},
-	model.Route{
-		"GetGradesHandler",
-		"GET",
-		"/grades",
-		GetGradesHandler,
+		"/pay",
+		MakePaymentHandler,
 	},
 }

@@ -1,15 +1,29 @@
 # CoursesMicroservice
 ## Table of contents
 <!--ts-->
-* [How To Run](#how-to-run)
+* [Installation](#installation)
+  * [Prerequisite](#prerequisite)
+  * [How to run service on localhost](#how-to-run-service-on-localhost)
+  * [How to run service on Docker](#how-to-run-service-on-docker)
 * [Routes](#routes)
   * [GET Ping](#get-ping)
   * [POST Course](#post-course)
   * [GET Courses](#get-courses)
   * [GET Course](#get-course)
+  * [PUT Course](#put-course)
+  * [DELETE Course](#delete-course)
 <!--te-->
 
-## How To Run
+## Installation
+
+### Prerequisite
+* install golang [https://golang.org/doc/install](https://golang.org/doc/install)
+* install librdkafka [https://github.com/confluentinc/confluent-kafka-go#installing-librdkafka](https://github.com/confluentinc/confluent-kafka-go#installing-librdkafka)
+* install and run kafka and zookeeper [https://kafka.apache.org/quickstart](https://kafka.apache.org/quickstart)
+* install Docker Engine
+
+### How to run service on localhost
+* start kafka and zookeeper
 * set go path to CoursesMicroservice directory
 ```shell
 source set-gopath.sh
@@ -31,9 +45,37 @@ make build
 export MONGO_URL=<mongo connection url>
 export DATABASE=<name of the database>
 export COLLECTION=<name of the courses collection>
+export KAFKA_SERVER=<localhost:9092>
+export COURSE_CLICK_TOPIC=<topic name>
 make start
 ```
 
+### How to run service on Docker
+* start kafka and zookeeper
+* build docker image
+  ```shell
+  make docker-build
+  ```
+  
+* Set environment variables in docker-compose.yml  
+  ```yml
+  environment:
+    - MONGO_URL=<mongo connection url> 
+    - DATABASE=<name of the database>  
+    - COLLECTION=<name of the courses collection>  
+    - KAFKA_SERVER=<ipAddressOfKafkaServer:9092>  
+    - COURSE_CLICK_TOPIC=<topic name>  
+  ```
+  
+* startup cluster
+  ```shell
+  make startup
+  ```
+* teardown the cluster
+  ```shell
+  make teardown
+  ```
+  
 ## Routes
 ### GET Ping
 * **/ping** : GET route for health check
@@ -45,7 +87,7 @@ make start
   }
   ```
 ### POST Course
-* **/course** : POST route to create a course (course id will be auto increamented).
+* **/courses** : POST route to create a course (course id will be auto increamented).
 
   **Request**
   ```json
@@ -139,8 +181,8 @@ make start
     }
     ```
   
-  ### PUT Course
- * **/courses/{CourseID}** : PUT route to update a course specified by course id
+### PUT Course
+* **/courses/{CourseID}** : PUT route to update a course specified by course id
    
    **Request** /courses/100
    ```json
@@ -186,3 +228,17 @@ make start
      "Fees": 3000
    }
    ```
+   
+### DELETE Course
+
+* **/courses/{CourseID}** : DELETE route to delete a course specified by course id
+  
+  **Request** /courses/100
+  
+  **Response**
+  ```json
+  {
+    "Success": true,
+    "Message": "Course 100 is Successfully deleted"
+  }
+  ```
