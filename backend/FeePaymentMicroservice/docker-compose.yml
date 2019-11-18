@@ -1,0 +1,21 @@
+version: "3"
+services:
+  node:
+    image: feepayment_ms
+    networks:
+      - network   
+    ports:
+      - 8001-8005:8080
+    environment:
+      - MONGO_URL=
+      - DATABASE=mysjsu
+      - COLLECTION=payment
+      - KAFKA_SERVER=localhost:9092
+      - FEE_PAID_TOPIC=test
+volumes:
+  schemas:
+    external: false
+
+networks:
+  network:
+    driver: bridge
