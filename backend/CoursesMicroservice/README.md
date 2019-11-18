@@ -87,7 +87,7 @@ make start
   }
   ```
 ### POST Course
-* **/course** : POST route to create a course (course id will be auto increamented).
+* **/courses** : POST route to create a course (course id will be auto increamented).
 
   **Request**
   ```json
