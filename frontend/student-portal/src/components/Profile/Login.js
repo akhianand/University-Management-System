@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import LHeader from "./LHeader";
+import axios from "axios";
+import { Redirect } from "react-router";
 
+import { API_URL, API_PORT } from "./config.js";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -19,17 +22,37 @@ class Login extends Component {
   }
 
   submitLogin = e => {
-    e.preventDefault();
+	e.preventDefault();
+	
     const login = {
       email: this.state.email,
       password: this.state.password
-    };
-	console.log(login);
+	};
 	
-	this.setState({
-		hasError: true,
-		errorMessage: "Error, Verify Password"
-	})
+
+    axios
+      .post(`${API_URL}:${API_PORT}/login`, login)
+      .then(response => {
+		  console.log(response);
+        if (response.status === 200) {
+			  localStorage.setItem("email", response.data.Email)
+			  localStorage.setItem("role", response.data.Role)
+            this.setState({
+              userLoggedIn: true,
+              hasError: false,
+              errorMessage: ""
+            })
+        }
+      })
+      .catch(err => {
+		console.log();
+        this.setState({
+          userLoggedIn: false,
+          hasError: true,
+          errorMessage: err.response.data.Message
+        });
+	  });
+
   };
 
   emailChangeHandler = e => {
@@ -44,8 +67,12 @@ class Login extends Component {
   };
 
   render() {
+	let redirect = null;
+	redirect = this.state.userLoggedIn ?  <Redirect to= "/Profile"/> : null ;
+
     return (
       <>
+	  	{redirect}
         <LHeader />
 
         <div className="container py-5">

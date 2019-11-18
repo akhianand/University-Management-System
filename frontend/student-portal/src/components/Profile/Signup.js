@@ -10,19 +10,17 @@ class Signup extends Component {
       firstname: "",
       lastname: "",
 	  role: "student",
-	  department:"",
       email: "",
       password: "",
       verifypassword: "",
       hasError: "",
-      errorMessage: "",
-      userLoggedIn: ""
+      errorMessage: "An Error has Occoured",
+      userSignedUp: false
     };
 
     this.submitSignup = this.submitSignup.bind(this);
     this.emailChangeHandler = this.emailChangeHandler.bind(this);
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
-    this.departmentChangeHandler = this.departmentChangeHandler.bind(this);
     this.firstnameChangeHandler = this.firstnameChangeHandler.bind(this);
 	this.lastnameChangeHandler = this.lastnameChangeHandler.bind(this);
 	this.roleChangeHandler = this.roleChangeHandler.bind(this);
@@ -32,36 +30,44 @@ class Signup extends Component {
   }
 
   submitSignup = e => {
-    e.preventDefault();
+	e.preventDefault();
+	
+	//Validation
     const signup = {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       email: this.state.email,
       password: this.state.password,
       role: this.state.role
-    };
-    console.log(signup);
+	};
+	
+	if(signup.password != this.state.verifypassword){
+		this.setState({
+			hasError: true,
+			errorMessage: "Please ensure Passwords Match!"
+		  });
+	}else {
 
     axios
       .post(`${API_URL}:${API_PORT}/signup`, signup)
       .then(response => {
+		  console.log(response);
         if (response.status === 200) {
-          if (response.data.success) {
             this.setState({
-              userLoggedIn: true,
+			  userSignedUp: true,
               hasError: false,
-              userErrorMessage: ""
+              errorMessage: ""
             });
-          }
         }
       })
       .catch(err => {
+		console.log();
         this.setState({
-          userLoggedIn: false,
           hasError: true,
-          userErrorMessage: err
+          errorMessage: err.response.data.Message
         });
-      });
+	  });
+	}
   };
 
   firstnameChangeHandler = e => {
@@ -77,11 +83,6 @@ class Signup extends Component {
   roleChangeHandler = e => {
     this.setState({
       role: e.target.value
-    });
-  };
-  departmentChangeHandler = e => {
-    this.setState({
-      department: e.target.value
     });
   };
   emailChangeHandler = e => {
@@ -102,8 +103,11 @@ class Signup extends Component {
   };
 
   render() {
+	let redirect = null;
+	redirect = this.state.userSignedUp ?  <Redirect to= "/login"/> : null ;
     return (
       <>
+	  {redirect}
         <LHeader />
 
         <div className="container py-5">
