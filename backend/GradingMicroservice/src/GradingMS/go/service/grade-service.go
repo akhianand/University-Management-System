@@ -13,10 +13,7 @@ import (
 func SubmitGrade(grade *model.Grade) {
 
 	// TODO validation checks
-	//check student enrolled in course
-	//check instructor exists
-	//check instructor teaches that course
-	//
+	//check student enrolled in course (handled in frontend)
 	log.Printf("Insert Grade dao method")
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {

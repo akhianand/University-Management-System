@@ -32,17 +32,18 @@ make start
   }
   ```
 ### POST Course
-* **/grades** : POST route to submit a grade
+* **/grade** : POST route to submit a grade
 
   **Request**
   ```json
   {
-	"StudentID":3,
-	"CourseID":3,
-	"Term":"Fall 2019",
-	"Grade":"A",
-	"InstructorID":2
-
+	"StudentID":404,
+	"StudentName":"Akshay",
+	"CourseID":272,
+	"CourseName":"Enterprise Software Overview",
+	"Term":"Spring 2020",
+	"Grade":"B+",
+	"InstructorID":204
   }
   ```
   **Response**
