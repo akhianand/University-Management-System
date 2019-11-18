@@ -58,6 +58,6 @@ type IDGenerator struct {
 // var database string = os.Getenv("DATABASE")
 // var collection string = os.Getenv("COLLECTION")
 
-var mongoURL string = "mongodb://localhost:27017"
-var database string = "UniversityPortal"
-var collection string = "Users"
+var mongoURL string = "mongodb://admin:password1@ds033439.mlab.com:33439/universityportal"
+var database string = "universityportal"
+var collection string = "SJSU_Users"

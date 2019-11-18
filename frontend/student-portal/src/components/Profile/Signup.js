@@ -1,50 +1,105 @@
-import React, {Component} from 'react';
-import Header from '../Header/Header';
-import {Link} from 'react-router-dom';
+import React, { Component } from "react";
+import LHeader from "./LHeader";
+
 
 class Signup extends Component {
-    render() {
-        return (
-            <div className="signup-parent-container">
-                <Header/>
-                <div className="row mt-5 text-align-center">
-                    <div className="mt-5 col-4">
-                    </div>
-                    <div className="mt-5 border col-3 signup-container">
-                        <div className="mt-3 mb-3">
-                            <Link to="/"><img className="signup-container-logo" src={require('../../Static/Images/49893569-student-icon.png')} alt="logo" /></Link>            
-                        </div>
-                        <hr/>
-                        <div>
-                            <div><p><b>Register</b></p></div>
-                        </div>
-                        <div>
-                            <div className="form-group">
-                                <input type="text" name="name" id="name" className="form-control form-control-lg" placeholder="Name" />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" name="email" id="email" className="form-control form-control-lg" placeholder="Email" />
-                            </div>
-                            <div className="form-group">
-                                <select class="custom-select form-control-lg">
-                                    <option selected>Role</option>
-                                    <option value="Student">Student</option>
-                                    <option value="Instructor">Instructor</option>                                
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <input type="password" name="password" id="password" className="form-control form-control-lg" placeholder="Password" />
-                            </div>
-                            <div className="form-group">
-                                <button className="btn btn-lg btn-primary">Register</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+  render() {
+    return (
+		<>
+        <LHeader />
+
+      <div class="container py-5">
+		   <div class="row text-center">
+            <div class="col-md-6 mx-auto">
+              <h1 style={{fontWeight:"lighter"}}>SignUp</h1>
             </div>
-        )
-    }
+          </div>
+		  <br/>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6 mx-auto">
+                <div class="card border-secondary">
+                
+                  <div class="card-body">
+                    <form class="form" role="form" autocomplete="off">
+                      <div class="form-group">
+                        <label for="inputName">First Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="firstname"
+                          placeholder="First Name"
+                          required="true"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="inputName">Last Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="lastname"
+                          placeholder="Last Name"
+                          required="true"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          placeholder="john.doe@sjsu.edu"
+                          required="true"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="department">Department</label>
+                        <select class="form-control" id="department">
+                          <option>Student</option>
+                          <option>Faculty</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="password"
+                          placeholder="Password"
+                          required="true"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="password">Verify Password</label>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="password"
+                          placeholder="Verify Password"
+                          required="true"
+                        />
+                      </div>
+					  <br/>
+                      <div class="form-group">
+                        <button
+                          type="submit"
+                          class="btn btn-primary btn-lg btn-block"
+                        >
+                          Register
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+	  </>
+    );
+  }
 }
 
 export default Signup;
