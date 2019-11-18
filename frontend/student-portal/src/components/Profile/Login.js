@@ -48,56 +48,56 @@ class Login extends Component {
       <>
         <LHeader />
 
-        <div class="container py-5">
-          <div class="row text-center">
-            <div class="col-md-6 mx-auto">
+        <div className="container py-5">
+          <div className="row text-center">
+            <div className="col-md-6 mx-auto">
               <h1 style={{ fontWeight: "lighter" }}>Login</h1>
             </div>
           </div>
           <br />
         
-		{ this.state.hasError ?  <div class="row text-center">
-            <div class="col-md-6 mx-auto">
-              <div class="alert alert-danger" role="alert">
+		{ this.state.hasError ?  <div className="row text-center">
+            <div className="col-md-6 mx-auto">
+              <div className="alert alert-danger" role="alert">
                 {this.state.errorMessage}
               </div>
             </div>
 	</div> : null}
 
-          <div class="row">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-6 mx-auto">
-                  <div class="card border-secondary">
-                    <div class="card-body">
-                      <form class="form" role="form" autocomplete="off">
-                        <div class="form-group">
-                          <label for="email">Email</label>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="row">
+                <div className="col-md-6 mx-auto">
+                  <div className="card border-secondary">
+                    <div className="card-body">
+                      <form className="form" role="form" >
+                        <div className="form-group">
+                          <label htmlFor="email">Email</label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             id="email"
                             placeholder="john.doe@sjsu.edu"
-                            required="true"
+                            required={true}
                             onChange={this.emailChangeHandler}
                           />
                         </div>
-                        <div class="form-group">
-                          <label for="password">Password</label>
+                        <div className="form-group">
+                          <label htmlFor="password">Password</label>
                           <input
                             type="password"
-                            class="form-control"
+                            className="form-control"
                             id="password"
                             placeholder="Password"
-                            required="true"
+                            required={true}
                             onChange={this.passwordChangeHandler}
                           />
                         </div>
                         <br />
-                        <div class="form-group">
+                        <div className="form-group">
                           <button
                             onClick={this.submitLogin}
-                            class="btn btn-primary btn-lg btn-block"
+                            className="btn btn-primary btn-lg btn-block"
                           >
                             Login
                           </button>

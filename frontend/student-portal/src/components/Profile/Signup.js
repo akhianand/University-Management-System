@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import LHeader from "./LHeader";
 import axios from "axios";
-import { API_URL, API_URL } from "./config.js";
+import { API_URL, API_PORT } from "./config.js";
 
 class Signup extends Component {
   constructor(props) {
@@ -9,7 +9,8 @@ class Signup extends Component {
     this.state = {
       firstname: "",
       lastname: "",
-      department: "student",
+	  role: "student",
+	  department:"",
       email: "",
       password: "",
       verifypassword: "",
@@ -23,7 +24,8 @@ class Signup extends Component {
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
     this.departmentChangeHandler = this.departmentChangeHandler.bind(this);
     this.firstnameChangeHandler = this.firstnameChangeHandler.bind(this);
-    this.lastnameChangeHandler = this.lastnameChangeHandler.bind(this);
+	this.lastnameChangeHandler = this.lastnameChangeHandler.bind(this);
+	this.roleChangeHandler = this.roleChangeHandler.bind(this);
     this.verifyPasswordChangeHandler = this.verifyPasswordChangeHandler.bind(
       this
     );
@@ -36,43 +38,30 @@ class Signup extends Component {
       lastname: this.state.lastname,
       email: this.state.email,
       password: this.state.password,
-      department: this.state.department
+      role: this.state.role
     };
     console.log(signup);
 
-    // axios.defaults.withCredentials = true;
-    // axios
-    //   .post(`${API_URL}:${API_PORT}/signup`, signup)
-    //   .then(response => {
-    //     if (response.status === 200) {
-    //       if (response.data.success) {
-    //         this.setState({
-    //           userLoggedIn: true,
-    //           hasError: false,
-    //           userErrorMessage: ""
-    //         });
-    //       } else {
-    //         this.setState({
-    //           userLoggedIn: false,
-    //           hasError: true,
-    //           userErrorMessage: response.data.error
-    //         });
-    //       }
-    //     } else {
-    //       this.setState({
-    //         userLoggedIn: false,
-    //         hasError: true,
-    //         userErrorMessage: response.data.err
-    //       });
-    //     }
-    //   })
-    //   .catch(err => {
-    //     this.setState({
-    //       userLoggedIn: false,
-    //       hasError: true,
-    //       userErrorMessage: "An Error Has Occoured!"
-    //     });
-    //   });
+    axios
+      .post(`${API_URL}:${API_PORT}/signup`, signup)
+      .then(response => {
+        if (response.status === 200) {
+          if (response.data.success) {
+            this.setState({
+              userLoggedIn: true,
+              hasError: false,
+              userErrorMessage: ""
+            });
+          }
+        }
+      })
+      .catch(err => {
+        this.setState({
+          userLoggedIn: false,
+          hasError: true,
+          userErrorMessage: err
+        });
+      });
   };
 
   firstnameChangeHandler = e => {
@@ -83,6 +72,11 @@ class Signup extends Component {
   lastnameChangeHandler = e => {
     this.setState({
       lastname: e.target.value
+    });
+  };
+  roleChangeHandler = e => {
+    this.setState({
+      role: e.target.value
     });
   };
   departmentChangeHandler = e => {
@@ -112,100 +106,100 @@ class Signup extends Component {
       <>
         <LHeader />
 
-        <div class="container py-5">
-          <div class="row text-center">
-            <div class="col-md-6 mx-auto">
+        <div className="container py-5">
+          <div className="row text-center">
+            <div className="col-md-6 mx-auto">
               <h1 style={{ fontWeight: "lighter" }}>SignUp</h1>
             </div>
           </div>
           <br />
           {this.state.hasError ? (
-            <div class="row text-center">
-              <div class="col-md-6 mx-auto">
-                <div class="alert alert-danger" role="alert">
+            <div className="row text-center">
+              <div className="col-md-6 mx-auto">
+                <div className="alert alert-danger" role="alert">
                   {this.state.errorMessage}
                 </div>
               </div>
             </div>
           ) : null}
-          <div class="row">
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-6 mx-auto">
-                  <div class="card border-secondary">
-                    <div class="card-body">
-                      <form class="form" role="form" autocomplete="off">
-                        <div class="form-group">
-                          <label for="inputName">First Name</label>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="row">
+                <div className="col-md-6 mx-auto">
+                  <div className="card border-secondary">
+                    <div className="card-body">
+                      <form className="form" role="form">
+                        <div className="form-group">
+                          <label htmlFor="inputName">First Name</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             id="firstname"
                             placeholder="First Name"
-                            required="true"
+                            required={true}
                             onChange={this.firstnameChangeHandler}
                           />
                         </div>
-                        <div class="form-group">
-                          <label for="inputName">Last Name</label>
+                        <div className="form-group">
+                          <label htmlFor="inputName">Last Name</label>
                           <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             id="lastname"
                             placeholder="Last Name"
-                            required="true"
+                            required={true}
                             onChange={this.lastnameChangeHandler}
                           />
                         </div>
-                        <div class="form-group">
-                          <label for="email">Email</label>
+                        <div className="form-group">
+                          <label htmlFor="email">Email</label>
                           <input
                             type="email"
-                            class="form-control"
+                            className="form-control"
                             id="email"
                             placeholder="john.doe@sjsu.edu"
-                            required="true"
+                            required={true}
                             onChange={this.emailChangeHandler}
                           />
                         </div>
-                        <div class="form-group">
-                          <label for="department">Department</label>
+                        <div className="form-group">
+                          <label htmlFor="role">Department</label>
                           <select
-                            onChange={this.departmentChangeHandler}
-                            class="form-control"
-                            id="department"
+                            onChange={this.roleChangeHandler}
+                            className="form-control"
+                            id="role"
                           >
                             <option value="student">Student</option>
                             <option value="faculty">Faculty</option>
                           </select>
                         </div>
-                        <div class="form-group">
-                          <label for="password">Password</label>
+                        <div className="form-group">
+                          <label htmlFor="password">Password</label>
                           <input
                             type="password"
-                            class="form-control"
+                            className="form-control"
                             id="password"
                             placeholder="Password"
                             onChange={this.passwordChangeHandler}
-                            required="true"
+                            required={true}
                           />
                         </div>
-                        <div class="form-group">
-                          <label for="password">Verify Password</label>
+                        <div className="form-group">
+                          <label htmlFor="vpassword">Verify Password</label>
                           <input
                             type="password"
-                            class="form-control"
-                            id="password"
+                            className="form-control"
+                            id="vpassword"
                             onChange={this.verifyPasswordChangeHandler}
                             placeholder="Verify Password"
-                            required="true"
+                            required={true}
                           />
                         </div>
                         <br />
-                        <div class="form-group">
+                        <div className="form-group">
                           <button
                             onClick={this.submitSignup}
-                            class="btn btn-primary btn-lg btn-block"
+                            className="btn btn-primary btn-lg btn-block"
                           >
                             Register
                           </button>
