@@ -8,9 +8,6 @@ class SearchResultCard extends Component{
                 <Link to={
                     {
                         pathname: "/courses/"+this.props.CourseID,
-                        state: {
-                            CourseID: this.props.CourseID,
-                        }
                     }
 
                 } className="text-dark">
