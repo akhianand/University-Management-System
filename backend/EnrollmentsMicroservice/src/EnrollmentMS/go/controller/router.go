@@ -48,4 +48,10 @@ var routes = model.Routes{
 		"/cart",
 		CartHandler,
 	},
+	model.Route{
+		"EnrollCourse",
+		"POST",
+		"/enroll",
+		EnrollCourseHandler,
+	},
 }
