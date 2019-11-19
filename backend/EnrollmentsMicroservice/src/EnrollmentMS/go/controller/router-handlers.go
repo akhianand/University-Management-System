@@ -22,6 +22,11 @@ func PingHandler(formatter *render.Render) http.HandlerFunc {
 
 func AddCourseToCartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		
 		log.Printf("Add course to Cart handler function")
 		var cartItem model.CourseEnrollment
 		_ = json.NewDecoder(req.Body).Decode(&cartItem)
@@ -40,6 +45,10 @@ func AddCourseToCartHandler(formatter *render.Render) http.HandlerFunc {
 
 func CartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		log.Printf("Inside Cart handler function")
 		keys, queryErr := req.URL.Query()["StudentId"]
 		if !queryErr || len(keys[0]) < 1 {
