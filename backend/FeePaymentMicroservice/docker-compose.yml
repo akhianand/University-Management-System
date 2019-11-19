@@ -5,13 +5,13 @@ services:
     networks:
       - network   
     ports:
-      - 8001-8005:8080
+      - 9001-9005:8080
     environment:
-      - MONGO_URL=
-      - DATABASE=mysjsu
-      - COLLECTION=payment
-      - KAFKA_SERVER=localhost:9092
-      - FEE_PAID_TOPIC=test
+      - MONGO_URL=<MongoURL>
+      - DATABASE=<Database>
+      - COLLECTION=<COllection>
+      - KAFKA_SERVER=<KafkaServer>
+      - COURSE_CLICK_TOPIC=<Topic>
 volumes:
   schemas:
     external: false

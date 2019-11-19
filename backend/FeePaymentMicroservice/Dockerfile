@@ -8,4 +8,4 @@ RUN mkdir dependency; cd dependency; git clone https://github.com/edenhill/librd
 RUN make clean
 RUN make go-get
 RUN make build
-CMD make start >> course_ms.log
+CMD make start >> feepayment_ms.log
