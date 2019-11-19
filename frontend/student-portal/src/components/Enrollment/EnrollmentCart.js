@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
+import {enrollmentServiceURL} from '../../config/Config';
 
 class EnrollmentCart extends Component {
 
@@ -16,7 +17,7 @@ class EnrollmentCart extends Component {
 
   componentDidMount() {
     let studentId = this.props.match.params.studentId;
-    axios.get('http://localhost:8086/cart?StudentId=' + studentId)
+    axios.get(enrollmentServiceURL + '/cart?StudentId=' + studentId)
     .then((res) => {
       console.log('Result of cart Items: ', res.data);
     });

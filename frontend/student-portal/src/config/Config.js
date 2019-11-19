@@ -6,3 +6,5 @@ export function getURL (route) {
     }
     return baseURL + "/" +route;
 }
+
+export const enrollmentServiceURL = "http://localhost:8086";
