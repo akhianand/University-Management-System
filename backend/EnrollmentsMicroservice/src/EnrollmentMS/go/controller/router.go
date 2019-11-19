@@ -54,4 +54,10 @@ var routes = model.Routes{
 		"/enroll",
 		EnrollCourseHandler,
 	},
+	model.Route{
+		"DropCourse",
+		"POST",
+		"/drop",
+		DropCourseHandler,
+	},
 }

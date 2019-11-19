@@ -82,3 +82,26 @@ func EnrollCourseHandler(formatter *render.Render) http.HandlerFunc {
 		})
 	}
 }
+
+func DropCourseHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		log.Printf(" Inside Drop Course handler function")
+		var courseEnrollment model.CourseEnrollment 
+		_ = json.NewDecoder(req.Body).Decode(&courseEnrollment)	
+		out, err := json.Marshal(courseEnrollment)
+		log.Printf("out : " + string(out))
+		if err != nil {
+
+		}
+
+		service.DropCourse(courseEnrollment.StudentId, courseEnrollment.CourseId)
+		formatter.JSON(w, http.StatusOK, struct {
+			Success       bool
+			Message       string
+		}{
+			true,
+			"Course Dropped Successfully",
+		})
+
+	}
+}
