@@ -63,3 +63,10 @@
 .signup-container, .courses-container, .payment-container, .grades-container, .profile-container {
   background-color: white;
 }
+
+.confirmation-container {
+  background-color: #FCFCC9;
+  font-size: 20px;
+  font-weight: bold;
+  color: #239BFF  ;
+}

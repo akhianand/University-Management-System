@@ -7,7 +7,7 @@ class Header extends Component {
             <div className="header-container">
                <div className="header-bar" >
                     <Link to="/"><img className="logo" src={require('../../Static/Images/49893569-student-icon.png')} alt="logo" /></Link>            
-                    <Link className="flt-right mt-3 ml-3 mr-5 header-links"> <b>Sign out</b></Link>
+                    <Link to="#" className="flt-right mt-3 ml-3 mr-5 header-links"> <b>Sign out</b></Link>
                 </div>
             </div>
         )

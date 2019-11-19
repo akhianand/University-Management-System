@@ -7,7 +7,7 @@ mkdir /home/ubuntu/kafka
 
 wget https://www-us.apache.org/dist/kafka/2.3.0/kafka_2.12-2.3.0.tgz
 
-tar -xvzf kafka_2.12-2.3.0.tgz --directory=q/home/ubuntu/kafka --strip-components=1
+tar -xvzf kafka_2.12-2.3.0.tgz --directory=/home/ubuntu/kafka --strip-components=1
 
 rm -rf kafka_2.12-2.3.0.tgz
 

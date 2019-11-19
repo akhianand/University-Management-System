@@ -22,9 +22,16 @@ func PingHandler(formatter *render.Render) http.HandlerFunc {
 
 func AddCourseToCartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		
 		log.Printf("Add course to Cart handler function")
-		var cartItem model.CartItem
+		var cartItem model.CourseEnrollment
 		_ = json.NewDecoder(req.Body).Decode(&cartItem)
+		cartItem.IsEnrolled = false
+		cartItem.HasFeesPaid = false		
 		service.AddCourseToCart(&cartItem)
 		formatter.JSON(w, http.StatusOK, struct {
 			Success       bool
@@ -38,6 +45,10 @@ func AddCourseToCartHandler(formatter *render.Render) http.HandlerFunc {
 
 func CartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		log.Printf("Inside Cart handler function")
 		keys, queryErr := req.URL.Query()["StudentId"]
 		if !queryErr || len(keys[0]) < 1 {
@@ -54,7 +65,79 @@ func CartHandler(formatter *render.Render) http.HandlerFunc {
 		}
 		// 
 		log.Printf("student ID ", studentId)
-		var cart []model.CartItem = service.GetCart(studentId)
+		var cart []model.CourseEnrollment = service.GetCart(studentId)
 		formatter.JSON(w, http.StatusOK, cart)
+	}
+}
+
+func EnrollCourseHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		log.Printf(" Inside Enroll Course handler function")
+		var cartItem model.CourseEnrollment
+		_ = json.NewDecoder(req.Body).Decode(&cartItem)		
+		out, err := json.Marshal(cartItem)
+		log.Printf("out : " + string(out))
+		if err != nil {
+
+		}
+		
+		service.EnrollCourse(cartItem.StudentId, cartItem.CourseId)
+		formatter.JSON(w, http.StatusOK, struct {
+			Success       bool
+			Message       string
+		}{
+			true,
+			"Course Enrolled Successfully",
+		})
+	}
+}
+
+func RetrieveEnrollmentHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		log.Printf("Inside Retrieve enrollment handler function")
+
+		keys, queryErr := req.URL.Query()["StudentId"]
+		if !queryErr || len(keys[0]) < 1 {
+			util.FailOnError(nil, "Query params error")
+			//return
+		}
+
+		studentId, err := strconv.Atoi(keys[0])
+		if err != nil {
+			util.FailOnError(err, "Conversion error")
+			//return
+		}
+		// 
+		log.Printf("student ID ", studentId)
+		var enrolledCourses []model.CourseEnrollment = service.GetEnrollments(studentId)
+		formatter.JSON(w, http.StatusOK, enrolledCourses)
+
+	}
+}
+
+func DropCourseHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		log.Printf(" Inside Drop Course handler function")
+		var courseEnrollment model.CourseEnrollment 
+		_ = json.NewDecoder(req.Body).Decode(&courseEnrollment)	
+		out, err := json.Marshal(courseEnrollment)
+		log.Printf("out : " + string(out))
+		if err != nil {
+
+		}
+
+		service.DropCourse(courseEnrollment.StudentId, courseEnrollment.CourseId)
+		formatter.JSON(w, http.StatusOK, struct {
+			Success       bool
+			Message       string
+		}{
+			true,
+			"Course Dropped Successfully",
+		})
+
 	}
 }
