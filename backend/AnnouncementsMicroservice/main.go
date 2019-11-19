@@ -36,10 +36,12 @@ router.HandleFunc("/ping", pingHandler).Methods("GET")
 
 router.HandleFunc("/search-count", searchCount).Methods("GET")
 
-consumeMessages()
-
+go consumeMessages()
 
 http.ListenAndServe(":8080", router)
+
+
+
 }
 
 func consumeMessages() {
