@@ -6,6 +6,7 @@ import Profile from './Profile/Profile';
 import CoursesSearch from './Course/CoursesSearch';
 import Home from './Home/Home';
 import AddToCartConfirmation from './Enrollment/AddToCartConfirmation';
+import EnrollmentCart from './Enrollment/EnrollmentCart';
 
 class Main extends Component {
     render() {
@@ -17,6 +18,7 @@ class Main extends Component {
                 <Route path="/profile" component={Profile} />  
                 <Route path="/courses" component={CoursesSearch} />
                 <Route path="/addToCartConfirmation" component={AddToCartConfirmation} />
+                <Route path="/enrollmentCart" component={EnrollmentCart} />
             </div>
         )
     }
