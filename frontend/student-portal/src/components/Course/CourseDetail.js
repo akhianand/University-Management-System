@@ -32,10 +32,9 @@ class CourseDetail extends Component{
                 errorMessage: ""
             })
         }catch(error){
-            if (error.errorMessage === "Network Error") {
+            if (!error.response) {
                 console.log("Server is down!");
                 this.setState({
-                    
                         CourseID: this.props.match.params.CourseID,
                         CourseName: null,
                         Instructor: null,
@@ -44,12 +43,13 @@ class CourseDetail extends Component{
                         Credit: null,
                         Term: null,
                         DepartmentName: null,
-                        Fees: null
-                        , errorMessage: "Server is down!"}
+                        Fees: null,
+                        errorMessage: "Server is down!"}
                     )
-            }else{
+            }else if(error.response.status=== 400 ){
                 console.log(error);
-                this.setState({CourseID: this.props.match.params.CourseID,
+                this.setState({
+                    CourseID: this.props.match.params.CourseID,
                     CourseName: null,
                     Instructor: null,
                     ClassTime:[],
@@ -57,8 +57,21 @@ class CourseDetail extends Component{
                     Credit: null,
                     Term: null,
                     DepartmentName: null,
-                    Fees: null
-                    , errorMessage: "Server is down!"})
+                    Fees: null,
+                    errorMessage: error.response.data.Message})
+            }else {
+                this.setState({
+                    CourseID: this.props.match.params.CourseID,
+                    CourseName: null,
+                    Instructor: null,
+                    ClassTime:[],
+                    Capacity: null,
+                    Credit: null,
+                    Term: null,
+                    DepartmentName: null,
+                    Fees: null,
+                    errorMessage: "Something went wrong, try again later"}
+                )
             }
         }
       }
@@ -74,8 +87,17 @@ class CourseDetail extends Component{
         ))
     }
     render(){
+        let errorMessage = null;
         var style ={
             height: '100vh'
+        }
+        if (this.state.errorMessage) {
+            errorMessage = <div className="alert alert-danger alert-dismissible row m-2" role="alert">
+                <div className="col-11">
+                    {this.state.errorMessage}
+                </div>
+                <div><button type="button" className="close" data-dismiss="alert"><span aria-hidden="true">×</span><span className="sr-only">Close</span></button></div>
+            </div>
         }
         console.log({state: this.state})
         return (
@@ -85,6 +107,7 @@ class CourseDetail extends Component{
                     <div className="row mt-5 container">
                         <SidePane/>
                         <div className="main-container col-8 bg-white p-3">
+                            {errorMessage}
                             <div className="row"> 
                                 <h5 className="col-12 text-center"> {this.state.DepartmentName}-{this.state.CourseID}</h5>
                             </div>

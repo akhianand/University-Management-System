@@ -37,10 +37,10 @@ class CoursesSearch extends Component {
             console.log(response.data)
             this.setState({response: response.data , errorMessage: ""})
         }catch(error){
-            if (!error.status) {
+            if (!error.response) {
                 console.log("Server is down!");
                 this.setState({response: [], errorMessage: "Server is down!"})
-            }else if(error.status === 400 ){
+            }else if(error.response.status === 400 ){
                 this.setState({response: [], errorMessage: error.response.data.Message})
             }else {
                 this.setState({response: [], errorMessage: "Something went wrong, try again later!"})
