@@ -54,4 +54,17 @@ func consumeMessages() {
 	}
 
 	fmt.Printf("Created Consumer %v\n", c)
+
+	err = c.SubscribeTopics([]string{"search-counter"}, nil)
+
+	for {
+		msg, err := c.ReadMessage(-1)
+		if err == nil {
+			fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
+		} else {
+			// The client will automatically try to recover from all errors.
+			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
+		}
+	}
+
 }
