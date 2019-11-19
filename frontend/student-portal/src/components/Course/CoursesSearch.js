@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
 import { getURL } from '../../config/Config';
 import axios from 'axios'
+import SearchResultCard from './SearchResultCard';
 
 class CoursesSearch extends Component {
 
@@ -32,16 +33,17 @@ class CoursesSearch extends Component {
             CourseName: this.state.CourseName,
         }
         try{
-            var response = await axios.get(url,{params})
-            console.log(response)
-            this.setState({response: response, errorMessage: ""})
+            let response = await axios.get(url,{params})
+            console.log(response.data)
+            this.setState({response: response.data , errorMessage: ""})
         }catch(error){
-            if (error.errorMessage === "Network Error") {
+            if (!error.response) {
                 console.log("Server is down!");
                 this.setState({response: [], errorMessage: "Server is down!"})
-            }else{
-                console.log(error.response.data.Message);
+            }else if(error.response.status === 400 ){
                 this.setState({response: [], errorMessage: error.response.data.Message})
+            }else {
+                this.setState({response: [], errorMessage: "Something went wrong, try again later!"})
             }
         }
     }
@@ -54,6 +56,22 @@ class CoursesSearch extends Component {
         }
         
         this.setState(updateState);
+    }
+
+    createCard = () => {
+        return(
+            this.state.response.map((result, index) =><SearchResultCard
+            key={"searchcard_"+index}
+            CourseID = {result.CourseID}
+            CourseName = {result.CourseName}
+            DepartmentName = {result.DepartmentName}
+            Fees = {result.Fees}
+            Credit = {result.Credit}
+            Instructor= {result.Instructor}
+            Capacity= {result.Capacity}
+            ClassTime = {result.ClassTime}
+            ></SearchResultCard>
+        ));
     }
 
     render() {
@@ -118,6 +136,7 @@ class CoursesSearch extends Component {
                                     </div>
                                 </div>
                             </section>
+                            {this.createCard()}
                         </div>
                     </div>
                 </div>  
