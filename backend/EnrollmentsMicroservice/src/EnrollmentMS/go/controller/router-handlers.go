@@ -92,6 +92,33 @@ func EnrollCourseHandler(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
+func RetrieveEnrollmentHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		log.Printf("Inside Retrieve enrollment handler function")
+
+		keys, queryErr := req.URL.Query()["StudentId"]
+		if !queryErr || len(keys[0]) < 1 {
+			util.FailOnError(nil, "Query params error")
+			//return
+		}
+
+		studentId, err := strconv.Atoi(keys[0])
+		if err != nil {
+			util.FailOnError(err, "Conversion error")
+			//return
+		}
+		// 
+		log.Printf("student ID ", studentId)
+		var enrolledCourses []model.CourseEnrollment = service.GetEnrollments(studentId)
+		formatter.JSON(w, http.StatusOK, enrolledCourses)
+
+	}
+}
+
 func DropCourseHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		log.Printf(" Inside Drop Course handler function")
