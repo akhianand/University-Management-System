@@ -1,0 +1,21 @@
+version: "3"
+services:
+  node:
+    image: feepayment_ms
+    networks:
+      - network   
+    ports:
+      - 9001-9005:8080
+    environment:
+      - MONGO_URL=<MongoURL>
+      - DATABASE=<Database>
+      - COLLECTION=<COllection>
+      - KAFKA_SERVER=<KafkaServer>
+      - COURSE_CLICK_TOPIC=<Topic>
+volumes:
+  schemas:
+    external: false
+
+networks:
+  network:
+    driver: bridge

@@ -4,6 +4,7 @@ import (
 	model "FeePaymentMS/go/model"
 	"FeePaymentMS/go/service"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -16,9 +17,12 @@ func PingHandler(formatter *render.Render) http.HandlerFunc {
 		formatter.JSON(w, http.StatusOK, struct{ Message string }{"Payments API is up and running !!"})
 	}
 }
+
+//MakePaymentHandler returns a Handler for making a payment
 func MakePaymentHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		log.Printf("Make payment handler function")
+		fmt.Println("Make payment handler router function")
 		var payment model.Payment
 		_ = json.NewDecoder(req.Body).Decode(&payment)
 		transactionID, _ := service.MakePayment(&payment)
