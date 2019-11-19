@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
-//import Navbar from './../nav/navbar';
-//import './home.css';
-//import { Link } from 'react-router-dom';
-//import { Redirect } from 'react-router';
+import { getURL } from '../../config/Config';
+import axios from 'axios'
 
 class CoursesSearch extends Component {
 
@@ -12,29 +10,65 @@ class CoursesSearch extends Component {
         super(props)
         this.state = {
             CourseID: null,
-            Comparator: null,
+            Comparator: "eq",
             DepartmentName: null,
             Term: null,
-            CourseName: null
+            CourseName: null,
+            response: [],
+            errorMessage: ""
         }
-        this.stateChangeHandler = this.stateChangeHandler.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
     }
 
-    onSubmitHandler = (e) => {
-
+    onSubmitHandler = async (e) => {
+        e.preventDefault();
+        const url = getURL("/courses");
+        const params = {
+            CourseID: this.state.CourseID,
+            Comparator: this.state.Comparator,
+            DepartmentName: this.state.DepartmentName,
+            Term: this.state.Term,
+            CourseName: this.state.CourseName,
+        }
+        try{
+            var response = await axios.get(url,{params})
+            console.log(response)
+            this.setState({response: response, errorMessage: ""})
+        }catch(error){
+            if (error.errorMessage === "Network Error") {
+                console.log("Server is down!");
+                this.setState({response: [], errorMessage: "Server is down!"})
+            }else{
+                console.log(error.response.data.Message);
+                this.setState({response: [], errorMessage: error.response.data.Message})
+            }
+        }
     }
 
-    stateChangeHandler = (e) => {
+    onChange = (e) => {
         let updateState = {}
         updateState[e.target.name] = e.target.value
+        if(e.target.name === "DepartmentName"){
+            updateState[e.target.name] = e.target.value.toUpperCase()
+        }
+        
         this.setState(updateState);
     }
 
     render() {
         let redirectVar = null;
+        let errorMessage = null;
         var style ={
             height: '100vh'
+        }
+        if (this.state.errorMessage) {
+            errorMessage = <div className="alert alert-danger alert-dismissible row m-2" role="alert">
+                <div className="col-11">
+                    {this.state.errorMessage}
+                </div>
+                <div><button type="button" className="close" data-dismiss="alert"><span aria-hidden="true">×</span><span className="sr-only">Close</span></button></div>
+            </div>
         }
         return (
             <div className="home-parent-container">
@@ -48,32 +82,33 @@ class CoursesSearch extends Component {
                                     <div id="container" className="container">
                                         <div className="row">
                                             <div className="col-sm-10 offset-sm-1 text-center">
-                                                
                                                 <div className="info-form my-5 ">
-                                                    <form action="" className=" justify-content-center">
+                                                   {errorMessage}
+                                                    <form onSubmit={this.onSubmitHandler} className=" justify-content-center">
                                                         <div className="form-group row">
                                                             <label className="col-3 font-weight-bold text-left"> Term </label>
-                                                            <select id="inputState" className="col-9 form-control">
-                                                                <option selected>Fall 2019</option>
-                                                                <option>Spring 2020</option>
+                                                            <select id="inputState" className="col-9 form-control" name="Term" value={this.state.Term} onChange={this.onChange} required>
+                                                                <option disabled="" hidden="" value="" selected>Term...</option>
+                                                                <option value="Fall 2019">Fall 2019</option>
+                                                                <option value="Spring 2020">Spring 2020</option>
                                                             </select>
                                                         </div>
                                                         <div className="form-group row">
                                                             <label className="col-3 font-weight-bold text-left"> Department Name </label>
-                                                            <input type="text" className=" col-9 form-control text-uppercase" placeholder="CMPE"/>
+                                                            <input type="text" className=" col-9 form-control text-uppercase" name="DepartmentName" placeholder="CMPE" onChange={this.onChange} value={this.state.DepartmentName} required/>
                                                         </div>
                                                         <div className="form-group row">
                                                             <label className="col-3 font-weight-bold text-left"> Course ID </label>
-                                                            <select id="inputState" className="col-3 form-control">
-                                                                <option selected>is exactly </option>
-                                                                <option>is greater than or equal to</option>
-                                                                <option>is less than or equal to</option>
+                                                            <select id="inputState" className="col-3 form-control" name="Comparator" value={this.state.Comparator} onChange={this.onChange}>
+                                                                <option value="eq" selected>is exactly</option>
+                                                                <option value="gte">is greater than or equal to</option>
+                                                                <option value="lte" >is less than or equal to</option>
                                                             </select>
-                                                            <input type="number" className=" col-6 form-control" placeholder="123"/>
+                                                            <input type="number" className=" col-6 form-control" placeholder="123" name="CourseID" onChange={this.onChange} value={this.state.CourseID}/>
                                                         </div>
                                                         <div className="form-group row">
                                                             <label className="col-3 font-weight-bold text-left"> Course Name </label>
-                                                            <input type="text" className="col-9 form-control" placeholder="Cloud Computing"/>
+                                                            <input type="text" className="col-9 form-control" placeholder="Cloud Computing" name="CourseName" onChange={this.onChange} value={this.state.CourseName}/>
                                                         </div>
                                                         <button type="submit" className="btn btn-primary px-5">Search</button>
                                                     </form>
