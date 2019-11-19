@@ -5,6 +5,7 @@ import Signup from './Profile/Signup';
 import Profile from './Profile/Profile';
 import CoursesSearch from './Course/CoursesSearch';
 import Home from './Home/Home';
+import CourseDetail from './Course/CourseDetail';
 
 class Main extends Component {
     render() {
@@ -14,7 +15,8 @@ class Main extends Component {
                 <Route path="/login" component={Login} />  
                 <Route path="/signup" component={Signup} />  
                 <Route path="/profile" component={Profile} />  
-                <Route path="/courses" component={CoursesSearch} />
+                <Route exact path="/courses" component={CoursesSearch} />
+                <Route exact path="/courses/:CourseID" component={CourseDetail} />
             </div>
         )
     }
