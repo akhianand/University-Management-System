@@ -37,11 +37,13 @@ class CoursesSearch extends Component {
             console.log(response.data)
             this.setState({response: response.data , errorMessage: ""})
         }catch(error){
-            if (error.errorMessage === "Network Error") {
+            if (!error.status) {
                 console.log("Server is down!");
                 this.setState({response: [], errorMessage: "Server is down!"})
-            }else{
+            }else if(error.status === 400 ){
                 this.setState({response: [], errorMessage: error.response.data.Message})
+            }else {
+                this.setState({response: [], errorMessage: "Something went wrong, try again later!"})
             }
         }
     }
