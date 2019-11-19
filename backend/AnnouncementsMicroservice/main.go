@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
 	"os"
+	"bytes"
   )
 
   func pingHandler(w http.ResponseWriter, r *http.Request) {
@@ -61,10 +62,21 @@ func consumeMessages() {
 		msg, err := c.ReadMessage(-1)
 		if err == nil {
 			fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
+			incrementSearchCounter()
 		} else {
 			// The client will automatically try to recover from all errors.
 			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
 		}
 	}
+}
 
+func incrementSearchCounter() {
+	response, err := http.Post("http://172.20.35.213:8098/buckets/search-counter/counters/count", "text/plain", bytes.NewBuffer([]byte("1")))
+	if err != nil {
+        fmt.Printf("The HTTP request failed with error %s\n", err)
+    } else {
+        data, _ := ioutil.ReadAll(response.Body)
+		fmt.Println(string(data))
+		fmt.Println("Counter incremented in function")
+    }
 }
