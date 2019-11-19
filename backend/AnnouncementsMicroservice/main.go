@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
+	"os"
   )
 
   func pingHandler(w http.ResponseWriter, r *http.Request) {
@@ -40,5 +42,16 @@ http.ListenAndServe(":8080", router)
 }
 
 func consumeMessages() {
-	
+	c, err := kafka.NewConsumer(&kafka.ConfigMap{
+		"bootstrap.servers": "52.55.27.64",
+		"group.id":          "search-consumer-group",
+		"auto.offset.reset": "earliest",
+	})
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to create consumer: %s\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("Created Consumer %v\n", c)
 }
