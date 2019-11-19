@@ -38,6 +38,7 @@ type Course struct {
 	Instructor     string      `bson:"instructor"`
 	ClassTime      []Classtime `bson:"classtime"`
 	Capacity       int         `bson:"capacity"`
+	SeatsEnrolled  int         `bson:"seatsenrolled"`
 	Credit         int         `bson:"credit"`
 	Term           string      `bson:"term"`
 	DepartmentName string      `bson:"departmentname"`

@@ -36,6 +36,7 @@ func storeToMongo(course Course) error {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB(database).C(collection)
 	course.CourseID, _ = NextSequence("course")
+	course.SeatsEnrolled = 0
 	if err := c.Insert(course); err != nil {
 		//Instead of crashing the server on error, only logging
 		logErrorWithoutFailing(err, "Mongo Insert Error")
