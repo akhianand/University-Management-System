@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import LHeader from "./LHeader";
 import axios from "axios";
 import { API_URL, API_PORT } from "./config.js";
+import { Redirect } from 'react-router';
 
 class Signup extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class Signup extends Component {
     this.state = {
       firstname: "",
       lastname: "",
-	  role: "student",
+	    role: "student",
       email: "",
       password: "",
       verifypassword: "",
@@ -22,11 +23,9 @@ class Signup extends Component {
     this.emailChangeHandler = this.emailChangeHandler.bind(this);
     this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
     this.firstnameChangeHandler = this.firstnameChangeHandler.bind(this);
-	this.lastnameChangeHandler = this.lastnameChangeHandler.bind(this);
-	this.roleChangeHandler = this.roleChangeHandler.bind(this);
-    this.verifyPasswordChangeHandler = this.verifyPasswordChangeHandler.bind(
-      this
-    );
+	  this.lastnameChangeHandler = this.lastnameChangeHandler.bind(this);
+	  this.roleChangeHandler = this.roleChangeHandler.bind(this);
+    this.verifyPasswordChangeHandler = this.verifyPasswordChangeHandler.bind(this);
   }
 
   submitSignup = e => {
@@ -107,7 +106,7 @@ class Signup extends Component {
 	redirect = this.state.userSignedUp ?  <Redirect to= "/login"/> : null ;
     return (
       <>
-	  {redirect}
+	      {redirect}
         <LHeader />
 
         <div className="container py-5">
