@@ -35,14 +35,13 @@ class Enrollment extends Component {
 
         let enrolledCourses = this.state.enrolledCourses.map(function(course, index){
             return (
-              <tr className="text-align-center">      
-    
+              <tr className="text-align-center" key={index}>      
                     <td>{index+1}</td>
                     <td>{course.CourseId}</td>
                     <td>{course.CourseName}</td>
                     <td>{course.DepartmentName}</td>
                     <td>{course.Term}</td>
-                    <td><button type="button" class="btn btn-danger">Drop</button></td>
+                    <td><button type="button" className="btn btn-danger"><b>Drop</b></button></td>
               </tr>
             )
           });

@@ -70,8 +70,12 @@ func CartHandler(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
-func EnrollCourseHandler(formatter *render.Render) http.HandlerFunc {
+func EnrollCourseHandler(formatter *render.Render) http.HandlerFunc {	
 	return func(w http.ResponseWriter, req *http.Request) {
+
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		log.Printf(" Inside Enroll Course handler function")
 		var cartItem model.CourseEnrollment
 		_ = json.NewDecoder(req.Body).Decode(&cartItem)		
@@ -121,6 +125,10 @@ func RetrieveEnrollmentHandler(formatter *render.Render) http.HandlerFunc {
 
 func DropCourseHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
 		log.Printf(" Inside Drop Course handler function")
 		var courseEnrollment model.CourseEnrollment 
 		_ = json.NewDecoder(req.Body).Decode(&courseEnrollment)	
