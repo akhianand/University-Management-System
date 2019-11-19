@@ -21,10 +21,9 @@ import (
         fmt.Printf("The HTTP request failed with error %s\n", err)
     } else {
         data, _ := ioutil.ReadAll(response.Body)
-        fmt.Println(string(data))
+		fmt.Println(string(data))
+		json.NewEncoder(w).Encode(string(data))
     }
-
-	json.NewEncoder(w).Encode("Announcements API is running!")
   }
 
   
@@ -34,7 +33,12 @@ router.HandleFunc("/ping", pingHandler).Methods("GET")
 
 router.HandleFunc("/search-count", searchCount).Methods("GET")
 
+consumeMessages()
+
 
 http.ListenAndServe(":8080", router)
 }
 
+func consumeMessages() {
+	
+}
