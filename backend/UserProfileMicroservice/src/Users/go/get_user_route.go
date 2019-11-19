@@ -18,12 +18,13 @@ func GetUserHandler(formatter *render.Render) http.HandlerFunc {
 			errorHandler(formatter, w, err)
 			return
 		}
-		course, err := retrieveUserByID(UserID)
+		user, err := retrieveUserByID(UserID)
 		if err != nil {
 			errorHandler(formatter, w, err)
 			return
 		}
-		formatter.JSON(w, http.StatusOK, course)
+		user.Password = ""
+		formatter.JSON(w, http.StatusOK, user)
 	}
 }
 

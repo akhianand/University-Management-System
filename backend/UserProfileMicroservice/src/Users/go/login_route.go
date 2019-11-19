@@ -31,6 +31,7 @@ func LoginHandler(formatter *render.Render) http.HandlerFunc {
 
 		pwdMatch := comparePasswords(user.Password, []byte(password))
 		if pwdMatch {
+			user.Password = ""
 			formatter.JSON(w, http.StatusOK, user)
 		} else {
 			err = NewBadRequestError("Passwwords Don't Match")

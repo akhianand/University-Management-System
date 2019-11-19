@@ -17,6 +17,7 @@ func SignUpHandler(formatter *render.Render) http.HandlerFunc {
 		_ = json.NewDecoder(req.Body).Decode(&user)
 
 		email := user.Email
+
 		usx, err := retrieveUserByEmail(email)
 		if err != nil {
 			var pwd = user.Password

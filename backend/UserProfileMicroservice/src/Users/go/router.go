@@ -15,6 +15,7 @@ func NewRouter() *mux.Router {
 	formatter := render.New(render.Options{
 		IndentJSON: true,
 	})
+
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.GetFormattedHandlerFunc(formatter)
@@ -99,7 +100,7 @@ var routes = Routes{
 	Route{
 		"UpdateHandler",
 		"PUT",
-		"/login",
+		"/profile",
 		UpdateProfileHandler,
 	},
 	Route{
