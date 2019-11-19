@@ -17,6 +17,7 @@ class CourseDetail extends Component{
 	        Term: null,
 	        DepartmentName: null,
             Fees: null,
+            SeatsEnrolled: null,
             errorMessage: ""
         }
     }
@@ -32,6 +33,7 @@ class CourseDetail extends Component{
                 errorMessage: ""
             })
         }catch(error){
+            console.log({error})
             if (!error.response) {
                 console.log("Server is down!");
                 this.setState({
@@ -44,9 +46,10 @@ class CourseDetail extends Component{
                         Term: null,
                         DepartmentName: null,
                         Fees: null,
+                        SeatsEnrolled: null,
                         errorMessage: "Server is down!"}
                     )
-            }else if(error.response.status=== 400 ){
+            }else if(error.response.status === 400 || error.response.status === 404){
                 console.log(error);
                 this.setState({
                     CourseID: this.props.match.params.CourseID,
@@ -58,6 +61,7 @@ class CourseDetail extends Component{
                     Term: null,
                     DepartmentName: null,
                     Fees: null,
+                    SeatsEnrolled: null,
                     errorMessage: error.response.data.Message})
             }else {
                 this.setState({
@@ -70,6 +74,7 @@ class CourseDetail extends Component{
                     Term: null,
                     DepartmentName: null,
                     Fees: null,
+                    SeatsEnrolled: null,
                     errorMessage: "Something went wrong, try again later"}
                 )
             }
@@ -134,7 +139,7 @@ class CourseDetail extends Component{
                             </div>
                             <div className="m-3 row">
                             <div className="mr-0 col-3 text-left"> <strong>Capacity: </strong> {this.state.Capacity}</div>
-                            <div className="col-3 text-left"> <strong>Seats Enrolled: </strong> {this.state.Capacity}</div>
+                            <div className="col-3 text-left"> <strong>Seats Enrolled: </strong> {this.state.SeatsEnrolled}</div>
                             <div className="col-3 text-left"> <strong>Credits: </strong> {this.state.Credit}</div>
                             <div className="col-3 text-left"> <strong>Fees: </strong> {this.state.Fees}</div>
                             </div>
