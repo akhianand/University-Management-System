@@ -86,6 +86,15 @@ class CourseDetail extends Component{
             </tr>
         ))
     }
+
+    getRedirectionButton =() => {
+        if(localStorage.getItem("role") === "Instructor"){
+            return (<button className="btn btn-primary">Grade</button>)
+        }else{
+            return (<button className="btn btn-primary">Add to cart</button>)
+        }
+    }
+
     render(){
         let errorMessage = null;
         var style ={
@@ -145,6 +154,9 @@ class CourseDetail extends Component{
                                     {this.getTiming()}
                                 </tbody>
                             </table>
+                            <div className="row m-3">
+                                {this.getRedirectionButton()}
+                            </div>
                         </div>
                     </div>
                 </div>  
