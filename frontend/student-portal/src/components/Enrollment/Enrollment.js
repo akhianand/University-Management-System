@@ -1,7 +1,23 @@
 import React, {Component} from 'react';
 import Header from '../Header/Header';
+import axios from 'axios';
 
 class Enrollment extends Component {
+    
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+        }
+
+        // bind actions
+    }
+
+
+    
+
+    
     render() {
         return (
           <div>

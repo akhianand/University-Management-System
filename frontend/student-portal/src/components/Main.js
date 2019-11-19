@@ -19,7 +19,7 @@ class Main extends Component {
                 <Route path="/profile" component={Profile} />  
                 <Route path="/courses" component={CoursesSearch} />
                 <Route path="/addToCartConfirmation" component={AddToCartConfirmation} />
-                <Route path="/enrollmentCart" component={EnrollmentCart} />
+                <Route path="/enrollmentCart/:studentId" component={EnrollmentCart} />
                 <Route path="/enrollment" component={Enrollment} />
             </div>
         )
