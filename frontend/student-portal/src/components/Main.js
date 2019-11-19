@@ -22,7 +22,7 @@ class Main extends Component {
                 <Route exact path="/courses/:CourseID" component={CourseDetail} />
                 <Route path="/addToCartConfirmation" component={AddToCartConfirmation} />
                 <Route path="/enrollmentCart/:studentId" component={EnrollmentCart} />
-                <Route path="/enrollment" component={Enrollment} />
+                <Route path="/enrollment/:studentId" component={Enrollment} />
             </div>
         )
     }
