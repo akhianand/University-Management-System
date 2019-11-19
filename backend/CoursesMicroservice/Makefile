@@ -11,6 +11,8 @@ go-get:
 	go get -v gopkg.in/mgo.v2
 	go get -v gopkg.in/mgo.v2/bson
 	go get -v github.com/confluentinc/confluent-kafka-go/kafka
+	go get -v github.com/gorilla/handlers
+
 build:
 	go build coursesMS
 
