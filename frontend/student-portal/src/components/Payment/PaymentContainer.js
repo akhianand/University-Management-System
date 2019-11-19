@@ -11,7 +11,7 @@ class PaymentContainer extends Component {
                         <p>You owe $5,105.00</p>
                     </div>
                     <div>
-                        <Link to="/">View due date >>></Link>
+                        <Link to="/payment/1001">Proceed to Payment >>></Link>
                     </div>
                 </div>
             </div>

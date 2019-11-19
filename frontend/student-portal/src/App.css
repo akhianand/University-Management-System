@@ -64,14 +64,14 @@
   background-color: white;
 }
 
-.confirmation-container {
+.confirmation-container, .payment-detail-container {
   background-color: #FCFCC9;
   font-size: 20px;
   font-weight: bold;
   color: #239BFF  ;
 }
 
-.enrollment-heading, .enrollment-cart-heading {
+.enrollment-heading, .enrollment-cart-heading, .payment-heading {
   font-size: 20px;
   font-weight: bold;
   color: #239BFF  ;
