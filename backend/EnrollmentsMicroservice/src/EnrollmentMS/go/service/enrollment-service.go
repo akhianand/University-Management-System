@@ -150,6 +150,35 @@ func DropCourse(studentId int, courseId int) (error) {
 
 }
 
+func updateFeePayment(studentId int, courseId int) (error) {
+
+	log.Printf("Inside Update Fee Payment service method ", studentId , courseId)		
+	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
+	if err != nil {
+		//this will crash the server
+		util.FailOnError(err, "Mongo Dial Error")
+	}
+	defer session.Close()
+	session.SetMode(mgo.Monotonic, true)	
+	c := session.DB(os.Getenv("DATABASE")).C("enrollment")
+
+	// get course Enrollment 
+	var courseEnrollment model.CourseEnrollment
+	err = c.Find(bson.M{"StudentId": studentId, "CourseId": courseId}).One(&courseEnrollment)
+	
+	// update isEnrolled
+	courseEnrollment.HasFeesPaid = true	
+	err = c.Update(bson.M{"StudentId": studentId, "CourseId": courseId}, courseEnrollment)
+
+	if err != nil {
+		util.FailOnError(err, "Mongo Update Error")
+	}
+	
+	return nil
+
+
+}
+
 func StartKafkaConsumer() (error){
 	log.Printf("Inside StartKafka Consumer")
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
@@ -169,7 +198,15 @@ func StartKafkaConsumer() (error){
 		msg, err := c.ReadMessage(-1)
 		if err == nil {
 			// fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
-			log.Printf("Message from kafka ", msg.TopicPartition, string(msg.Value))
+			log.Printf("Message from kafka ", string(msg.Value))
+			
+			//retrieve object from message
+			bytes := []byte(string(msg.Value))
+			var data model.CourseEnrollment
+			json.Unmarshal(bytes, &data)			
+			log.Printf("courseEnrollment from kafka ", data)
+			updateFeePayment(data.StudentId, data.CourseId)
+
 		} else {
 			// The client will automatically try to recover from all errors.
 			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
