@@ -93,7 +93,7 @@ class CoursesSearch extends Component {
                 <Header /> 
                 <div className="bg-grey" style={style}> 
                     <div className="row mt-5 container">
-                        <SidePane/>
+                        <SidePane active="Courses"/>
                         <div className="main-container col-9">
                             <section id="cover">
                                 <div id="cover-caption">

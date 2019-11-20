@@ -18,11 +18,13 @@ phases:
       - echo "Starting the build"
       - echo `pwd`
       - cd backend/AnnouncementsMicroservice
-      - docker build -t itselavia/announcements .
+      - TAG=$(git log -1 --pretty=%h)
+      - docker build -t itselavia/announcements:$TAG .
       - echo $DOCKER_HUB_PASSWORD | docker login --username itselavia --password-stdin
-      - docker push itselavia/announcements
+      - docker push itselavia/announcements:$TAG
   post_build:
     commands:
       - echo "Pushing to Kubernetes"
-      - echo `pwd`
+      - TAG=$(git log -1 --pretty=%h)
+      - sed -i "s/VERSION/${TAG}/g" AnnouncementsMicroservice.yaml
       - /usr/local/bin/kubectl apply -f AnnouncementsMicroservice.yaml

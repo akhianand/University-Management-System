@@ -46,7 +46,7 @@ http.ListenAndServe(":8080", router)
 
 func consumeMessages() {
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
-		"bootstrap.servers": "52.55.27.64",
+		"bootstrap.servers": "54.144.3.194",
 		"group.id":          "search-consumer-group",
 		"auto.offset.reset": "earliest",
 	})
@@ -58,7 +58,7 @@ func consumeMessages() {
 
 	fmt.Printf("Created Consumer %v\n", c)
 
-	err = c.SubscribeTopics([]string{"search-counter"}, nil)
+	err = c.SubscribeTopics([]string{"search-topic"}, nil)
 
 	for {
 		msg, err := c.ReadMessage(-1)

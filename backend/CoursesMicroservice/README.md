@@ -97,10 +97,10 @@ make start
     "ClassTime":[
       {
         "Day": "Saturday",
-	"StartHour": 9,
-	"StartMinutes": 30,
-	"EndHour": 12,
-	"EndMinutes": 30
+        "StartHour": 9,
+        "StartMinutes": 30,
+        "EndHour": 12,
+        "EndMinutes": 30
       }
     ],
     "Capacity": 60,
@@ -144,6 +144,7 @@ make start
             "EndMinutes": 30
         }
         ],
+        "SeatsEnrolled": 0,
         "Capacity": 60,
         "Credit": 3,
         "Term": "Fall 2019",
@@ -173,6 +174,7 @@ make start
           "EndMinutes": 30
         }
       ],
+      "SeatsEnrolled": 0,
       "Capacity": 60,
       "Credit": 3,
       "Term": "Fall 2019",
@@ -198,6 +200,7 @@ make start
          "EndMinutes": 00
        }
      ],
+     "SeatsEnrolled": 0,
      "Capacity": 60,
      "Credit": 3,
      "Term": "Fall 2019",
@@ -221,6 +224,7 @@ make start
          "EndMinutes": 00
        }
      ],
+     "SeatsEnrolled": 0,
      "Capacity": 60,
      "Credit": 3,
      "Term": "Fall 2019",
