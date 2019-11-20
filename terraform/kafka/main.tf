@@ -18,6 +18,7 @@ data "template_file" "userdata" {
 }
 
 resource "aws_instance" "kafka_single_node" {
+  associate_public_ip_address = true
 
   ami                    = "${data.aws_ami.ubuntu_18_image.id}"
   instance_type          = "t2.small"
