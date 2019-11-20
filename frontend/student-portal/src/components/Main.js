@@ -9,6 +9,7 @@ import CourseDetail from './Course/CourseDetail';
 import AddToCartConfirmation from './Enrollment/AddToCartConfirmation';
 import EnrollmentCart from './Enrollment/EnrollmentCart';
 import Enrollment from './Enrollment/Enrollment';
+import CreateCourse from './Course/CreateCourse';
 
 class Main extends Component {
     render() {
@@ -19,6 +20,7 @@ class Main extends Component {
                 <Route path="/signup" component={Signup} />  
                 <Route path="/profile" component={Profile} />  
                 <Route exact path="/courses" component={CoursesSearch} />
+                <Route exact path="/createcourse" component={CreateCourse} />
                 <Route exact path="/courses/:CourseID" component={CourseDetail} />
                 <Route path="/addToCartConfirmation" component={AddToCartConfirmation} />
                 <Route path="/enrollmentCart/:studentId" component={EnrollmentCart} />
