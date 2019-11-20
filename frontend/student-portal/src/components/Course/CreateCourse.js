@@ -20,7 +20,8 @@ class CreateCourse extends Component{
 	        Term: null,
 	        DepartmentName: null,
             Fees: null,
-            errorMessage: ""
+            errorMessage: "",
+            success: null
         }
         this.timeOptions = this.timeOptions.bind(this)
         this.pad = this.pad.bind(this)
@@ -28,7 +29,50 @@ class CreateCourse extends Component{
 
     onSubmitHandler = async (e) => {
         e.preventDefault();
-        console.log({state:this.state})
+        let url = getURL("/courses")
+        try{
+            let response = await axios.post(url, {
+                CourseName: this.state.CourseName,
+                Instructor: this.state.Instructor,
+                ClassTime:[{
+                    "Day": this.state.Day,
+                    "StartHour": parseInt(this.state.StartHour),
+                    "StartMinutes": parseInt(this.state.StartMinutes),
+                    "EndHour": parseInt(this.state.EndHour),
+                    "EndMinutes": parseInt(this.state.EndMinutes),
+                }],
+                Capacity: parseInt(this.state.Capacity),
+                Credit: parseInt(this.state.Credit),
+                Term: this.state.Term,
+                DepartmentName: this.state.DepartmentName,
+                Fees: parseInt(this.state.Fees)
+            })
+            this.setState({
+                            CourseName: null,
+                            Instructor: null,
+                            "Day": "",
+                            "StartHour": "",
+                            "StartMinutes": "",
+                            "EndHour": "",
+                            "EndMinutes": "",
+                            Capacity: null,
+                            Credit: null,
+                            Term: null,
+                            DepartmentName: null,
+                            Fees: null,
+                            errorMessage: "",
+                            success: true
+                        });
+        }catch(error){
+            if (!error.response) {
+                console.log("Server is down!");
+                this.setState({success: false, errorMessage: "Server is down!"})
+            }else if(error.response.status === 400 ){
+                this.setState({success: false, errorMessage: error.response.data.Message})
+            }else {
+                this.setState({success: false, errorMessage: "Something went wrong, try again later!"})
+            }
+        }
     }
 
     onChange = (e) => {
@@ -37,7 +81,6 @@ class CreateCourse extends Component{
         if(e.target.name === "DepartmentName"){
             updateState[e.target.name] = e.target.value.toUpperCase()
         }
-        
         this.setState(updateState);
     }
 
@@ -56,19 +99,25 @@ class CreateCourse extends Component{
     }
 
     render(){
-        let errorMessage = null;
+        let message = null;
         var style ={
             height: '100vh'
         }
-        if (this.state.errorMessage) {
-            errorMessage = <div className="alert alert-danger alert-dismissible row m-2" role="alert">
+        if (this.state.success === false) {
+            message = <div className="alert alert-danger alert-dismissible row m-2" role="alert">
                 <div className="col-11">
                     {this.state.errorMessage}
                 </div>
                 <div><button type="button" className="close" data-dismiss="alert"><span aria-hidden="true">×</span><span className="sr-only">Close</span></button></div>
             </div>
+        }else if(this.state.success === true){
+            message = <div className="alert alert-success alert-dismissible row m-2" role="alert">
+                <div className="col-11">
+                    Course Created Successfully
+                </div>
+                <div><button type="button" className="close" data-dismiss="alert"><span aria-hidden="true">×</span><span className="sr-only">Close</span></button></div>
+            </div>
         }
-        console.log({state: this.state})
         return (
             <div className="home-parent-container">
                 <Header /> 
@@ -82,7 +131,7 @@ class CreateCourse extends Component{
                                         <div className="row">
                                             <div className="col-sm-10 offset-sm-1 text-center">
                                                 <div className="info-form my-5 ">
-                                                   {errorMessage}
+                                                   {message}
                                                     <div className="row"> 
                                                         <h5 className="mb-5 col-12 text-center"><strong>Create Course</strong></h5>
                                                     </div>
