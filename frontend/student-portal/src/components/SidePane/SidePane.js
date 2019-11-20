@@ -9,6 +9,7 @@ class SidePane extends Component {
                     <div className="list-group">
                         <a href="/" className="list-group-item list-group-item-action active">Student Center</a>
                         <a href="/courses" className="list-group-item list-group-item-action">Courses</a>
+                        <a href="/createcourse" className="list-group-item list-group-item-action">Create Course</a>
                         <a href="#" className="list-group-item list-group-item-action">Enrollment</a>
                         <a href="#" className="list-group-item list-group-item-action">Fee Payment</a>
                         <a href="#" className="list-group-item list-group-item-action">Profile</a>
