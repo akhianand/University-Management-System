@@ -3,9 +3,12 @@ package service
 import (
 	model "EnrollmentMS/go/model"
 	"EnrollmentMS/go/util"
+	"fmt"
 	"log"
 	"os"
-	//"encoding/json"
+	"encoding/json"
+	"strconv"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -73,9 +76,36 @@ func EnrollCourse(studentId int, courseId int) (error) {
 		util.FailOnError(err, "Mongo Update Error")
 	}
 	
+	// publish course to queue
+	publishCourseEnrollment(courseEnrollment)
 	return nil
 	// add course to enrollmentCollection
 
+}
+
+func publishCourseEnrollment(courseEnrollment model.CourseEnrollment) {
+	log.Printf("Inside Publish Course enrollment service method")
+	jsonString, err := json.Marshal(courseEnrollment)
+	courseEnrollmentString := string(jsonString)
+	fmt.Println("Logging enrollment to kafka StudentID:" + strconv.Itoa(courseEnrollment.StudentId))
+	log.Printf("Logging enrollment to kafka StudentID:" + strconv.Itoa(courseEnrollment.StudentId))
+	// p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": os.Getenv("KAFKA_SERVER")})
+	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "54.144.3.194:9092"})
+
+	if err != nil {
+		fmt.Println("Kafka fee submission message")
+		util.LogErrorWithoutFailing(err, "Kafka fee submission message")
+	}
+
+	// Produce messages to topic (asynchronously)
+	// topic := os.Getenv("FEE_PAID_TOPIC")
+	topic := "ENROLLMENT_TOPIC"
+	for _, word := range []string{string(courseEnrollmentString)} {
+		p.Produce(&kafka.Message{
+			TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+			Value:          []byte(word),
+		}, nil)
+	}	
 }
 
 func GetEnrollments(studentId int) ([]model.CourseEnrollment) {
@@ -118,4 +148,34 @@ func DropCourse(studentId int, courseId int) (error) {
 
 	return nil
 
+}
+
+func StartKafkaConsumer() (error){
+	log.Printf("Inside StartKafka Consumer")
+	c, err := kafka.NewConsumer(&kafka.ConfigMap{
+		"bootstrap.servers": "54.144.3.194:9092",
+		"group.id":          "myGroup",
+		"auto.offset.reset": "earliest",
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	c.SubscribeTopics([]string{"ENROLLMENT_TOPIC", "^aRegex.*[Tt]opic"}, nil)
+
+	for {
+		log.Printf("Listening to queue...")
+		msg, err := c.ReadMessage(-1)
+		if err == nil {
+			// fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
+			log.Printf("Message from kafka ", msg.TopicPartition, string(msg.Value))
+		} else {
+			// The client will automatically try to recover from all errors.
+			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
+		}
+	}
+
+	c.Close()
+	return nil
 }
