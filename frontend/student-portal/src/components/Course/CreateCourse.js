@@ -123,7 +123,7 @@ class CreateCourse extends Component{
                 <Header /> 
                 <div className="bg-grey" style={style}> 
                     <div className="row mt-5 container">
-                        <SidePane/>
+                        <SidePane active="Create Course"/>
                         <div className="main-container col-9">
                             <section id="cover">
                                 <div id="cover-caption">
