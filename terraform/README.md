@@ -7,7 +7,7 @@ kops create cluster \
 --associate-public-ip=false \
 --cloud=aws \
 --master-count=1 \
---master-size=t2.micro \
+--master-size=t2.medium \
 --master-zones=us-east-1a \
 --networking=calico \
 --node-count=3 \
