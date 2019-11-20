@@ -12,7 +12,7 @@ class Home extends Component {
             <div className="home-parent-container">
                 <Header />            
                 <div className="row mt-5 container">
-                    <SidePane/>
+                    <SidePane active="Student Center"/>
                     <div className="main-container col-9">
                         
                         <div className="p-4">                        
