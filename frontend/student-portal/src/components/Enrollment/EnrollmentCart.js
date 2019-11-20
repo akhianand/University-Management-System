@@ -27,19 +27,35 @@ class EnrollmentCart extends Component {
 
 }
 
+handleEnrollment = (index) => {
+  let cartItem = this.state.cartItems[index];
+  console.log('cartItem to be enrolled ', cartItem);
+  //axios.defaults.withCredentials = true;
+  axios.post(enrollmentServiceURL + '/enroll', cartItem)
+  .then((res)=> {
+    console.log('Enrollment completed successfully');
+    let updatedCart = this.state.cartItems.splice(index, 1);
+    this.setState({
+      cartItems : updatedCart
+    }); 
+
+    console.log('Updated Cart ', this.state.cartItems);
+  })
+}
+
 
     render() {
 
-      let cartItems = this.state.cartItems.map(function(course, index){
+      let cartItems = this.state.cartItems.map((course, index) => {
         return (
-          <tr className="text-align-center">      
+          <tr className="text-align-center" key={index}>      
 
                 <td>{index+1}</td>
                 <td>{course.CourseId}</td>
                 <td>{course.CourseName}</td>
                 <td>{course.DepartmentName}</td>
                 <td>{course.Term}</td>
-                <td><button type="button" class="btn btn-success">Enroll</button></td>
+                <td><button type="button" className="btn btn-success" onClick={() => this.handleEnrollment(index)}>Enroll</button></td>
           </tr>
         )
       });

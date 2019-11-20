@@ -5,6 +5,7 @@ import PaymentContainer from '../Payment/PaymentContainer';
 import GradeContainer from '../Grade/GradeContainer';
 import ProfileContainer from '../Profile/ProfileContainer';
 import SidePane from '../SidePane/SidePane'
+import EnrollmentContainer from '../Enrollment/EnrollmentContainer';
 class Home extends Component {
     render() {
         return (
@@ -15,7 +16,7 @@ class Home extends Component {
                     <div className="main-container col-9">
                         
                         <div className="p-4">                        
-                            <CoursesContainer/>
+                            <EnrollmentContainer/>
                             <PaymentContainer/>                            
                             <GradeContainer/>
                             <ProfileContainer/>                         

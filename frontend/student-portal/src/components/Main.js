@@ -10,6 +10,7 @@ import AddToCartConfirmation from './Enrollment/AddToCartConfirmation';
 import EnrollmentCart from './Enrollment/EnrollmentCart';
 import Enrollment from './Enrollment/Enrollment';
 import CreateCourse from './Course/CreateCourse';
+import Payment from './Payment/Payment';
 
 class Main extends Component {
     render() {
@@ -25,6 +26,7 @@ class Main extends Component {
                 <Route path="/addToCartConfirmation" component={AddToCartConfirmation} />
                 <Route path="/enrollmentCart/:studentId" component={EnrollmentCart} />
                 <Route path="/enrollment/:studentId" component={Enrollment} />
+                <Route path="/payment/:studentId" component={Payment} />
             </div>
         )
     }

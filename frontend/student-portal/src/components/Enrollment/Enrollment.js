@@ -30,19 +30,36 @@ class Enrollment extends Component {
     
     }
 
+    handleDropCouse = (index) => {
+        let course = this.state.enrolledCourses[index];
+
+        axios.post(enrollmentServiceURL + '/drop', course)
+        .then((res) => {
+            console.log('Course dropped successfully!');
+            let studentId = this.props.match.params.studentId;
+            axios.get(enrollmentServiceURL + '/enrollment?StudentId=' + studentId)
+            .then((res) => {
+            
+            this.setState ({
+                enrolledCourses : res.data
+            });
+            console.log('Result of enrollment Items: ', this.state.enrolledCourses);
+            });
+        });
+    }
+
     
     render() {
 
-        let enrolledCourses = this.state.enrolledCourses.map(function(course, index){
+        let enrolledCourses = this.state.enrolledCourses.map((course, index)=>{
             return (
-              <tr className="text-align-center">      
-    
+              <tr className="text-align-center" key={index}>      
                     <td>{index+1}</td>
                     <td>{course.CourseId}</td>
                     <td>{course.CourseName}</td>
                     <td>{course.DepartmentName}</td>
                     <td>{course.Term}</td>
-                    <td><button type="button" class="btn btn-danger">Drop</button></td>
+                    <td><button type="button" className="btn btn-danger" onClick={()=> this.handleDropCouse(index)}><b>Drop</b></button></td>
               </tr>
             )
           });
