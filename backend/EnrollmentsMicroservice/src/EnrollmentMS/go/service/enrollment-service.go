@@ -151,7 +151,7 @@ func GetAllEnrollments() ([]model.CourseEnrollment) {
 	return enrollments
 }
 
-func GetEnrollmentsByCours(courseId int) ([]model.CourseEnrollment) {
+func GetEnrollmentsByCourse(courseId int) ([]model.CourseEnrollment) {
 	log.Printf("Get All Enrollments service method")
 
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
@@ -173,6 +173,7 @@ func GetEnrollmentsByCours(courseId int) ([]model.CourseEnrollment) {
 	
 	return enrollments
 }
+
 
 
 func DropCourse(studentId int, courseId int) (error) {
@@ -238,7 +239,7 @@ func StartKafkaConsumer() (error){
 		panic(err)
 	}
 
-	c.SubscribeTopics([]string{"ENROLLMENT_TOPIC", "^aRegex.*[Tt]opic"}, nil)
+	c.SubscribeTopics([]string{"ENROLLMENT_TOPIC"}, nil)
 
 	for {
 		log.Printf("Listening to queue...")
