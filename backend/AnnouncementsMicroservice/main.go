@@ -9,12 +9,8 @@ import (
 	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
 	"os"
 	"bytes"
+	"log"
   )
-
-  type Announcement struct {
-	announcement string
-	date string
-}
 
   func pingHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -48,17 +44,15 @@ import (
 
 	topic := "announcements"
 
-	var a Announcement
-
-	err = json.NewDecoder(r.Body).Decode(&a)
+	bodyBytes, err := ioutil.ReadAll(r.Body)
     if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
+        log.Fatal(err)
     }
-
+    bodyString := string(bodyBytes)
+	
 	err  = p.Produce(&kafka.Message{
 		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
-		Value:          []byte(a.announcement),
+		Value:          []byte(bodyString),
 	}, nil)
 
 	event := <-p.Events()
@@ -69,7 +63,7 @@ import (
 	default:
 		fmt.Println("Kafka producer event", e)
 	}
-	json.NewEncoder(w).Encode("Announcement pushed to queue")
+	json.NewEncoder(w).Encode("Announcement pushed to queue: ")
   }
 
   
