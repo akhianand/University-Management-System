@@ -1,59 +1,52 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
 
 class ViewGrades extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.state = {
+            grades: []
+        }
     }
-   render(){
-       var errorMessage = null
-    var style ={
-        height: '100vh'
-    }
-       return(
-        <div className="home-parent-container">
-                <Header /> 
-                <div className="bg-grey" style={style}> 
+    render() {
+        var errorMessage = null
+        var style = {
+            height: '100vh'
+        }
+        return (
+            <div className="home-parent-container">
+                <Header />
+                <div className="bg-grey" style={style}>
                     <div className="row mt-5 container">
-                        <SidePane active="ViewGrades"/>
+                        <SidePane active="ViewGrades" />
                         <div className="main-container col-8 bg-white p-3">
-                            {errorMessage}
-                            <div className="row"> 
-                                <h5 className="col-12 text-center"> hello</h5>
-                            </div>
-                            <div className="row mx-3">
-                                <div className="col-3 text-left"> <strong>Term:</strong></div>
-                                <div className="col-4 text-left"> hello </div>
-                            </div>
-                            <div className="row mx-3">
-                                <div className="col-3 text-left"> <strong>Course:</strong></div>
-                                <div className="col-4 text-left"> hello </div>
-                            </div>
-                            <div className="row mx-3">
-                                <div className="col-3 text-left"> <strong>Instructor:</strong></div>
-                                <div className="col-4 text-left"> hello </div>
-                            </div>
-                            <div className="m-3 row">
-                            <div className="mr-0 col-3 text-left"> <strong>Capacity: </strong> h </div>
-                            <div className="col-3 text-left"> <strong>Seats Enrolled: </strong> e</div>
-                            <div className="col-3 text-left"> <strong>Credits: </strong> l</div>
-                            <div className="col-3 text-left"> <strong>Fees: </strong> l </div>
-                            </div>
-                            <br/>
-                            <div className="row mx-3">
-                                <div className="col-12"><strong>0</strong></div>
-                            </div>
-                            
-                            <div className="row m-3">
-                              
+                            <div className="container mt-5">
+                                <div className="text-align-center mb-5 enrollment-cart-heading">
+                                    <h3>Your Grades</h3>
+                                </div>
+                                <table className="table table-bordered table-striped">
+                                    <thead>
+                                        <tr className="text-align-center">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Course ID</th>
+                                            <th scope="col">Course Name</th>
+                                            <th scope="col">Term</th>
+                                            <th scope="col">Grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {/* {cartItems} */}
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>
             </div>
 
-       );
-   } 
+        );
+    }
 }
 export default ViewGrades;
