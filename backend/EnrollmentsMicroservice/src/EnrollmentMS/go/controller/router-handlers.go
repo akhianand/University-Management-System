@@ -162,3 +162,16 @@ func GetAllEnrollments(formatter *render.Render) http.HandlerFunc {
 		formatter.JSON(w, http.StatusOK, enrollments)
 	}
 }
+
+func GetEnrollmentsByCourse(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		//Allow CORS here By * or specific origin
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		log.Printf(" Inside Get All Enrollments handler function")
+		
+		var enrollments []model.CourseEnrollment = service.GetEnrollmentsByCourse()
+		formatter.JSON(w, http.StatusOK, enrollments)
+	}
+}
