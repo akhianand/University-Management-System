@@ -142,7 +142,7 @@ func GetAllEnrollments() ([]model.CourseEnrollment) {
 	
 	var enrollments []model.CourseEnrollment = []model.CourseEnrollment{}
 
-	err = c.Find(bson.M{}).All(&enrolledCourses)
+	err = c.Find(bson.M{}).All(&enrollments)
 	
 	if err != nil {
 		util.FailOnError(err, "Mongo find Error ")
@@ -151,6 +151,28 @@ func GetAllEnrollments() ([]model.CourseEnrollment) {
 	return enrollments
 }
 
+func GetEnrollmentsByCours(courseId int) ([]model.CourseEnrollment) {
+	log.Printf("Get All Enrollments service method")
+
+	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
+	if err != nil {
+		//this will crash the server
+		util.FailOnError(err, "Mongo Dial Error")
+	}
+	defer session.Close()
+	session.SetMode(mgo.Monotonic, true)	
+	c := session.DB(os.Getenv("DATABASE")).C("enrollment")
+	
+	var enrollments []model.CourseEnrollment = []model.CourseEnrollment{}
+
+	err = c.Find(bson.M{"CourseId" : courseId}).All(&enrollments)
+	
+	if err != nil {
+		util.FailOnError(err, "Mongo find Error ")
+	}
+	
+	return enrollments
+}
 
 
 func DropCourse(studentId int, courseId int) (error) {
