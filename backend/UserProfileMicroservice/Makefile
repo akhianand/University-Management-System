@@ -11,7 +11,6 @@ go-get:
 	go get -v gopkg.in/mgo.v2
 	go get -v gopkg.in/mgo.v2/bson
 	go get -v golang.org/x/crypto/bcrypt
-	go get -v github.com/gorilla/handlers
 build:
 	go build Users
 

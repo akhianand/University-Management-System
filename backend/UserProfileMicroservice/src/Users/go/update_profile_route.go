@@ -44,11 +44,7 @@ func updateProfile(userID int, user User) error {
 	c := session.DB(database).C(collection)
 	if err := c.Update(bson.M{
 		"userid": userID,
-	}, bson.M{"$set": bson.M{
-		"firstname":  user.Firstname,
-		"lastname":   user.Lastname,
-		"address":    user.Address,
-		"department": user.Department}}); err != nil {
+	}, user); err != nil {
 		logErrorWithoutFailing(err, "Mongo Update Error")
 		return err
 	}
