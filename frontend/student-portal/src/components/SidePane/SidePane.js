@@ -21,6 +21,7 @@ class SidePane extends Component {
                         <a href="/grades/view" className={"list-group-item list-group-item-action" + (this.state.active ==="ViewGrades" ?" active":"")}>Grades</a>
                         <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Profile" ?" active":"")}>Profile</a>
                         <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Admin Dashboard" ?" active":"")}>Admin Dashboard</a>
+                        <a href="/grades/submit" className={"list-group-item list-group-item-action" + (this.state.active ==="SubmitGrades" ?" active":"")}>Submit Grades</a>
                     </div>
                 </div>
             </div>
