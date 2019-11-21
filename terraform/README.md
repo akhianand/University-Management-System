@@ -24,3 +24,9 @@ curl -XPUT http://172.20.39.6:8098/buckets/search-counter/props \
 curl -XPOST http://172.20.39.6:8098/buckets/search-counter/counters/count -d "1"
 
 curl http://172.20.39.6:8098/buckets/search-counter/counters/count
+
+
+Starting Kafka Server:
+
+./bin/zookeeper-server-start.sh config/zookeeper.properties &
+./bin/kafka-server-start.sh config/server.properties &

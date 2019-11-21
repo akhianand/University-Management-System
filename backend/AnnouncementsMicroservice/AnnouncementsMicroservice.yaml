@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: announcements-api
-        image: itselavia/announcements:VERSION
+        image: itselavia/announcements:db5ae5d
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

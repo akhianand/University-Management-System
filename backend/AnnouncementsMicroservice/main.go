@@ -11,6 +11,11 @@ import (
 	"bytes"
   )
 
+  type Announcement struct {
+	announcement string
+	date string
+}
+
   func pingHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode("Announcements API is running!")
@@ -29,12 +34,52 @@ import (
     }
   }
 
+  func publishAnnouncement(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	
+
+	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "54.144.3.194"})
+	if err != nil {
+		panic(err)
+	}
+
+	defer p.Close()
+
+	topic := "announcements"
+
+	var a Announcement
+
+	err = json.NewDecoder(r.Body).Decode(&a)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
+
+	err  = p.Produce(&kafka.Message{
+		TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+		Value:          []byte(a.announcement),
+	}, nil)
+
+	event := <-p.Events()
+	switch e := event.(type) {
+	case kafka.Error:
+		pErr := e
+		fmt.Println("producer error", pErr.String())
+	default:
+		fmt.Println("Kafka producer event", e)
+	}
+	json.NewEncoder(w).Encode("Announcement pushed to queue")
+  }
+
   
 func main() {
 router := mux.NewRouter()
 router.HandleFunc("/ping", pingHandler).Methods("GET")
 
 router.HandleFunc("/search-count", searchCount).Methods("GET")
+
+router.HandleFunc("/publish-announcement", publishAnnouncement).Methods("POST")
 
 go consumeMessages()
 
