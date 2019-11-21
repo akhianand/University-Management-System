@@ -59,8 +59,22 @@ type QueryFilter struct {
 	DepartmentName string     `bson:"departmentname"`
 }
 
+// CourseEnrollment courseEnrollment kafka object
+type CourseEnrollment struct {
+	CourseID       int `json:"CourseId"`
+	CourseName     string
+	DepartmentName string
+	StudentID      int `json:"StudentId"`
+	StudentName    string
+	Term           string
+	Fees           float64
+	IsEnrolled     bool
+	HasFeesPaid    bool
+}
+
 var mongoURL string = os.Getenv("MONGO_URL")
 var database string = os.Getenv("DATABASE")
 var collection string = os.Getenv("COLLECTION")
 var kafkaServer string = os.Getenv("KAFKA_SERVER")
 var kafkaClickTopic string = os.Getenv("COURSE_CLICK_TOPIC")
+var kafkaEnrollmentTopic string = os.Getenv("ENROLLMENT_TOPIC")
