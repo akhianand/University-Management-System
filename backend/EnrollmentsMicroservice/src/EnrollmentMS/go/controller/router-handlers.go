@@ -150,18 +150,18 @@ func DropCourseHandler(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
-func GetAllEnrollments(formatter *render.Render) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		//Allow CORS here By * or specific origin
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+// func GetAllEnrollments(formatter *render.Render) http.HandlerFunc {
+// 	return func(w http.ResponseWriter, req *http.Request) {
+// 		//Allow CORS here By * or specific origin
+// 		w.Header().Set("Access-Control-Allow-Origin", "*")
+// 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-		log.Printf(" Inside Get All Enrollments handler function")
+// 		log.Printf(" Inside Get All Enrollments handler function")
 		
-		var enrollments []model.CourseEnrollment = service.GetAllEnrollments()
-		formatter.JSON(w, http.StatusOK, enrollments)
-	}
-}
+// 		var enrollments []model.CourseEnrollment = service.GetAllEnrollments()
+// 		formatter.JSON(w, http.StatusOK, enrollments)
+// 	}
+// }
 
 func GetEnrollmentsByCourse(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
@@ -170,8 +170,20 @@ func GetEnrollmentsByCourse(formatter *render.Render) http.HandlerFunc {
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 		log.Printf(" Inside Get All Enrollments handler function")
+
+		keys, queryErr := req.URL.Query()["CourseId"]
+		if !queryErr || len(keys[0]) < 1 {
+			util.FailOnError(nil, "Query params error")
+			//return
+		}
+
+		courseId, err := strconv.Atoi(keys[0])
+		if err != nil {
+			util.FailOnError(err, "Conversion error")
+			//return
+		}
 		
-		var enrollments []model.CourseEnrollment = service.GetEnrollmentsByCourse()
+		var enrollments []model.CourseEnrollment = service.GetEnrollmentsByCourse(courseId)
 		formatter.JSON(w, http.StatusOK, enrollments)
 	}
 }
