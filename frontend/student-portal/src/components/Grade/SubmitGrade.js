@@ -6,7 +6,7 @@ class SubmitGrade extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            grades: [],
+            enrollments: [],
             errorMessage: null
         }
     }
@@ -20,10 +20,33 @@ class SubmitGrade extends Component {
                 <Header />
                 <div className="bg-grey" style={style}>
                     <div className="row mt-5 container">
-                        <SidePane active="SubmitGrades" />
+                        <SidePane active="ViewGrades" />
+                        <div className="main-container col-8 bg-white p-3">
+                            <div className="container mt-5">
+                                <div className="text-align-center mb-5 enrollment-cart-heading">
+                                    <h3>Enrolled Students</h3>
+                                </div>
+                                <table className="table table-bordered table-striped">
+                                    <thead>
+                                        <tr className="text-align-center">
+                                            <th scope="col">#</th>
+                                            <th scope="col">Student ID</th>
+                                            <th scope="col">Student Name</th>
+                                            <th scope="col">Grade</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {/* { this.studentGrades() } */}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         );
     }
 }
