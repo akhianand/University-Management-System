@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
+import axios from 'axios';
+import GradeInputRow from './GradeInputRow.js'
 
 class SubmitGrade extends Component {
     constructor(props) {
@@ -10,7 +12,35 @@ class SubmitGrade extends Component {
             errorMessage: null
         }
     }
+    componentDidMount() {
+        const viewGradesMockURL = "http://mysjsu.free.beeceptor.com/enrollments";
+        try {
+            axios.get(viewGradesMockURL)
+                .then((res) => {
+                    console.log(res.data)
+                    this.setState({
+                        enrollments: res.data
+                    });
+                    console.log('Enrollment Data : ', this.state.enrollments);
+                });
+        } catch (error) {
+            console.log(error);
+            console.log("Error in fetching Enrollment Data!");
+            this.setState(
+                {
+                    grades: [],
+                    errorMessage: "Error in fetching Enrollment Data!"
+                }
+            )
+        }
+    }
 
+    gradeInputRows = () => {
+        let rows = this.state.enrollments.map((enrollObj, index)=>
+        <GradeInputRow index={index} enrollmentObj={enrollObj} key={index}></GradeInputRow>
+    );
+    return rows;
+    }
     render() {
         var style = {
             height: '100vh'
@@ -20,7 +50,7 @@ class SubmitGrade extends Component {
                 <Header />
                 <div className="bg-grey" style={style}>
                     <div className="row mt-5 container">
-                        <SidePane active="ViewGrades" />
+                        <SidePane active="SubmitGrades" />
                         <div className="main-container col-8 bg-white p-3">
                             <div className="container mt-5">
                                 <div className="text-align-center mb-5 enrollment-cart-heading">
@@ -37,7 +67,7 @@ class SubmitGrade extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* { this.studentGrades() } */}
+                                        {this.gradeInputRows()}
                                     </tbody>
                                 </table>
 
