@@ -19,7 +19,7 @@ import (
   func searchCount(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	response, err := http.Get("http://172.20.35.213:8098/buckets/search-counter/counters/count")
+	response, err := http.Get("http://172.20.39.6:8098/buckets/search-counter/counters/count")
 	if err != nil {
         fmt.Printf("The HTTP request failed with error %s\n", err)
     } else {
@@ -73,7 +73,7 @@ func consumeMessages() {
 }
 
 func incrementSearchCounter() {
-	response, err := http.Post("http://172.20.35.213:8098/buckets/search-counter/counters/count", "text/plain", bytes.NewBuffer([]byte("1")))
+	response, err := http.Post("http://172.20.39.6:8098/buckets/search-counter/counters/count", "text/plain", bytes.NewBuffer([]byte("1")))
 	if err != nil {
         fmt.Printf("The HTTP request failed with error %s\n", err)
     } else {

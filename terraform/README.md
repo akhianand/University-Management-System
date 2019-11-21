@@ -15,6 +15,12 @@ kops create cluster \
 --topology=private \
 --zones=us-east-1a,us-east-1b,us-east-1c
 
-Command to install Kafka on Kubernetes:
+Initialize Riak counter:
 
-helm install my-kafka incubator/kafka
+curl -XPUT http://172.20.39.6:8098/buckets/search-counter/props \
+  -H "Content-Type: application/json" \
+  -d "{\"props\" : {\"allow_mult\": true}}"
+
+curl -XPOST http://172.20.39.6:8098/buckets/search-counter/counters/count -d "1"
+
+curl http://172.20.39.6:8098/buckets/search-counter/counters/count
