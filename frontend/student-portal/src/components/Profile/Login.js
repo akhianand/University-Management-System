@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import LHeader from "./LHeader";
 import axios from "axios";
 import { Redirect } from "react-router";
+import {Link} from 'react-router-dom';
 
-import { API_URL, API_PORT } from "./config.js";
+import { getURL } from "../../config/Config";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -29,9 +30,8 @@ class Login extends Component {
       password: this.state.password
 	};
 	
-
     axios
-      .post(`${API_URL}:${API_PORT}/login`, login)
+      .post(getURL("/login"), login)
       .then(response => {
 		  console.log(response);
         if (response.status === 200) {
@@ -69,11 +69,11 @@ class Login extends Component {
 
   render() {
 	let redirect = null;
-	redirect = this.state.userLoggedIn ?  <Redirect to= "/Profile"/> : null ;
+	redirect = this.state.userLoggedIn ?  <Redirect to= "/"/> : null ;
 
     return (
       <>
-	  	{/* {redirect} */}
+	  	{redirect}
         <LHeader />
 
         <div className="container py-5">
@@ -129,14 +129,20 @@ class Login extends Component {
                           >
                             Login
                           </button>
+							<br/>
+						  <Link to="/signup">Click Here to Signup</Link>
                         </div>
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+
+
+						</div>
+                    </div>
+   
+
         </div>
       </>
     );
