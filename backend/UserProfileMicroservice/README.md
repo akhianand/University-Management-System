@@ -1,4 +1,4 @@
-# CoursesMicroservice
+# User Profile Microservice
 ## Table of contents
 
 * [Installation](#installation)
@@ -16,8 +16,8 @@
 ## Installation
 
 ### Prerequisite
-* install golang [https://golang.org/doc/install](https://golang.org/doc/install)
-* install Docker Engine
+* Install golang [https://golang.org/doc/install](https://golang.org/doc/install)
+* Install Docker Engine
 
 ### How to run service on localhost
 
@@ -43,29 +43,13 @@ make start
 ```
 
 ### How to run service on Docker
-* start kafka and zookeeper
 * build docker image
   ```shell
   make docker-build
   ```
-  
-* Set environment variables in docker-compose.yml  
-  ```yml
-  environment:
-    - MONGO_URL=<mongo connection url> 
-    - DATABASE=<name of the database>  
-    - COLLECTION=<name of the courses collection>  
-    - KAFKA_SERVER=<ipAddressOfKafkaServer:9092>  
-    - COURSE_CLICK_TOPIC=<topic name>  
-  ```
-  
-* startup cluster
+* run docker image 
   ```shell
-  make startup
-  ```
-* teardown the cluster
-  ```shell
-  make teardown
+  docker run --restart always --name userprofilems -td -p 8000:8000 akhianand/userprofilems:v1
   ```
   
 ## Routes
