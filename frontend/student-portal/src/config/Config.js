@@ -8,3 +8,4 @@ export function getURL (route) {
 }
 
 export const enrollmentServiceURL = "http://localhost:8086";
+export const gradingServiceURL = "http://localhost:8082";

@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
 import { getURL } from '../../config/Config';
 import axios from 'axios'
+import {gradingServiceURL} from '../../config/Config';
 
 class ViewGrades extends Component {
     constructor(props) {
@@ -27,7 +28,9 @@ class ViewGrades extends Component {
     }
     componentDidMount() {
         const studentID = 430;
-        const viewGradesURL = getURL("/grades" + "?StudentID=" + studentID);
+   //     const baseURL = "http"
+    //    const viewGradesURL = getURL("/grades?StudentID=" + studentID);
+        const viewGradesURL=gradingServiceURL+"/grades?StudentID=" + studentID
         try {
             axios.get(viewGradesURL)
                 .then((res) => {
