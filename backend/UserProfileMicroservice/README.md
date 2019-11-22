@@ -3,15 +3,15 @@
 
 * [Installation](#installation)
   * [Prerequisite](#prerequisite)
-  * [How to run service on localhost](#how-to-run-service-on-localhost)
+  * [How to run service on Localhost](#how-to-run-service-on-localhost)
   * [How to run service on Docker](#how-to-run-service-on-docker)
 * [Routes](#routes)
   * [GET Ping](#get-ping)
-  * [POST Course](#post-course)
-  * [GET Courses](#get-courses)
-  * [GET Course](#get-course)
-  * [PUT Course](#put-course)
-  * [DELETE Course](#delete-course)
+  * [POST Signup](#post-signup)
+  * [PUT User](#put-user)
+  * [GET User](#get-user)
+  * [DELETE Announcement](#delete-announcement)
+
 
 ## Installation
 
@@ -122,12 +122,8 @@ The Following Routes describe the exposed API Edndpoints for performing User rel
   **NOTE** : The Password field has been intentionally blanked. Password is hashed before being stored into the database and is never part of the response. 
 
 
-
-  
-
-  
-### PUT Course
-* **/profile?UserID=** : PUT route to update a course specified by course id
+### PUT User
+* **/profile?UserID=** : PUT route to update a user specified by user id
    
   **Query Parameters**
   ```
