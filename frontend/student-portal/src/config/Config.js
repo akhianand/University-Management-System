@@ -13,6 +13,13 @@ export const enrollmentServiceURL = "http://enrollment-nlb-047c901a12a29dbf.elb.
 
 /**
  * 
+ * /addToCart
+ * /cart
+ * /enroll
+ * /enrollment
+ * /ping
+ * /drop
+ * /getEnrollmentsByCourse
  * url : http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com
  * add to cart : http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com/addToCart
  * get cart : http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com/cart?StudentId=1001
