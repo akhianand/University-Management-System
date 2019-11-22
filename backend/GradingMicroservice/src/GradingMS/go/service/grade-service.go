@@ -32,8 +32,55 @@ func SubmitGrade(grade *model.Grade) {
 		fmt.Println("Mongo Insert Error")
 		util.LogErrorWithoutFailing(err, "Mongo Insert Error")
 	}
-	publishToQueue(grade)
+	publishGradeToQueue(grade)
 }
+
+//UpsertGrade validates request for submitting grade and upserts in DB
+// func UpsertGrade(grade *model.Grade) {
+
+// 	// TODO validation checks
+// 	//check student enrolled in course (handled in frontend)
+// 	fmt.Println("Inser Submit Grade service method")
+// 	fmt.Println("Submit Grade service method dialling up mongo db connection")
+// 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
+// 	if err != nil {
+// 		fmt.Println("Mongo Dial Error")
+// 		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
+// 	}
+// 	defer session.Close()
+// 	session.SetMode(mgo.Monotonic, true)
+// 	var filter model.GradeQueryFilter
+// 	if grade.StudentID != "" {
+// 		id, err := strconv.Atoi(StudentID)
+// 		if err != nil {
+// 			return nil, util.NewBadRequestError("StudentID must be integer")
+// 		}
+// 		filter.StudentID = bson.M{"$eq": id}
+// 	}
+// 	if grade.CourseID != "" {
+// 		id, err := strconv.Atoi(CourseID)
+// 		if err != nil {
+// 			return nil, util.NewBadRequestError("CourseID must be integer")
+// 		}
+// 		filter.CourseID = bson.M{"$eq": id}
+// 	}
+// 	if grade.Term != "" {
+// 		filter.Term = bson.RegEx{
+// 			Pattern: "^" + Term + "$",
+// 			Options: "i",
+// 		}
+// 	}
+// 	c := session.DB(os.Getenv("DATABASE")).C("grade")
+// 	info, err := c.Upsert(filter, grade)
+// 	if err != nil {
+// 		fmt.Println("Error in upserting doc")
+// 	}
+// 	var upsertedGrade model.Grade = model.Grade{}
+// 	error = c.Find(filter).One(&upsertedGrade)
+// 	if error != nil {
+// 		publishToQueue(&upsertedGrade)
+// 	}
+// }
 
 //GetGrades returns slice of grades for the query
 func GetGrades(gradeQueryFilter *model.GradeQueryFilter) (error, []model.Grade) {
@@ -54,12 +101,12 @@ func GetGrades(gradeQueryFilter *model.GradeQueryFilter) (error, []model.Grade) 
 	return nil, grades
 }
 
-func publishToQueue(grade *model.Grade) {
+func publishGradeToQueue(grade *model.Grade) {
 	log.Printf("publish to queue service method")
 	fmt.Println("publishing to queue service method")
 	jsonString, err := json.Marshal(grade)
 	gradeString := string(jsonString)
-	fmt.Println("Logging payment to kafka StudentID:" + strconv.Itoa(grade.StudentID))
+	fmt.Println("Logging grade to kafka StudentID:" + strconv.Itoa(grade.StudentID))
 	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": os.Getenv("KAFKA_SERVER")})
 	if err != nil {
 		fmt.Println("Kafka fee submission message")
