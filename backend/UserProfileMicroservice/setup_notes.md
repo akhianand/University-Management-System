@@ -3,7 +3,7 @@
 
 ## VPC 
 
-* Create VPC *CMPE281* with 3 Subnets 
+Create VPC *CMPE281* with 3 Subnets 
  1. AZ1 : Public
  2. AZ1 : Private
  3. AZ2 : Private
@@ -14,46 +14,49 @@
 ### Jumpbox
 Spawn EC2 AWS Linux Instance for JumpBox
 
-	```
+	
 	VPC : CMPE281
 	SUBNET: AZ1 Public
 	Security Group : 22
-	```
+	
 
 ### Mongo AMI 
 
 Spawn EC2 AWS Linux Instance for Mongo AMI
-	```
+
+	
 	VPC : CMPE281
 	SUBNET: AZ1 Private
 	Security Group : 22 , 27017-27019
-	```
+	
+	
 Here Install **Mongo 3.4**
 
-	```
+	
 	sudo mkdir /etc/yum.repos.d/mongodb-org-3.4.repo 
-	```
+	
+
 
 Add the following to the above file 
-	```
-		[mongodb-org-3.4]
-		name=MongoDB Repository
-		baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.4/x86_64/
-		gpgcheck=1
-		enabled=1
-		gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
+	
+	[mongodb-org-3.4]
+	name=MongoDB Repository
+	baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.4/x86_64/
+	gpgcheck=1
+	enabled=1
+	gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
 
-	```
+	
 
 Then
 
-	```
+	
 	sudo yum install -y mongodb-org
 	sudo chkconfig mongod on
 	sudo mkdir -p /data/db
 	sudo chown -R mongod:mongod /data/db
 
-	```
+	
 
 ### Spawn Cluster  
 
@@ -76,18 +79,17 @@ Change the following
 
 ```
 storage
-	dbpath: /data/db
+  dbpath: /data/db
 
 net:
-	port: 27019
-    #bindIp: .....
+ port: 27019
+ #bindIp: .....
 
 replication:
-	replSetName: crs
+  replSetName: crs
 
 sharding:
-	clusterRole: configvr
-
+  clusterRole: configvr
 ```
 
 Start
@@ -96,6 +98,7 @@ Start
 sudo mongod --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log
 ```
 Run
+
 ```
 mongo -port 27019
 ```
@@ -130,11 +133,11 @@ Change the following
 * Comment out Storage
 
 net:
-	port: 27017
-    #bindIp: .....
+  port: 27017
+  #bindIp: .....
 
 sharding:
-	configDB: crs/<IP>:27109,<IP>:27019 (Config Server IPs)
+  configDB: crs/<IP>:27109,<IP>:27019 (Config Server IPs)
 ```
 
 Start
