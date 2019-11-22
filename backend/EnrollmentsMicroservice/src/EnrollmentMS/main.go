@@ -2,6 +2,7 @@ package main
 
 import (
 	ctrl "EnrollmentMS/go/controller"
+	service "EnrollmentMS/go/service"
 	"fmt"
 	"log"
 	"net/http"
@@ -18,5 +19,7 @@ func main() {
     })
 	handler := cors.Default().Handler(router)
 	fmt.Println("Enrollment Microservice main method")
+	go service.StartKafkaConsumer()
 	log.Fatal(http.ListenAndServe(":8086", handler))
+	
 }

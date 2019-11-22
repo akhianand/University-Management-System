@@ -66,4 +66,10 @@ var routes = model.Routes{
 		"/drop",
 		DropCourseHandler,
 	},
+	model.Route{
+		"GetEnrollmentsByCourse",
+		"GET",
+		"/getEnrollmentsByCourse",
+		GetEnrollmentsByCourse,
+	},
 }
