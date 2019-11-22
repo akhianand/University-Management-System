@@ -173,8 +173,8 @@ class Signup extends Component {
                             className="form-control"
                             id="role"
                           >
-                            <option value="student">Student</option>
-                            <option value="faculty">Faculty</option>
+                            <option value="Student">Student</option>
+                            <option value="Instructor">Instructor</option>
                           </select>
                         </div>
                         <div className="form-group">
