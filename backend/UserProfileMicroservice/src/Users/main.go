@@ -12,7 +12,7 @@ func main() {
 	log.Printf("Server Started on Port 8000")
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
-	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS", "DELETE"})
 	router := app.NewRouter()
    	
 	go app.ConsumeAnnouncementFromKafka()

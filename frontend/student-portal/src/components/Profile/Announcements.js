@@ -8,72 +8,107 @@ class Announcement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      isAdmin: false,
-      isStudent: false,
-      hasError: false,
-      errorMessage: ""
-    };
-
-    this.submitLogin = this.submitLogin.bind(this);
-    this.emailChangeHandler = this.emailChangeHandler.bind(this);
-    this.passwordChangeHandler = this.passwordChangeHandler.bind(this);
+      announcements: [],
+	  dismissed: false,
+	  err:false
+	};
+	
+	
   }
 
-  submitLogin = e => {
-    e.preventDefault();
+  getUserObject() {
+	let url = `${API_URL}:${API_PORT}/profile?UserID=${localStorage.getItem(
+		"userid"
+	  )}`;
+	  console.log(url);
+	  axios
+		.get(url)
+		.then(response => {
+		  console.log(response);
+		  if (response.status === 200) {
+			let user = response.data;
+			console.log(user);
+			this.setState({
+			  announcements: user.Announcements
+			});
+		  }
+		})
+		.catch(err => {
+		  console.log(err);
+		});
+  }
 
-    const login = {
-      email: this.state.email,
-      password: this.state.password
-    };
 
-    axios
-      .post(`${API_URL}:${API_PORT}/login`, login)
-      .then(response => {
-        console.log(response);
-        if (response.status === 200) {
-          localStorage.setItem("email", response.data.Email);
-          localStorage.setItem("role", response.data.Role);
-          localStorage.setItem("userid", response.data.UserID);
-          this.setState({
-            userLoggedIn: true,
-            hasError: false,
-            errorMessage: ""
-          });
-        }
-      })
-      .catch(err => {
-        console.log();
-        this.setState({
-          userLoggedIn: false,
-          hasError: true,
-          errorMessage: err.response.data.Message
-        });
-      });
-  };
-
-  emailChangeHandler = e => {
-    this.setState({
-      email: e.target.value
-    });
-  };
-  passwordChangeHandler = e => {
-    this.setState({
-      password: e.target.value
-    });
-  };
+  componentDidMount() {
+    this.getUserObject();
+  }
 
   render() {
-    let redirect = null;
-    redirect = this.state.userLoggedIn ? <Redirect to="/Profile" /> : null;
+    let announcements = this.state.announcements.map(announcement => {
+      return (
+        <>
+          <div className="row text-center">
+            <div className="col-md-6 mx-auto">
+              <div class="card">
+                <div class="card-header">Announcement</div>
+                <div class="card-body">
+                  <p class="card-text">{announcement.Announcement}</p>
+                  <button
+                    onClick={() => {
+                      let x = {
+                        announcement: announcement.Announcement
+                      };
+                      axios
+                        .delete(
+                          `${API_URL}:${API_PORT}/announcement?UserID=${localStorage.getItem(
+                            "userid"
+                          )}`,
+                          {data : x}
+                        )
+                        .then(response => {
+                          console.log(response);
+                          if (response.status === 200) {
+							this.getUserObject();
+                           this.setState({
+							   dismissed:true,
+							   err:false
+						   })
+                          }
+                        })
+                        .catch(err => {
+						  console.log(err);
+						  this.setState({
+							dismissed:true,
+							err:true
+						})
+                        });
+                    }}
+                    class="btn btn-primary"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+        </>
+      );
+    });
 
     return (
       <>
-        {/* {redirect} */}
         <Header />
         <div className="container py-5">
+		{this.state.dismissed ? (
+            <div className="row text-center">
+              <div className="col-md-6 mx-auto">
+                <div className={`alert alert-${this.state.err? "danger": "success"}` } role="alert">
+				{this.state.err? "Dismiss Error": "Message Dismissed Successfully"}
+                </div>
+              </div>
+            </div>
+          ) : null}
           <div className="row text-center">
             <div className="col-md-6 mx-auto">
               <h1 style={{ fontWeight: "lighter" }}>Announcements</h1>
@@ -81,17 +116,7 @@ class Announcement extends Component {
           </div>
 
           <br />
-
-          <div className="row text-center">
-            <div className="col-md-6 mx-auto">
-              <div class="card">
-                <div class="card-header">Date/Time</div>
-                <div class="card-body">
-                  <p class="card-text">This is a sample Announcement</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {announcements}
         </div>
       </>
     );
