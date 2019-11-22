@@ -32,7 +32,7 @@ class GradeInputRow extends Component {
             try {
                 axios.post(gradingServiceURL + '/grade', gradeObj)
                     .then((res) => {
-                        alert("Grade submitted successfully");
+                      //  alert("Grade submitted successfully");
                         this.setState({
                             isGradeSubmitted:true
                         })
