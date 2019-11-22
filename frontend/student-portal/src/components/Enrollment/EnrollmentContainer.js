@@ -15,7 +15,7 @@ class EnrollmentContainer extends Component {
     }
 
     componentDidMount() {
-        let studentId = 1001;
+        let studentId = 75;
         axios.get(enrollmentServiceURL + '/enrollment?StudentId=' + studentId)
         .then((res) => {
           
