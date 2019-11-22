@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
-import {enrollmentServiceURL} from '../../config/Config';
+import {getURL} from '../../config/Config';
 
 class EnrollmentCart extends Component {
 
@@ -17,7 +17,7 @@ class EnrollmentCart extends Component {
 
   componentDidMount() {
     let studentId = this.props.match.params.studentId;
-    axios.get(enrollmentServiceURL + '/cart?StudentId=' + studentId)
+    axios.get(getURL('/cart?StudentId=' + studentId))
     .then((res) => {      
       this.setState({
         cartItems : res.data
@@ -31,7 +31,7 @@ handleEnrollment = (index) => {
   let cartItem = this.state.cartItems[index];
   console.log('cartItem to be enrolled ', cartItem);
   //axios.defaults.withCredentials = true;
-  axios.post(enrollmentServiceURL + '/enroll', cartItem)
+  axios.post(getURL('/enroll'), cartItem)
   .then((res)=> {
     console.log('Enrollment completed successfully');
     let updatedCart = this.state.cartItems.splice(index, 1);

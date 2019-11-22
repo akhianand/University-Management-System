@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
-import { enrollmentServiceURL } from '../../config/Config';
+import { getURL } from '../../config/Config';
 
 class Payment extends Component {
     
@@ -20,7 +20,7 @@ class Payment extends Component {
     componentDidMount() {
         let studentId = this.props.match.params.studentId;
 
-        axios.get(enrollmentServiceURL + '/enrollment?StudentId=' + studentId)
+        axios.get(getURL('/enrollment?StudentId=' + studentId))
         .then((res) => {
             let enrolledCourses = res.data;
             let fees = 0;

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import {enrollmentServiceURL} from '../../config/Config';
+import {getURL} from '../../config/Config';
 
 class PaymentContainer extends Component {
     constructor(props) {
@@ -14,7 +14,7 @@ class PaymentContainer extends Component {
 
     componentDidMount() {
         let studentId = 1001;
-        axios.get(enrollmentServiceURL + '/enrollment?StudentId=' + studentId)
+        axios.get(getURL('/enrollment?StudentId=' + studentId))
         .then((res) => {
             let enrolledCourses = res.data;
             let fees = 0;
