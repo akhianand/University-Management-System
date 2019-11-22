@@ -1,116 +1,172 @@
-Jumpbox
 
-ssh -i "cmpe281-us-east-1.pem" ec2-user@ec2-3-94-204-145.compute-1.amazonaws.com
+# Setting up Mongo Cluster 
 
-Config Server 1
+## VPC 
 
-ssh -i "cmpe281-us-east-1.pem" ec2-user@10.0.1.225
-
-Config Server 2 
-
-ssh -i "cmpe281-us-east-1.pem" ec2-user@10.0.2.166
+* Create VPC *CMPE281* with 3 Subnets 
+ 1. AZ1 : Public
+ 2. AZ1 : Private
+ 3. AZ2 : Private
 
 
-## Create Package management System
+## Installation 
 
-/etc/yum.repos.d/mongodb-org-3.4.repo
+### Jumpbox
+Spawn EC2 AWS Linux Instance for JumpBox
+
+	```
+	VPC : CMPE281
+	SUBNET: AZ1 Public
+	Security Group : 22
+	```
+
+### Mongo AMI 
+
+Spawn EC2 AWS Linux Instance for Mongo AMI
+	```
+	VPC : CMPE281
+	SUBNET: AZ1 Private
+	Security Group : 22 , 27017-27019
+	```
+Here Install **Mongo 3.4**
+
+	```
+	sudo mkdir /etc/yum.repos.d/mongodb-org-3.4.repo 
+	```
+
+Add the following to the above file 
+	```
+		[mongodb-org-3.4]
+		name=MongoDB Repository
+		baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.4/x86_64/
+		gpgcheck=1
+		enabled=1
+		gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
+
+	```
+
+Then
+
+	```
+	sudo yum install -y mongodb-org
+	sudo chkconfig mongod on
+	sudo mkdir -p /data/db
+	sudo chown -R mongod:mongod /data/db
+
+	```
+
+### Spawn Cluster  
+
+With Mongo Installed in this manner, Create an AMI and spawn 6 other Instances In addition to the one just created as follows.
+
+1. 3 Instances in AZ1 Private (config-server-1, shard-server-1.1, shard-server-2.1)
+2. 3 Instances in AZ2 Private (config-server-2, shard-server-1.2, shard-server-2.2)
+3. 1 Instances in AZ1 Public (mongos)
 
 
-Add To That 
 
+### Config Server
 
-[mongodb-org-3.4]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.4/x86_64/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc
-
-
-rs.initiate(
-	{
-		_id: "crs",
-		configsvr: true,
-		members: [
-			{ _id : 0, host : "10.0.1.225:27019"},
-			{ _id : 1, host : "10.0.2.166:27019"}
-		]
-	}
-)
-
-
-sudo mkdir -p /data/db
-
-sudo chown -R mongod:mongod /data/db
-
+SSH into two Config Server Instances via JumpBox
+```
 sudo vi /etc/mongod.conf
+```
 
+Change the following 
+
+```
+storage
+	dbpath: /data/db
+
+net:
+	port: 27019
+    #bindIp: .....
+
+replication:
+	replSetName: crs
+
+sharding:
+	clusterRole: configvr
+
+```
+
+Start
+
+```
 sudo mongod --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log
-sudo mongos --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log
+```
+Run
+```
+mongo -port 27019
+```
 
+Configue Replica Set for Shard Server
+
+```
 rs.initiate(
 	{
-		_id: "rs0",
+		_id: "rs0", (rs1 for 2nd shard replicas)
 		members: [
-			{ _id : 0, host : "10.0.1.34:27018"},
-			{ _id : 1, host : "10.0.2.112:27018"}
+			{ _id : 0, host : "<IP>:27018"},
+			{ _id : 1, host : "<IP>:27018"}
 		]
 	}
 )
-
-
-rs.initiate(
-	{
-		_id: "rs1",
-		members: [
-			{ _id : 0, host : "10.0.1.97:27018"},
-			{ _id : 1, host : "10.0.2.55:27018"}
-		]
-	}
-)
-
-
-
-ssh -i "cmpe281-us-east-1.pem" ec2-user@10.0.1.34
-
-ssh -i "cmpe281-us-east-1.pem" ec2-user@10.0.2.112
-
-ssh -i "cmpe281-us-east-1.pem" ec2-user@10.0.1.97
-
-ssh -i "cmpe281-us-east-1.pem" ec2-user@10.0.2.55
+```
 
 
 
 
+### Monogos
 
-ssh -i "cmpe281-us-east-1.pem" ec2-user@ec2-3-232-230-241.compute-1.amazonaws.com
+SSH into Mongos Directly
+```
+sudo vi /etc/mongod.conf
+```
 
+Change the following 
 
+```
+* Comment out Storage
 
-sh.addShard("rs0/10.0.1.34:27018,10.0.2.112:27018");
+net:
+	port: 27017
+    #bindIp: .....
 
-sh.addShard("rs1/10.0.1.97:27018,10.0.2.55:27018");
+sharding:
+	configDB: crs/<IP>:27109,<IP>:27019 (Config Server IPs)
+```
 
-db.adminCommand({listShards:1})
+Start
 
-db.runCommand({enablesharding: "universityportal"});
+```
+sudo mongod --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log
+```
+Run
+```
+mongo -port 27017
+```
 
+Adding Shards
 
-db.runCommand({shardcollection: "universityportal.users", key  : {userid :1}});
+```
+sh.addShard("rs0/<IP>:27018,<IP>:27018"); //rs0 IPs
 
+sh.addShard("rs1/<IP>:27018,<IP>:27018"); //rs1 IPs
 
-db.createUser(
-{	user: "admin",
-	pwd: "password",
-	roles:[{role: "userAdminAnyDatabase" , db:"admin"}]}
-)
+```
 
+Create DB
+```
+use univeristyportal
+```
 
-ssh -i "cmpe281-us-east-1.pem" ec2-user@ec2-3-232-230-241.compute-1.amazonaws.com
+Switch to Admin and Run the following
+```
+use admin
 
+db.runCommand({enablesharding: "universityportal"});  //Enables Sharding
 
-mongodb://admin:password@ec2-3-232-230-241.compute-1.amazonaws.com:27017/universityportal
+db.runCommand({shardcollection: "universityportal.users", key  : {userid :1}}); //Sharding on Users Collection based on UserID as Shard Key
 
-
-
-docker run --restart always --name userprofilems -td -p 8080:8080 akhianand/userprofilems:v1.0
+```

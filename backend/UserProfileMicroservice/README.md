@@ -56,7 +56,7 @@ docker run --restart always --name userprofilems -td -p 8000:8000 <userprofile>/
 
 The Following Routes describe the exposed API Edndpoints for performing User related Uperations
 ### GET Ping
-* **/ping** : GET route for health check
+ **/ping** : GET route for health check
 
   **Response** 
   ```json 
@@ -65,7 +65,7 @@ The Following Routes describe the exposed API Edndpoints for performing User rel
   }
   ```
 ### POST Signup
-* **/signup** : POST route to create a new user. A new UserID is assigned for each new Registration
+ **/signup** : POST route to create a new user. A new UserID is assigned for each new Registration
  
   **Request**
   ```json
@@ -88,7 +88,7 @@ The Following Routes describe the exposed API Edndpoints for performing User rel
   ```
 
 ### POST Login
-* **/login** : POST route to login to profile.
+ **/login** : POST route to login to profile.
  
   **Request**
   ```json
@@ -123,7 +123,7 @@ The Following Routes describe the exposed API Edndpoints for performing User rel
 
 
 ### PUT User
-* **/profile?UserID=** : PUT route to update a user specified by user id
+ **/profile?UserID=** : PUT route to update a user specified by user id
    
   **Query Parameters**
   ```
@@ -176,8 +176,8 @@ The Following Routes describe the exposed API Edndpoints for performing User rel
    ```
 
 
-   ### GET User
-* **/profile?UserID=** : GET route to fetch User matching unique UserID
+### GET User
+ **/profile?UserID=** : GET route to fetch User matching unique UserID
   
   **Query Parameters**
   ```
@@ -216,9 +216,9 @@ The Following Routes describe the exposed API Edndpoints for performing User rel
 
 ### DELETE Announcement
 
-* **/announcement?UserID=** : DELETE route to delete an Announcement. 
+ **/announcement?UserID=** : DELETE route to delete an Announcement. 
 
-**Note** : Announcements are added to User object in the backend through means of Kafka.
+ **Note** : Announcements are added to User object in the backend through means of Kafka.
 
  **Query Parameters**
   ```
