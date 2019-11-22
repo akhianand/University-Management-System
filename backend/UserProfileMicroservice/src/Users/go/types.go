@@ -36,7 +36,12 @@ type User struct {
 	Password   string  `bson:"password"`
 	Image      string  `bson:"image"`
 	Address    Address `bson:"address"`
-	Department string  `bson:"department"`
+	Department string  	`bson:"department"`
+	Announcements []Announcement  `bson:"announcements"`
+}
+
+type Announcement struct {
+   Announcement string 	`bson:"announcement"`
 }
 
 // Login Structure
@@ -61,3 +66,5 @@ type IDGenerator struct {
 var mongoURL string = "mongodb://admin:password@ec2-3-232-230-241.compute-1.amazonaws.com:27017/admin"
 var database string = "universityportal"
 var collection string = "users"
+var kafkaServer string = "54.144.3.194:9092"
+var kafkaAnnouncementTopic string = "announcements"

@@ -12,6 +12,7 @@ go-get:
 	go get -v gopkg.in/mgo.v2/bson
 	go get -v golang.org/x/crypto/bcrypt
 	go get -v github.com/gorilla/handlers
+	go get -v github.com/confluentinc/confluent-kafka-go/kafka
 build:
 	go build Users
 
@@ -20,3 +21,15 @@ start:
 
 test-ping:
 	curl localhost:8000/ping
+
+network-create:
+	docker network create userprofilemicroservice_network
+
+docker-build:
+	docker build -t userprofilems .
+
+startup: network-create
+	docker-compose scale node=5
+
+teardown:
+	docker-compose down

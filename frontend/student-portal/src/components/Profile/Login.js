@@ -37,6 +37,7 @@ class Login extends Component {
         if (response.status === 200) {
 			  localStorage.setItem("email", response.data.Email)
 			  localStorage.setItem("role", response.data.Role)
+			  localStorage.setItem("userid", response.data.UserID)
             this.setState({
               userLoggedIn: true,
               hasError: false,
@@ -72,7 +73,7 @@ class Login extends Component {
 
     return (
       <>
-	  	{redirect}
+	  	{/* {redirect} */}
         <LHeader />
 
         <div className="container py-5">

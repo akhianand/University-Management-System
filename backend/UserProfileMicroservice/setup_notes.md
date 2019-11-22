@@ -110,3 +110,7 @@ ssh -i "cmpe281-us-east-1.pem" ec2-user@ec2-3-232-230-241.compute-1.amazonaws.co
 
 
 mongodb://admin:password@ec2-3-232-230-241.compute-1.amazonaws.com:27017/universityportal
+
+
+
+docker run --restart always --name userprofilems -td -p 8080:8080 akhianand/userprofilems:v1.0
