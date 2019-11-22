@@ -30,7 +30,7 @@ class GradeInputRow extends Component {
             gradeObj.Term = this.props.enrollmentObj.Term;
             gradeObj.Grade = this.state.Grade;
             try {
-                axios.post(gradingServiceURL + '/grade', gradeObj)
+                axios.post(getURL('/grade'), gradeObj)
                     .then((res) => {
                       //  alert("Grade submitted successfully");
                         this.setState({

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import { enrollmentServiceURL } from '../../config/Config';
+import { getURL } from '../../config/Config';
 
 class EnrollmentContainer extends Component {
     
@@ -16,7 +16,7 @@ class EnrollmentContainer extends Component {
 
     componentDidMount() {
         let studentId = 75;
-        axios.get(enrollmentServiceURL + '/enrollment?StudentId=' + studentId)
+        axios.get(getURL('/enrollment?StudentId=' + studentId))
         .then((res) => {
           
             let enrolledCourses = res.data;        

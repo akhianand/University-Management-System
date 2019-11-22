@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
 import axios from 'axios';
 import GradeInputRow from './GradeInputRow.js'
+import { getURL } from '../../config/Config';
 
 class SubmitGrade extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class SubmitGrade extends Component {
         console.log({state: this.state})
     }
     componentDidMount() {
-        const getEnrollmentsURL = "https://be860ceb-9e57-4804-be7b-a3d02d65273a.mock.pstmn.io/enrollments";
+        const getEnrollmentsURL = getURL("/enrollments?CourseId="+this.state.CourseID);
         try {
             axios.get(getEnrollmentsURL)
                 .then((res) => {

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Redirect } from "react-router";
 import {Link} from 'react-router-dom';
 
-import { API_URL, API_PORT } from "./config.js";
+import { getURL } from "../../config/Config";
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +31,7 @@ class Login extends Component {
 	};
 	
     axios
-      .post(`${API_URL}/login`, login)
+      .post(getURL("/login"), login)
       .then(response => {
 		  console.log(response);
         if (response.status === 200) {

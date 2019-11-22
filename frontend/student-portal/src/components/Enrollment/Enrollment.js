@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
-import {enrollmentServiceURL} from '../../config/Config';
+import {getURL} from '../../config/Config';
 
 
 class Enrollment extends Component {
@@ -19,7 +19,7 @@ class Enrollment extends Component {
 
     componentDidMount() {
         let studentId = this.props.match.params.studentId;
-        axios.get(enrollmentServiceURL + '/enrollment?StudentId=' + studentId)
+        axios.get(getURL('/enrollment?StudentId=' + studentId))
         .then((res) => {
           
           this.setState ({
@@ -33,11 +33,11 @@ class Enrollment extends Component {
     handleDropCouse = (index) => {
         let course = this.state.enrolledCourses[index];
 
-        axios.post(enrollmentServiceURL + '/drop', course)
+        axios.post(getURL('/drop'), course)
         .then((res) => {
             console.log('Course dropped successfully!');
             let studentId = this.props.match.params.studentId;
-            axios.get(enrollmentServiceURL + '/enrollment?StudentId=' + studentId)
+            axios.get(getURL('/enrollment?StudentId=' + studentId))
             .then((res) => {
             
             this.setState ({

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import LHeader from "./LHeader";
 import axios from "axios";
-import { API_URL, API_PORT } from "./config.js";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
+import { getURL } from "../../config/Config";
 
 class Signup extends Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class Signup extends Component {
 	}else {
 
     axios
-      .post(`${API_URL}/signup`, signup)
+      .post(getURL(`/signup`), signup)
       .then(response => {
 		  console.log(response);
         if (response.status === 200) {

@@ -30,7 +30,7 @@ class ViewGrades extends Component {
         const studentID = 1002;
    //     const baseURL = "http"
     //    const viewGradesURL = getURL("/grades?StudentID=" + studentID);
-        const viewGradesURL=gradingServiceURL+"/grades?StudentID=" + studentID
+        const viewGradesURL=getURL("/grades?StudentID=" + studentID)
         try {
             axios.get(viewGradesURL)
                 .then((res) => {
