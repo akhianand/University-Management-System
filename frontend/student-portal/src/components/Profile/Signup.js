@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import LHeader from "./LHeader";
 import axios from "axios";
 import { API_URL, API_PORT } from "./config.js";
-import { Redirect } from 'react-router';
+import { Redirect } from "react-router";
 
 class Signup extends Component {
   constructor(props) {
@@ -166,7 +166,7 @@ class Signup extends Component {
                           />
                         </div>
                         <div className="form-group">
-                          <label htmlFor="role">Department</label>
+                          <label htmlFor="role">Role</label>
                           <select
                             onChange={this.roleChangeHandler}
                             className="form-control"

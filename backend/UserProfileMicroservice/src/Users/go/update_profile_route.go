@@ -52,5 +52,7 @@ func updateProfile(userID int, user User) error {
 		logErrorWithoutFailing(err, "Mongo Update Error")
 		return err
 	}
+
+	
 	return nil
 }

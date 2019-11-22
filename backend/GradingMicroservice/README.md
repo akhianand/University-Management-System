@@ -55,6 +55,7 @@ make start
   ```
 ### GET Grades
 * **/grades?StudentID=&CourseID=&Term=** : GET route to fetch all grades corresponding to request params
+eg. http://localhost:8080/grades?StudentID=430
   
   **Query Parameters**
   ```
@@ -64,20 +65,14 @@ make start
   ```
   **Response**
   ```json
-  [
+[
   {
-    "StudentID": 1,
-    "CourseID": 1,
-    "Term": "Fall 2019",
-    "Grade": "A",
-    "InstructorID": "Guzun"
-  },
-  {
-    "StudentID": 1,
-    "CourseID": 2,
-    "Term": "Fall 2019",
-    "Grade": "B-",
-    "InstructorID": "Paul"
+    "StudentID": 430,
+    "StudentName": "Yash",
+    "CourseID": 217,
+    "CourseName": "HCI",
+    "Term": "Spring 2020",
+    "Grade": "A"
   }
 ]
   ```

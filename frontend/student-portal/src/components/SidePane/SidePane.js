@@ -18,8 +18,10 @@ class SidePane extends Component {
                         <a href="/createcourse" className={"list-group-item list-group-item-action" + (this.state.active ==="Create Course" ?" active":"")}>Create Course</a>
                         <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Enrollment" ?" active":"")}>Enrollment</a>
                         <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Fee Payment" ?" active":"")}>Fee Payment</a>
+                        <a href="/grades/view" className={"list-group-item list-group-item-action" + (this.state.active ==="ViewGrades" ?" active":"")}>Grades</a>
                         <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Profile" ?" active":"")}>Profile</a>
                         <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Admin Dashboard" ?" active":"")}>Admin Dashboard</a>
+                        <a href="/grades/submit" className={"list-group-item list-group-item-action" + (this.state.active ==="SubmitGrades" ?" active":"")}>Submit Grades</a>
                     </div>
                 </div>
             </div>

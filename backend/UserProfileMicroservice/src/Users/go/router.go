@@ -109,4 +109,10 @@ var routes = Routes{
 		"/profile",
 		GetUserHandler,
 	},
+	Route{
+		"DeleteAnnouncementHandler",
+		"DELETE",
+		"/announcement",
+		DeleteAnnouncementHandler,
+	},
 }
