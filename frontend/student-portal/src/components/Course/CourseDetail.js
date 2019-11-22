@@ -20,6 +20,9 @@ class CourseDetail extends Component{
             SeatsEnrolled: null,
             errorMessage: ""
         }
+        this.getTiming = this.getTiming.bind(this)
+        this.getRedirectionButton = this.getRedirectionButton.bind(this)
+        this.gradeRedirect = this.gradeRedirect.bind(this)
     }
     
     componentDidMount = async () => {
@@ -92,9 +95,19 @@ class CourseDetail extends Component{
         ))
     }
 
+    gradeRedirect = (e) =>{
+        this.props.history.push({
+            pathname: '/grades/submit',
+            props: {
+                CourseID: this.state.CourseID,
+                CourseName: this.state.CourseName
+            }
+        })
+    }
+
     getRedirectionButton =() => {
         if(localStorage.getItem("role") === "Instructor"){
-            return (<button className="btn btn-primary">Grade</button>)
+            return (<button className="btn btn-primary" onClick={this.gradeRedirect}>Grade</button>)
         }else{
             return (<button className="btn btn-primary">Add to cart</button>)
         }

@@ -5,6 +5,7 @@ import (
 	service "GradingMS/go/service"
 	"GradingMS/go/util"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -28,6 +29,7 @@ func SubmitGradeHandler(formatter *render.Render) http.HandlerFunc {
 		var grade model.Grade
 		_ = json.NewDecoder(req.Body).Decode(&grade)
 		service.SubmitGrade(&grade)
+		//	service.UpsertGrade(&grade)
 		formatter.JSON(w, http.StatusOK, struct {
 			Success bool
 			Message string
@@ -88,4 +90,24 @@ func createQueryFilter(req *http.Request) (*model.GradeQueryFilter, error) {
 		}
 	}
 	return &filter, nil
+}
+
+//MakePaymentHandler returns a Handler for making a payment
+func MakePaymentHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		log.Printf("Make payment handler function")
+		fmt.Println("Make payment handler router function")
+		var payment model.Payment
+		_ = json.NewDecoder(req.Body).Decode(&payment)
+		transactionID, _ := service.MakePayment(&payment)
+		formatter.JSON(w, http.StatusOK, struct {
+			Success       bool
+			Message       string
+			TransactionID int
+		}{
+			true,
+			"Fee Payment Transaction Recorded Successfully",
+			transactionID,
+		})
+	}
 }
