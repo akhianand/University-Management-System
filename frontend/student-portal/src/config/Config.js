@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:8080"
+const baseURL = "https://k312y55892.execute-api.us-east-1.amazonaws.com/prod"
 
 export function getURL (route) {
     if(route.startsWith("/")){
