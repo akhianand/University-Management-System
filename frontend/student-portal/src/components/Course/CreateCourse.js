@@ -215,7 +215,7 @@ class CreateCourse extends Component{
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <button type="submit" className="btn btn-primary px-5">Search</button>
+                                                        <button type="submit" className="btn btn-primary px-5">Create Course</button>
                                                     </form>
                                                 </div>
                                             </div>

@@ -7,7 +7,7 @@ kops create cluster \
 --associate-public-ip=false \
 --cloud=aws \
 --master-count=1 \
---master-size=t2.micro \
+--master-size=t2.medium \
 --master-zones=us-east-1a \
 --networking=calico \
 --node-count=3 \
@@ -15,6 +15,18 @@ kops create cluster \
 --topology=private \
 --zones=us-east-1a,us-east-1b,us-east-1c
 
-Command to install Kafka on Kubernetes:
+Initialize Riak counter:
 
-helm install my-kafka incubator/kafka
+curl -XPUT http://172.20.39.6:8098/buckets/search-counter/props \
+  -H "Content-Type: application/json" \
+  -d "{\"props\" : {\"allow_mult\": true}}"
+
+curl -XPOST http://172.20.39.6:8098/buckets/search-counter/counters/count -d "1"
+
+curl http://172.20.39.6:8098/buckets/search-counter/counters/count
+
+
+Starting Kafka Server:
+
+./bin/zookeeper-server-start.sh config/zookeeper.properties &
+./bin/kafka-server-start.sh config/server.properties &

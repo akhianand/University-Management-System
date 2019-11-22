@@ -3,9 +3,12 @@ package service
 import (
 	model "EnrollmentMS/go/model"
 	"EnrollmentMS/go/util"
+	"fmt"
 	"log"
 	"os"
-	//"encoding/json"
+	"encoding/json"
+	"strconv"
+	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -73,9 +76,36 @@ func EnrollCourse(studentId int, courseId int) (error) {
 		util.FailOnError(err, "Mongo Update Error")
 	}
 	
+	// publish course to queue
+	publishCourseEnrollment(courseEnrollment)
 	return nil
 	// add course to enrollmentCollection
 
+}
+
+func publishCourseEnrollment(courseEnrollment model.CourseEnrollment) {
+	log.Printf("Inside Publish Course enrollment service method")
+	jsonString, err := json.Marshal(courseEnrollment)
+	courseEnrollmentString := string(jsonString)
+	fmt.Println("Logging enrollment to kafka StudentID:" + strconv.Itoa(courseEnrollment.StudentId))
+	log.Printf("Logging enrollment to kafka StudentID:" + strconv.Itoa(courseEnrollment.StudentId))
+	// p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": os.Getenv("KAFKA_SERVER")})
+	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "54.144.3.194:9092"})
+
+	if err != nil {
+		fmt.Println("Kafka fee submission message")
+		util.LogErrorWithoutFailing(err, "Kafka fee submission message")
+	}
+
+	// Produce messages to topic (asynchronously)
+	// topic := os.Getenv("FEE_PAID_TOPIC")
+	topic := "ENROLLMENT_TOPIC"
+	for _, word := range []string{string(courseEnrollmentString)} {
+		p.Produce(&kafka.Message{
+			TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+			Value:          []byte(word),
+		}, nil)
+	}	
 }
 
 func GetEnrollments(studentId int) ([]model.CourseEnrollment) {
@@ -98,6 +128,54 @@ func GetEnrollments(studentId int) ([]model.CourseEnrollment) {
 	return enrolledCourses	
 }
 
+func GetAllEnrollments() ([]model.CourseEnrollment) {
+	log.Printf("Get All Enrollments service method")
+
+	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
+	if err != nil {
+		//this will crash the server
+		util.FailOnError(err, "Mongo Dial Error")
+	}
+	defer session.Close()
+	session.SetMode(mgo.Monotonic, true)	
+	c := session.DB(os.Getenv("DATABASE")).C("enrollment")
+	
+	var enrollments []model.CourseEnrollment = []model.CourseEnrollment{}
+
+	err = c.Find(bson.M{}).All(&enrollments)
+	
+	if err != nil {
+		util.FailOnError(err, "Mongo find Error ")
+	}
+	
+	return enrollments
+}
+
+func GetEnrollmentsByCourse(courseId int) ([]model.CourseEnrollment) {
+	log.Printf("Get All Enrollments service method")
+
+	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
+	if err != nil {
+		//this will crash the server
+		util.FailOnError(err, "Mongo Dial Error")
+	}
+	defer session.Close()
+	session.SetMode(mgo.Monotonic, true)	
+	c := session.DB(os.Getenv("DATABASE")).C("enrollment")
+	
+	var enrollments []model.CourseEnrollment = []model.CourseEnrollment{}
+
+	err = c.Find(bson.M{"CourseId" : courseId}).All(&enrollments)
+	
+	if err != nil {
+		util.FailOnError(err, "Mongo find Error ")
+	}
+	
+	return enrollments
+}
+
+
+
 func DropCourse(studentId int, courseId int) (error) {
 	log.Printf("Drop Course service method")
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
@@ -118,4 +196,71 @@ func DropCourse(studentId int, courseId int) (error) {
 
 	return nil
 
+}
+
+func updateFeePayment(studentId int, courseId int) (error) {
+
+	log.Printf("Inside Update Fee Payment service method ", studentId , courseId)		
+	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
+	if err != nil {
+		//this will crash the server
+		util.FailOnError(err, "Mongo Dial Error")
+	}
+	defer session.Close()
+	session.SetMode(mgo.Monotonic, true)	
+	c := session.DB(os.Getenv("DATABASE")).C("enrollment")
+
+	// get course Enrollment 
+	var courseEnrollment model.CourseEnrollment
+	err = c.Find(bson.M{"StudentId": studentId, "CourseId": courseId}).One(&courseEnrollment)
+	
+	// update isEnrolled
+	courseEnrollment.HasFeesPaid = true	
+	err = c.Update(bson.M{"StudentId": studentId, "CourseId": courseId}, courseEnrollment)
+
+	if err != nil {
+		util.FailOnError(err, "Mongo Update Error")
+	}
+	
+	return nil
+
+
+}
+
+func StartKafkaConsumer() (error){
+	log.Printf("Inside StartKafka Consumer")
+	c, err := kafka.NewConsumer(&kafka.ConfigMap{
+		"bootstrap.servers": "54.144.3.194:9092",
+		"group.id":          "myGroup",
+		"auto.offset.reset": "earliest",
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	c.SubscribeTopics([]string{"ENROLLMENT_TOPIC"}, nil)
+
+	for {
+		log.Printf("Listening to queue...")
+		msg, err := c.ReadMessage(-1)
+		if err == nil {
+			// fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
+			log.Printf("Message from kafka ", string(msg.Value))
+			
+			//retrieve object from message
+			bytes := []byte(string(msg.Value))
+			var data model.CourseEnrollment
+			json.Unmarshal(bytes, &data)			
+			log.Printf("courseEnrollment from kafka ", data)
+			updateFeePayment(data.StudentId, data.CourseId)
+
+		} else {
+			// The client will automatically try to recover from all errors.
+			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
+		}
+	}
+
+	c.Close()
+	return nil
 }
