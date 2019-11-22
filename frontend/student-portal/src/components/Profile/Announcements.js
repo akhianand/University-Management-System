@@ -5,7 +5,7 @@ import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import SidePane from '../SidePane/SidePane'
 
-import { API_URL, API_PORT } from "./config.js";
+import {getURL} from './../../config/Config'
 class Announcement extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +17,7 @@ class Announcement extends Component {
   }
 
   getUserObject() {
-    let url = `${API_URL}/profile?UserID=${localStorage.getItem("userid")}`;
+    let url = getURL(`/profile?UserID=${localStorage.getItem("userid")}`);
     console.log(url);
     axios
       .get(url)
@@ -60,9 +60,9 @@ class Announcement extends Component {
                       };
                       axios
                         .delete(
-                          `${API_URL}/announcement?UserID=${localStorage.getItem(
+                          getURL(`/announcement?UserID=${localStorage.getItem(
                             "userid"
-                          )}`,
+                          )}`),
                           { data: x }
                         )
                         .then(response => {

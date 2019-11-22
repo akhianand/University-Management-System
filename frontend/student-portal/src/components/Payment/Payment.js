@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
-import { enrollmentServiceURL } from '../../config/Config';
+import { getURL } from '../../config/Config';
 
 class Payment extends Component {
     
@@ -11,7 +11,8 @@ class Payment extends Component {
             studentId : "",
             studentName : "",
             departmentName : "",
-            feesAmount : 0
+            feesAmount : 0,
+            enrolledCourses : []
         }
 
         //bind
@@ -20,7 +21,7 @@ class Payment extends Component {
     componentDidMount() {
         let studentId = this.props.match.params.studentId;
 
-        axios.get(enrollmentServiceURL + '/enrollment?StudentId=' + studentId)
+        axios.get(getURL('/enrollment?StudentId=' + studentId))
         .then((res) => {
             let enrolledCourses = res.data;
             let fees = 0;
@@ -39,9 +40,36 @@ class Payment extends Component {
             }
 
             this.setState({
-                feesAmount : fees
+                feesAmount : fees,
+                enrolledCourses : enrolledCourses
             });
         })
+    }
+
+    processPayment = () => {
+        // 
+        let courseData = this.state.enrolledCourses;
+        for(let i=0;i<courseData.length;i++) {
+            /**
+             * "studentid" : 430,
+                "studentname" : "Rajat Chaurasia",
+                "courseid" : 275,
+                "term" : "Spring 2020",
+                "fees" : 6000.0
+             */
+            
+            let data = {
+                "studentid" : courseData[i].StudentId,
+                "studentname" : courseData[i].StudentName,
+                "courseid" : courseData[i].CourseId,
+                "term" : courseData[i].Term,
+                "fees" : courseData[i].Fees
+            }
+            axios.post(getURL('/pay') , data)
+                .then((res) => {                    
+                console.log('Payment processing successful');
+                });
+        }
     }
     
     render() {        
@@ -75,7 +103,7 @@ class Payment extends Component {
                                 </tbody>
                             </table>
                             <div className="text-align-center mt-5">
-                                <button type="button" className="btn btn-lg btn-success" ><b>Pay Due Amount</b></button>
+                                <button type="button" className="btn btn-lg btn-success" onClick={()=>this.processPayment()}><b>Pay Due Amount</b></button>
                             </div>
                         </div>
                     </div>

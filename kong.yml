@@ -1,0 +1,248 @@
+# ------------------------------------------------------------------------------
+# This is an example file to get you started with using
+# declarative configuration in Kong.
+# ------------------------------------------------------------------------------
+
+# Metadata fields start with an underscore (_)
+# Fields that do not start with an underscore represent Kong entities and attributes
+
+# _format_version is mandatory,
+# it specifies the minimum version of Kong that supports the format
+
+_format_version: "1.1"
+
+# Each Kong entity (core entity or custom entity introduced by a plugin)
+# can be listed in the top-level as an array of objects:
+
+services:
+services:
+- name: course-service
+  url: https://k312y55892.execute-api.us-east-1.amazonaws.com/prod/courses
+  # Entities can store tags as metadata
+  tags:
+  - course
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: course-route
+    paths:
+    - /courses
+
+- name: profile-service
+  url: https://fkj81t4dqi.execute-api.us-east-1.amazonaws.com/prod/profile
+  # Entities can store tags as metadata
+  tags:
+  - profile
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: profile-route
+    paths:
+    - /profile
+
+- name: login-service
+  url: https://fkj81t4dqi.execute-api.us-east-1.amazonaws.com/prod/login
+  # Entities can store tags as metadata
+  tags:
+  - login
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: login-route
+    paths:
+    - /login
+
+- name: signup-service
+  url: https://fkj81t4dqi.execute-api.us-east-1.amazonaws.com/prod/signup
+  # Entities can store tags as metadata
+  tags:
+  - signup
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: signup-route
+    paths:
+    - /signup
+
+- name: announcement-service
+  url: https://fkj81t4dqi.execute-api.us-east-1.amazonaws.com/prod/announcement
+  # Entities can store tags as metadata
+  tags:
+  - announcement
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: announcement-route
+    paths:
+    - /announcement
+
+
+- name: click-count-service
+  url: http://a0b6338270aa911eab7a00ef2f3a9be2-1765409943.us-east-1.elb.amazonaws.com/click-count
+  # Entities can store tags as metadata
+  tags:
+  - click-count
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: click-count-route
+    paths:
+    - /click-count
+
+- name: best-performing-courses-service
+  url: http://a0b6338270aa911eab7a00ef2f3a9be2-1765409943.us-east-1.elb.amazonaws.com/best-performing-courses
+  # Entities can store tags as metadata
+  tags:
+  - best-performing-courses
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: best-performing-courses-route
+    paths:
+    - /best-performing-courses
+
+- name: publish-announcement-service
+  url: http://a0b6338270aa911eab7a00ef2f3a9be2-1765409943.us-east-1.elb.amazonaws.com/publish-announcement
+  # Entities can store tags as metadata
+  tags:
+  - publish-announcement
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: publish-announcement-route
+    paths:
+    - /publish-announcement
+
+- name: addToCart-service
+  url: http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com/addToCart
+  # Entities can store tags as metadata
+  tags:
+  - addToCart
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: addToCart-route
+    paths:
+    - /addToCart
+
+- name: cart-service
+  url: http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com/cart
+  # Entities can store tags as metadata
+  tags:
+  - cart
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: cart-route
+    paths:
+    - /cart
+
+- name: enroll-service
+  url: http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com/enroll
+  # Entities can store tags as metadata
+  tags:
+  - enroll
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: enroll-route
+    paths:
+    - /enroll
+
+- name: enrollment-service
+  url: http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com/enrollment
+  # Entities can store tags as metadata
+  tags:
+  - enrollment
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: enrollment-route
+    paths:
+    - /enrollment
+
+- name: drop-service
+  url: http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com/drop
+  # Entities can store tags as metadata
+  tags:
+  - drop
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: drop-route
+    paths:
+    - /drop
+
+- name: getEnrollmentsByCourse-service
+  url: http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com/getEnrollmentsByCourse
+  # Entities can store tags as metadata
+  tags:
+  - getEnrollmentsByCourse
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: getEnrollmentsByCourse-route
+    paths:
+    - /getEnrollmentsByCourse
+
+
+- name: grade-service
+  url: https://t9c1rm9azg.execute-api.us-east-1.amazonaws.com/prod/grade
+  # Entities can store tags as metadata
+  tags:
+  - grade
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: grade-route
+    paths:
+    - /grade
+
+- name: grades-service
+  url: https://t9c1rm9azg.execute-api.us-east-1.amazonaws.com/prod/grades
+  # Entities can store tags as metadata
+  tags:
+  - grades
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: grades-route
+    paths:
+    - /grades
+
+- name: pay-service
+  url: https://t9c1rm9azg.execute-api.us-east-1.amazonaws.com/prod/pay
+  # Entities can store tags as metadata
+  tags:
+  - pay
+  # Entities that have a foreign-key relationship can be nested:
+  routes:
+  - name: pay-route
+    paths:
+    - /pay
+#   plugins:
+#   - name: key-auth
+# - name: another-service
+#   url: https://example.org
+
+# routes:
+# - name: another-route
+#   # Relationships can also be specified between top-level entities,
+#   # either by name or by id
+#   service: example-service
+#   hosts: ["hello.com"]
+
+# consumers:
+# - username: example-user
+#   # Custom entities from plugin can also be specified
+#   # If they specify a foreign-key relationshp, they can also be nested
+#   keyauth_credentials:
+#   - key: my-key
+#   plugins:
+#   - name: rate-limiting
+#     _comment: "these are default rate-limits for user example-user"
+#     config:
+#       policy: local
+#       second: 5
+#       hour: 10000
+
+# When an entity has multiple foreign-key relationships
+# (e.g. a plugin matching on both consumer and service)
+# it must be specified as a top-level entity, and not through
+# nesting.
+
+# plugins:
+# - name: rate-limiting
+#   consumer: example-user
+#   service: another-service
+#   _comment: "example-user is extra limited when using another-service"
+#   config:
+#     hour: 2
+#   # tags are for your organization only and have no meaning for Kong:
+#   tags:
+#   - extra_limits
+#   - my_tag

@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type SearchMessage struct {
@@ -76,11 +77,38 @@ func clickCount(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Printf("The HTTP request to get counter value failed with error %s\n", err)
 		} else {
+
 			data, _ := ioutil.ReadAll(response.Body)
-			fmt.Println(string(data))
+			courseInfoVTag, err := http.Get("http://172.20.39.6:8098/buckets/click-counters/keys/" + key)
+
+			if err != nil {
+				fmt.Printf("The HTTP request to get courseInfo from Riak failed with error %s\n", err)
+			}
+
+			courseInfoVTagData, _ := ioutil.ReadAll(courseInfoVTag.Body)
+
+			splits := strings.Split(string(courseInfoVTagData), "\n")
+			vTag := splits[len(splits) - 2]
+
+			courseInfoResponse, err := http.Get("http://172.20.39.6:8098/buckets/click-counters/keys/" + key + "?vtag=" + vTag)
+
+			if err != nil {
+				fmt.Printf("The HTTP request to get courseInfo with vTag failed with error %s\n", err)
+			}
+
+			courseInfoData, _ := ioutil.ReadAll(courseInfoResponse.Body)
+
+			courseInfo := SearchMessage{}
+
+			err = json.Unmarshal(courseInfoData, &courseInfo)
+
+			if err != nil {
+				fmt.Println("Unmarshalling of courseInfo failed.\n", err)
+			}
 			clickBody := ClickBody {
 				CourseID: key,
 				Clicks: string(data),
+				CourseName: courseInfo.CourseName,
 			}
 			clickResponse.Response = append(clickResponse.Response, clickBody)
 		}
@@ -91,7 +119,7 @@ func clickCount(w http.ResponseWriter, r *http.Request) {
 }
 
 func bestPerformingCourses(w http.ResponseWriter, r *http.Request) {
-
+	
 }
 
 func publishAnnouncement(w http.ResponseWriter, r *http.Request) {
@@ -205,8 +233,6 @@ func consumeMessages() {
 			}
 
 			client := &http.Client{}
-			fmt.Println(data.CourseID)
-			fmt.Println("http://172.20.39.6:8098/buckets/click-counters/keys/" + strconv.Itoa(data.CourseID))
 			req, err := http.NewRequest(http.MethodPut, "http://172.20.39.6:8098/buckets/click-counters/keys/"+ strconv.Itoa(data.CourseID), bytes.NewBuffer(msg.Value))
 			if err != nil {
 				panic(err)
