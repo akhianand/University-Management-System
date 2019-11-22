@@ -59,10 +59,6 @@ type IDGenerator struct {
 	Key string `bson:"key"`
 }
 
-// var mongoURL string = os.Getenv("MONGO_URL")
-// var database string = os.Getenv("DATABASE")
-// var collection string = os.Getenv("COLLECTION")
-
 var mongoURL string = "mongodb://admin:password@ec2-3-232-230-241.compute-1.amazonaws.com:27017/admin"
 var database string = "universityportal"
 var collection string = "users"
