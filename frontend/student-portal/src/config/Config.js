@@ -7,4 +7,5 @@ export function getURL (route) {
     return baseURL + "/" +route;
 }
 
+export const gradingServiceURL = "http://localhost:8082";
 export const enrollmentServiceURL = "http://enrollment-nlb-047c901a12a29dbf.elb.us-west-2.amazonaws.com";

@@ -20,5 +20,5 @@ func main() {
 	log.Printf("Server started")
 	router := ctrl.NewRouter()
 	log.Printf("Grading Microservice main method")
-	log.Fatal(http.ListenAndServe(":8080", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
+	log.Fatal(http.ListenAndServe(":8082", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }

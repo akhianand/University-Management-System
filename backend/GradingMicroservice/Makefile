@@ -11,6 +11,7 @@ go-get:
 	go get -v gopkg.in/mgo.v2
 	go get -v gopkg.in/mgo.v2/bson
 	go get -v github.com/confluentinc/confluent-kafka-go/kafka
+	go get -v github.com/gorilla/handlers
 build:
 	go build GradingMS
 
@@ -27,7 +28,7 @@ docker-build:
 	docker build -t grading_ms .
 
 startup: network-create
-	docker-compose scale node=2
+	docker-compose scale node=1
 
 teardown:
 	docker-compose down	

@@ -9,13 +9,22 @@ class SubmitGrade extends Component {
         super(props);
         this.state = {
             enrollments: [],
-            errorMessage: null
+            errorMessage: null,
+            CourseID: null,
+            CourseName: null
         }
+        if (this.props.location && this.props.location.props && this.props.location.props.CourseID) {
+            this.state.CourseID = this.props.location.props.CourseID;
+        }
+        if (this.props.location && this.props.location.props && this.props.location.props.CourseName) {
+            this.state.CourseName = this.props.location.props.CourseName;
+        }
+        console.log({state: this.state})
     }
     componentDidMount() {
-        const viewGradesMockURL = "http://mysjsu.free.beeceptor.com/enrollments";
+        const getEnrollmentsURL = "https://be860ceb-9e57-4804-be7b-a3d02d65273a.mock.pstmn.io/enrollments";
         try {
-            axios.get(viewGradesMockURL)
+            axios.get(getEnrollmentsURL)
                 .then((res) => {
                     console.log(res.data)
                     this.setState({
@@ -54,7 +63,7 @@ class SubmitGrade extends Component {
                         <div className="main-container col-8 bg-white p-3">
                             <div className="container mt-5">
                                 <div className="text-align-center mb-5 enrollment-cart-heading">
-                                    <h3>Enrolled Students</h3>
+                                    <h3>Enrolled Students in {this.state.CourseName}</h3>
                                 </div>
                                 <table className="table table-bordered table-striped">
                                     <thead>
