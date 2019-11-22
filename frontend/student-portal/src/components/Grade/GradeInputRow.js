@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { gradingServiceURL } from '../../config/Config';
+import { getURL } from '../../config/Config';
 
 class GradeInputRow extends Component {
     constructor(props) {
