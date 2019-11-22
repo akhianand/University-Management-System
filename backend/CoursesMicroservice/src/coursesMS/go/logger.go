@@ -12,7 +12,10 @@ func Logger(inner http.Handler, name string) http.Handler {
 		start := time.Now()
 
 		inner.ServeHTTP(w, r)
-
+		if r.RequestURI == "/ping" {
+			// skipping the logs for ping as load balancer will hit it continously, which will cluter the logs
+			return
+		}
 		log.Printf(
 			"%s %s %s %s",
 			r.Method,
