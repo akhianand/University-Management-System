@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { API_URL } from "./config.js";
+
 import Auth from "./Auth";
-import { Link } from "react-router-dom";
 import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
 
