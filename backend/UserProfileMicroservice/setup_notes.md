@@ -108,6 +108,58 @@ Configue Replica Set for Shard Server
 ```
 rs.initiate(
 	{
+		_id: "crs",
+		configsvr: true,
+		members: [
+			{ _id : 0, host : "<IP>:27019"},
+			{ _id : 1, host : "<IP>:27019"}
+		]
+	}
+)
+```
+
+### Shard Servers
+
+SSH into 4 Config Server Instances via JumpBox
+2 replicas for each shard.
+
+```
+sudo vi /etc/mongod.conf
+```
+
+Change the following 
+
+```
+storage
+  dbpath: /data/db
+
+net:
+ port: 27018
+ #bindIp: .....
+
+replication:
+  replSetName: rs0 / rs1
+
+sharding:
+  clusterRole: shardsvr
+```
+
+Start
+
+```
+sudo mongod --config /etc/mongod.conf --logpath /var/log/mongodb/mongod.log
+```
+Run
+
+```
+mongo -port 27019
+```
+
+Configue Replica Set for Shard Server
+
+```
+rs.initiate(
+	{
 		_id: "rs0", (rs1 for 2nd shard replicas)
 		members: [
 			{ _id : 0, host : "<IP>:27018"},
