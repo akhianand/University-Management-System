@@ -44,13 +44,13 @@ make start
 
 ### How to run service on Docker
 * build docker image
-  ```shell
-  make docker-build
-  ```
+```shell
+docker build -t <userprofile>/userprofilems:<version> .
+```
 * run docker image 
-  ```shell
-  docker run --restart always --name userprofilems -td -p 8000:8000 akhianand/userprofilems:v1
-  ```
+```shell
+docker run --restart always --name userprofilems -td -p 8000:8000 <userprofile>/userprofilems:<version>
+```
   
 ## Routes
 
