@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { API_URL } from "./config.js";
+import { getURL } from "./../../config/Config";
 import Auth from "./Auth";
 import { Link } from "react-router-dom";
 import Header from '../Header/Header';
@@ -58,7 +58,7 @@ class Profile extends Component {
       }
     };
 
-    let url = `${API_URL}/profile?UserID=${localStorage.getItem("userid")}`;
+    let url = getURL(`/profile?UserID=${localStorage.getItem("userid")}`);
     axios
       .put(url, update)
       .then(response => {
@@ -81,7 +81,7 @@ class Profile extends Component {
   };
 
   componentDidMount() {
-    let url = `${API_URL}/profile?UserID=${localStorage.getItem("userid")}`;
+    let url = getURL(`/profile?UserID=${localStorage.getItem("userid")}`);
     console.log(url);
     axios
       .get(url)
