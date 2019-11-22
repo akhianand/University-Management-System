@@ -48,4 +48,10 @@ var routes = model.Routes{
 		"/grades",
 		GetGradesHandler,
 	},
+	model.Route{
+		"MakePaymentHandler",
+		"POST",
+		"/pay",
+		MakePaymentHandler,
+	},
 }
