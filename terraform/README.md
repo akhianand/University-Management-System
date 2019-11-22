@@ -17,13 +17,17 @@ kops create cluster \
 
 Initialize Riak counter:
 
-curl -XPUT http://172.20.39.6:8098/buckets/search-counter/props \
+curl -XPUT http://172.20.39.6:8098/buckets/click-counters/props \
   -H "Content-Type: application/json" \
   -d "{\"props\" : {\"allow_mult\": true}}"
 
-curl -XPOST http://172.20.39.6:8098/buckets/search-counter/counters/count -d "1"
+curl -XPOST http://172.20.39.6:8098/buckets/click-counters/counters/count -d "1"
 
-curl http://172.20.39.6:8098/buckets/search-counter/counters/count
+curl http://172.20.39.6:8098/buckets/click-counters/counters/count
+
+
+
+curl -XPUT -d '{"CourseID":"281", "CourseName": "Cloud Tech"}' -H "Content-Type: application/json" http://172.20.39.6:8098/buckets/click-counters/keys/281?returnbody=true
 
 
 Starting Kafka Server:

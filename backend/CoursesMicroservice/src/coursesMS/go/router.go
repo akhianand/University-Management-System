@@ -84,6 +84,7 @@ func NewRouter() *mux.Router {
 	fmt.Println("COLLECTION:", collection)
 	fmt.Println("KAFKA_SERVER", kafkaServer)
 	fmt.Println("COURSE_CLICK_TOPIC", kafkaClickTopic)
+	fmt.Println("ENROLLMENT_TOPIC", kafkaEnrollmentTopic)
 	// session, err := mgo.Dial(mongoURL)
 	// failOnError(err, "Mongo Dial Error")
 	// defer session.Close()

@@ -1,136 +1,242 @@
 # User Profile Microservice
+## Table of contents
+
+* [Installation](#installation)
+  * [Prerequisite](#prerequisite)
+  * [How to run service on Localhost](#how-to-run-service-on-localhost)
+  * [How to run service on Docker](#how-to-run-service-on-docker)
+  * [Setup Mongo Cluster](https://github.com/nguyensjsu/fa19-281-helloworld/blob/master/backend/UserProfileMicroservice/setup_notes.md)
+* [Routes](#routes)
+  * [GET Ping](#get-ping)
+  * [POST Signup](#post-signup)
+  * [PUT User](#put-user)
+  * [GET User](#get-user)
+  * [DELETE Announcement](#delete-announcement)
 
 
-## How to Run
+## Installation
 
-Set go path to UserProfileMicroservice directory
+### Prerequisite
+* Install golang [https://golang.org/doc/install](https://golang.org/doc/install)
+* Install Docker Engine
 
+### How to run service on localhost
+
+* set go path to UserProfileMicroservice directory
 ```shell
 source set-gopath.sh
 ```
-Clean workspace
+* Clean Workspace
 ```shell
 make clean
 ```
-Get the dependencies
+* Get the Dependencies
 ```shell
 make go-get
 ```
-build courses package
+* Build Users Package
 ```shell
 make build
 ```
-
-start courses microservice server
+* Start 
 ```shell
 make start
 ```
 
+### How to run service on Docker
+* build docker image
+```shell
+docker build -t <userprofile>/userprofilems:<version> .
+```
+* run docker image 
+```shell
+docker run --restart always --name userprofilems -td -p 8000:8000 <userprofile>/userprofilems:<version>
+```
+  
+## Routes
 
-## API
+The Following Routes describe the exposed API Edndpoints for performing User related Uperations
 ### GET Ping
  **/ping** : GET route for health check
 
   **Response** 
   ```json 
-	{
-		"Message": "Courses API is alive!"
-	}
+  {
+   	"Message": "Users API is alive!"
+  }
   ```
 ### POST Signup
- **/signup** : POST route to create a user (user id will be auto increamented).
-
-  **Request Body**
+ **/signup** : POST route to create a new user. A new UserID is assigned for each new Registration
+ 
+  **Request**
   ```json
-	{
-		"firstname": "Akhilesh",
-		"lastname": "Anand",
-		"role" : "student",
-		"email" : "akhilesh.anand@sjsu.com",
-		"password" : "abc123"
-	}
+  {
+	"firstname": "John",
+	"lastname": "Doe",
+	"role" : "student",
+	"email" : "johndoe@gmail.com",
+	"password" : "abc123"
+  }
   ```
+  **NOTE** : "role" can be either  *student* / *faculty*. 
+
   **Response**
   ```json
-	{
-		"Success": true,
-		"Message": "Storing User to Database"
-	}
+  {
+	"Success": true,
+	"Message": "Storing User to Database"
+  }
   ```
 
 ### POST Login
- **/login** : POST route to login a user.
-
-  **Request Body**
+ **/login** : POST route to login to profile.
+ 
+  **Request**
   ```json
-	{
-		"email" : "akhilesh.anand@sjsu.edu",
-		"password" : "abc123"
-	}
-  ```
-  **Response**
-  ```json
-	{
-		"UserID": 10000001,
-		"Firstname": "Akhilesh",
-		"Lastname": "Anand",
-		"Role": "student",
-		"Email": "akhileshmalini@gmail.com",
-		"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
-		"Image": ""
-	}
-  ```
-
-### GET Profile
- **/profile?UserID=** : GET route to fetch user by ID
-  
-  **Query Parameters**
-  ```
-	UserID:     int 
-  ```
-  **Response**
-  ```json
-	{
-		"UserID": 10000001,
-		"Firstname": "Akhilesh",
-		"Lastname": "Anand",
-		"Role": "student",
-		"Email": "akhileshmalini@gmail.com",
-		"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
-		"Image": ""
-	}
+  {
+	"email" : "johndoe@gmail.com",
+	"password" : "abc123"
+  }
   ```
   
+  **Response**
+  ```json
+  {
+	"UserID": 10000000,
+	"Firstname": "John",
+	"Lastname": "Doe",
+	"Role": "student",
+	"Email": "johndoe@gmail.com",
+	"Password": "",
+	"Image": "",
+	"Address": {
+		"AddressLine1": "",
+		"AddressLine2": "",
+		"City": "",
+		"State": "",
+		"Zip": ""
+	},
+	"Department": "",
+	"Announcements": []
+  }
+  ```
+  **NOTE** : The Password field has been intentionally blanked. Password is hashed before being stored into the database and is never part of the response. 
+
 
 ### PUT User
- **/profile?UserID=** : PUT route to update user by ID
+ **/profile?UserID=** : PUT route to update a user specified by user id
+   
+  **Query Parameters**
+  ```
+  UserID:   exact match  
+  ```
+
+   **Request** 
+   ```json
+   {
+		"UserID": 10000000,
+		"Firstname": "John",
+		"Lastname": "Doe",
+		"Role": "student",
+		"Email": "johndoe@gmail.com",
+		"Password": "",
+		"Image": "",
+		"Address": {
+			"AddressLine1": "502 Divisadero",
+			"AddressLine2": "Apt 101",
+			"City": "San Francisco",
+			"State": "CA",
+			"Zip": "94101"
+		},
+		"Department": "CMPE",
+		"Announcements": []
+	}
+   ```
+   
+   **Response**
+
+   ```json
+   {
+		"UserID": 10000000,
+		"Firstname": "John",
+		"Lastname": "Doe",
+		"Role": "student",
+		"Email": "johndoe@gmail.com",
+		"Password": "",
+		"Image": "",
+		"Address": {
+			"AddressLine1": "502 Divisadero",
+			"AddressLine2": "Apt 101",
+			"City": "San Francisco",
+			"State": "CA",
+			"Zip": "94101"
+		},
+		"Department": "CMPE",
+		"Announcements": []
+	}
+   ```
+
+
+### GET User
+ **/profile?UserID=** : GET route to fetch User matching unique UserID
   
   **Query Parameters**
   ```
-	UserID:     int 
+  UserID:   exact match  
   ```
-  **Request Body**
-  ```json
-	{
-		"UserID": 10000001,
-		"Firstname": "Akhilesh",
-		"Lastname": "Anand",
-		"Role": "student",
-		"Email": "akhileshmalini@gmail.com",
-		"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
-		"Image": "Image"
-	}
-  ```
-
   **Response**
   ```json
 	{
-		"UserID": 10000001,
-		"Firstname": "Akhilesh",
-		"Lastname": "Anand",
+		"UserID": 10000000,
+		"Firstname": "John",
+		"Lastname": "Doe",
 		"Role": "student",
-		"Email": "akhileshmalini@gmail.com",
-		"Password": "$2a$04$CaWSAdaTvZTWpKf7Z7KKs.g4MjvQh5W1jOzSGgGdK/VfKy1rC9f4m",
-		"Image": "Image"
+		"Email": "johndoe@gmail.com",
+		"Password": "",
+		"Image": "",
+		"Address": {
+			"AddressLine1": "502 Divisadero",
+			"AddressLine2": "Apt 101",
+			"City": "San Francisco",
+			"State": "CA",
+			"Zip": "94101"
+		},
+		"Department": "CMPE",
+		"Announcements": [
+			{
+				"announcement" : "Tenth Announcement"
+			},
+			{
+				"announcement" : "Eleventh Announcement"
+			}
+		]
 	}
+  ```
+   
+
+
+### DELETE Announcement
+
+ **/announcement?UserID=** : DELETE route to delete an Announcement. 
+
+ **Note** : Announcements are added to User object in the backend through means of Kafka.
+
+ **Query Parameters**
+  ```
+  UserID:   exact match  
+  ```
+
+  **Request** 
+   ```json
+  {
+	  "announcement": "Tenth Announcement"
+  }
+  ```
+  
+  **Response**
+  ```json
+{
+  "Success": true,
+  "Message": "Announcement Sucessfully Removed"
+}
   ```
