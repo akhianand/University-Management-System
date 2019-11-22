@@ -3,6 +3,7 @@ import LHeader from "./LHeader";
 import axios from "axios";
 import { API_URL, API_PORT } from "./config.js";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 
 class Signup extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Signup extends Component {
 	}else {
 
     axios
-      .post(`${API_URL}:${API_PORT}/signup`, signup)
+      .post(`${API_URL}/signup`, signup)
       .then(response => {
 		  console.log(response);
         if (response.status === 200) {
@@ -206,6 +207,9 @@ class Signup extends Component {
                           >
                             Register
                           </button>
+						  <br/>
+						  <Link to="/login">Click Here to Login</Link>
+						 
                         </div>
                       </form>
                     </div>
