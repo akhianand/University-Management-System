@@ -14,6 +14,7 @@ import Payment from './Payment/Payment';
 import ViewGrades from './Grade/ViewGrades'
 import SubmitGrade from './Grade/SubmitGrade'
 import Announcement from './Profile/Announcements';
+import Analytics from './AdminDashboard/Analytics';
 
 class Main extends Component {
     render() {
@@ -33,6 +34,7 @@ class Main extends Component {
                 <Route path="/payment/:studentId" component={Payment} />
                 <Route exact path="/grades/view" component={ViewGrades} />
                 <Route exact path="/grades/submit" component={SubmitGrade} />
+                <Route path="/analytics" component={Analytics} />
             </div>
         )
     }
