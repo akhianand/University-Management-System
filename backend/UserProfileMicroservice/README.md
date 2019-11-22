@@ -5,6 +5,7 @@
   * [Prerequisite](#prerequisite)
   * [How to run service on Localhost](#how-to-run-service-on-localhost)
   * [How to run service on Docker](#how-to-run-service-on-docker)
+  * [Setup Mongo Cluster](https://github.com/nguyensjsu/fa19-281-helloworld/blob/master/backend/UserProfileMicroservice/setup_notes.md)
 * [Routes](#routes)
   * [GET Ping](#get-ping)
   * [POST Signup](#post-signup)
