@@ -19,14 +19,14 @@ func AddCourseToCart(cartItem *model.CourseEnrollment) (error) {
 	//session, err := mgo.Dial(os.Getenv("localhost:27017"))
 	if err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Dial Error")
+		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
 	c := session.DB(os.Getenv("DATABASE")).C("enrollment")
 	if err := c.Insert(cartItem); err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Insert Error")
+		util.LogErrorWithoutFailing(err, "Mongo Insert Error")
 	}
 
 	return nil
@@ -231,7 +231,7 @@ func StartKafkaConsumer() (error){
 	log.Printf("Inside StartKafka Consumer")
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": "54.144.3.194:9092",
-		"group.id":          "myGroup",
+		"group.id":          "EnrollmentGroup",
 		"auto.offset.reset": "earliest",
 	})
 
@@ -239,7 +239,7 @@ func StartKafkaConsumer() (error){
 		panic(err)
 	}
 
-	c.SubscribeTopics([]string{"ENROLLMENT_TOPIC"}, nil)
+	c.SubscribeTopics([]string{"PAYMENT_TOPIC"}, nil)
 
 	for {
 		log.Printf("Listening to queue...")
