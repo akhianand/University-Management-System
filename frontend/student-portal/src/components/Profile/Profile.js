@@ -71,10 +71,10 @@ class Profile extends Component {
         }
       })
       .catch(err => {
-        console.log();
+        console.log(err);
         this.setState({
           hasError: true,
-          errorMessage: err.response.data.Message
+          errorMessage: "Ann Error Occoured"
         });
       });
   };

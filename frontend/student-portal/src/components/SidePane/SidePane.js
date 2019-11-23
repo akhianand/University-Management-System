@@ -16,8 +16,8 @@ class SidePane extends Component {
                 <div>
                     <a href="/createcourse" className={"list-group-item list-group-item-action" + (this.state.active ==="Create Course" ?" active":"")}>Create Course</a>
                     <a href="/grades/submit" className={"list-group-item list-group-item-action" + (this.state.active ==="SubmitGrades" ?" active":"")}>Submit Grades</a>
-                    <a href="/announcements" className={"list-group-item list-group-item-action" + (this.state.active ==="Announcements" ?" active":"")}>Accouncements</a>                    
                     <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Admin Dashboard" ?" active":"")}>Admin Dashboard</a>
+					<a href="/addannouncement" className={"list-group-item list-group-item-action" + (this.state.active ==="MakeAccouncements" ?" active":"")}>Make Accouncements</a>                    
                 </div>
             );
         }else{
@@ -40,6 +40,9 @@ class SidePane extends Component {
                         <a href="/" className={"list-group-item list-group-item-action "+ (this.state.active ==="Student Center" ?" active":"") }>Student Center</a>
                         <a href="/profile" className={"list-group-item list-group-item-action" + (this.state.active ==="Profile" ?" active":"")}>Profile</a>
                         <a href="/courses" className={"list-group-item list-group-item-action" + (this.state.active ==="Courses" ?" active":"")}>Courses</a>
+						<a href="/announcements" className={"list-group-item list-group-item-action" + (this.state.active ==="Announcements" ?" active":"")}>Accouncements</a>
+                    
+
                         {this.rolePane()}
                     </div>
                 </div>

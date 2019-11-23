@@ -38,6 +38,7 @@ class Login extends Component {
 			  localStorage.setItem("email", response.data.Email)
 			  localStorage.setItem("role", response.data.Role)
 			  localStorage.setItem("userid", response.data.UserID)
+			  localStorage.setItem("name", `${response.data.Firstname} ${response.data.Lastname}`)
             this.setState({
               userLoggedIn: true,
               hasError: false,
