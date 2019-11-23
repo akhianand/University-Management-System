@@ -41,7 +41,7 @@ class SidePane extends Component {
                         <a href="/" className={"list-group-item list-group-item-action "+ (this.state.active ==="Student Center" ?" active":"") }>Student Center</a>
                         <a href="/profile" className={"list-group-item list-group-item-action" + (this.state.active ==="Profile" ?" active":"")}>Profile</a>
                         <a href="/courses" className={"list-group-item list-group-item-action" + (this.state.active ==="Courses" ?" active":"")}>Courses</a>
-						<a href="/announcements" className={"list-group-item list-group-item-action" + (this.state.active ==="Announcements" ?" active":"")}>Accouncements</a>
+						<a href="/announcements" className={"list-group-item list-group-item-action" + (this.state.active ==="Announcements" ?" active":"")}>Announcements</a>
                     
 
                         {this.rolePane()}

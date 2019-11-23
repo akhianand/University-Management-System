@@ -5,6 +5,7 @@
   * [Prerequisite](#prerequisite)
   * [How to run service on localhost](#how-to-run-service-on-localhost)
   * [How to run service on Docker](#how-to-run-service-on-docker)
+  * [How to run service via kubernetes](#how-to-run-service-via-kubernetes)
 * [Routes](#routes)
   * [GET Ping](#get-ping)
   * [POST Course](#post-course)
@@ -74,6 +75,28 @@ make start
 * teardown the cluster
   ```shell
   make teardown
+  ```
+### How to run service via kubernetes
+* start kafka and zookeeper
+* set environment variables in CoursesMicroservice.yaml
+  ```yaml
+  env:
+  - name: MONGO_URL
+    value: "update mongo url"
+  - name: DATABASE
+    value: "database name"
+  - name: COLLECTION
+    value: "collection name"
+  - name: KAFKA_SERVER
+    value: "kafka server url"
+  - name: COURSE_CLICK_TOPIC
+    value: "kafka topic to publish click stream"
+  - name: ENROLLMENT_TOPIC
+    value: "kafka topic to consume enrollment of students"
+  ```
+* start service via kubernetes
+  ```yaml
+  kubectl apply -f CoursesMicroservice.yaml   
   ```
   
 ## Routes
