@@ -105,11 +105,38 @@ class CourseDetail extends Component{
         })
     }
 
+    handleAddCart = () => {
+        let cartData = {
+            CourseName : this.state.CourseName,
+            CourseId : parseInt(this.state.CourseID),
+            StudentId : parseInt(localStorage.getItem("userid")),
+            StudentName : localStorage.getItem("email"),           
+            Term: this.state.Term,
+            DepartmentName : this.state.DepartmentName,
+            Fees : parseFloat(this.state.Fees)
+        };
+        /**
+         * "CourseName": "Data Mining",
+ "CourseId": 275,
+ "StudentId" : 470,
+ "StudentName" : "Arivoli AE",
+ "Term": "Fall 2019",
+ "DepartmentName": "CMPE",
+ "Fees": 3000
+         */
+        console.log('calling add to cart ', cartData);
+        // axios.defaults.withCredentials=true;
+        axios.post(getURL('/addToCart'),cartData)
+        .then((res) => {
+            console.log('Added to cart successfully');
+        });
+    }
+
     getRedirectionButton =() => {
         if(localStorage.getItem("role") === "Instructor"){
             return (<button className="btn btn-primary" onClick={this.gradeRedirect}>Grade</button>)
         }else{
-            return (<button className="btn btn-primary">Add to cart</button>)
+            return (<button className="btn btn-primary" onClick={this.handleAddCart}>Add to cart</button>)
         }
     }
 
