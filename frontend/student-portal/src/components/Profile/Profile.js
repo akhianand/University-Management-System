@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { getURL } from "./../../config/Config";
 import Auth from "./Auth";
-import { Link } from "react-router-dom";
 import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
 

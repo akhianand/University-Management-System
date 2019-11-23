@@ -230,7 +230,7 @@ func updateFeePayment(studentId int, courseId int) (error) {
 func StartKafkaConsumer() (error){
 	log.Printf("Inside StartKafka Consumer")
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
-		"bootstrap.servers": "54.144.3.194:9092",
+		"bootstrap.servers": "54.91.195.100:9092",
 		"group.id":          "EnrollmentGroup",
 		"auto.offset.reset": "earliest",
 	})
