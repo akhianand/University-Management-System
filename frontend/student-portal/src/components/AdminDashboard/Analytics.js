@@ -24,7 +24,7 @@ class Analytics extends Component {
                 ]
             },
             worstPerformingCourses : {
-                labels: ["Cloud Computing", "Cloud Technologies", "Software Systems Engineering", "Distributed Systems",  "Distributed Computing",""],
+                labels: ["CMPE 99", "CMPE 103", "CMPE 272", "CMPE 100",  "CMPE 281",""],
                 datasets: [
                     {
                         label: "Worst performing courses", data: [3.2, 2.8, 3.0, 2.97, 3.02, 0.0],
