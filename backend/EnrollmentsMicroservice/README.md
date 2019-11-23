@@ -38,15 +38,15 @@ make start
   **Request**
   ```json
   {
- "CourseName": "Data Mining",
- "CourseId": 275,
- "StudentId" : 470,
- "StudentName" : "Arivoli AE",
- "Term": "Fall 2019",
- "DepartmentName": "CMPE",
- "Fees": 3000
-}
-```
+    "CourseName": "Data Mining",
+    "CourseId": 275,
+    "StudentId" : 470,
+    "StudentName" : "Arivoli AE",
+    "Term": "Fall 2019",
+    "DepartmentName": "CMPE",
+    "Fees": 3000
+  }
+  ```
   **Response**
   ```json
   {
@@ -88,5 +88,79 @@ eg. http://localhost:8080/cart?StudentID=430
     "Fees": 3000,
     "IsEnrolled": false,
     "HasFeesPaid": true
-  }]
+  }
+  ]
+
+  ```
+
+
+## POST Enroll Course
+* **/enroll** : POST route to enroll course
+**Request**
   ```json
+  {    
+    "CourseId": 275,
+    "StudentId" : 470,    
+  }
+  ```
+**Response**
+  ```json
+  {
+  "Success": true,
+  "Message": "Course Enrolled Successfully"
+  }
+  ```
+### GET Enrolled Courses 
+* **/enrollment?StudentID=** : GET route to get enrolled courses
+eg. http://localhost:8080/enrollment?StudentID=430
+  
+  **Query Parameters**
+  ```
+  StudentID
+  
+  ```
+  **Response**
+  ```json
+  [
+  {
+    "CourseId": 281,
+    "CourseName": "Cloud Computing",
+    "DepartmentName": "CMPE",
+    "StudentId": 1001,
+    "StudentName": "Arivoli AE",
+    "Term": "Fall 2019",
+    "Fees": 3000,
+    "IsEnrolled": true,
+    "HasFeesPaid": false
+  },
+  {
+    "CourseId": 275,
+    "CourseName": "Enterprise Systems",
+    "DepartmentName": "CMPE",
+    "StudentId": 1001,
+    "StudentName": "Arivoli AE",
+    "Term": "Fall 2019",
+    "Fees": 3000,
+    "IsEnrolled": true,
+    "HasFeesPaid": true
+  }
+  ]
+
+  ```
+
+## POST Drop Course
+* **/enroll** : POST route to drop course
+**Request**
+  ```json
+  {    
+    "CourseId": 275,
+    "StudentId" : 470,    
+  }
+  ```
+**Response**
+  ```json
+  {
+  "Success": true,
+  "Message": "Course Dropped Successfully"
+  }
+  ```
