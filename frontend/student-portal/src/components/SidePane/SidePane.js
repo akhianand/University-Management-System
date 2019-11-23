@@ -5,7 +5,8 @@ class SidePane extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            active : this.props.active
+            active : this.props.active,
+            currentStudentId : localStorage.getItem("userid")
         }
         this.rolePane = this.rolePane.bind(this)
     }
@@ -15,16 +16,16 @@ class SidePane extends Component {
             return (
                 <div>
                     <a href="/createcourse" className={"list-group-item list-group-item-action" + (this.state.active ==="Create Course" ?" active":"")}>Create Course</a>
-                    <a href="/grades/submit" className={"list-group-item list-group-item-action" + (this.state.active ==="SubmitGrades" ?" active":"")}>Submit Grades</a>
-                    <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Admin Dashboard" ?" active":"")}>Admin Dashboard</a>
+                    {/* <a href="/grades/submit" className={"list-group-item list-group-item-action" + (this.state.active ==="SubmitGrades" ?" active":"")}>Submit Grades</a> */}
+                    <a href="/analytics" className={"list-group-item list-group-item-action" + (this.state.active ==="Admin Dashboard" ?" active":"")}>Analytics Dashboard</a>
 					<a href="/addannouncement" className={"list-group-item list-group-item-action" + (this.state.active ==="MakeAccouncements" ?" active":"")}>Make Accouncements</a>                    
                 </div>
             );
         }else{
             return (
                 <div>
-                    <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Enrollment" ?" active":"")}>Enrollment</a>
-                    <a href="#" className={"list-group-item list-group-item-action" + (this.state.active ==="Fee Payment" ?" active":"")}>Fee Payment</a>
+                    <a href={"/enrollment/"+this.state.currentStudentId} className={"list-group-item list-group-item-action" + (this.state.active ==="Enrollment" ?" active":"")}>Enrollment</a>
+                    <a href={"/payment/"+this.state.currentStudentId} className={"list-group-item list-group-item-action" + (this.state.active ==="Fee Payment" ?" active":"")}>Fee Payment</a>
                     <a href="/grades/view" className={"list-group-item list-group-item-action" + (this.state.active ==="ViewGrades" ?" active":"")}>Grades</a>
                 </div>
             );
