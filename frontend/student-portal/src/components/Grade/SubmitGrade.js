@@ -23,7 +23,7 @@ class SubmitGrade extends Component {
         console.log({state: this.state})
     }
     componentDidMount() {
-        const getEnrollmentsURL = getURL("/enrollments?CourseId="+this.state.CourseID);
+        const getEnrollmentsURL = getURL("/getEnrollmentsByCourse?CourseId="+this.state.CourseID);
         try {
             axios.get(getEnrollmentsURL)
                 .then((res) => {
