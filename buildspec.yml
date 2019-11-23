@@ -20,19 +20,17 @@ phases:
       - echo "Starting the build"
       - echo `pwd`
       - cd backend/AnnouncementsMicroservice
-      - TAG=$(git log -1 --pretty=%h)
+      - TAG=$(date +%s | sha256sum | base64 | head -c 10)
       - docker build -t itselavia/announcements:$TAG .
       - echo $DOCKER_HUB_PASSWORD | docker login --username itselavia --password-stdin
       - docker push itselavia/announcements:$TAG
 
       - cd ../GradingMicroservice
-      - TAG=$(git log -1 --pretty=%h)
       - docker build -t samarthkhatwani/grading_ms:$TAG .
       - echo $SAMARTH_DOCKER_HUB_PASSWORD | docker login --username samarthkhatwani --password-stdin
       - docker push samarthkhatwani/grading_ms:$TAG
 
       - cd ../CoursesMicroservice
-      - TAG=$(git log -1 --pretty=%h)
       - docker build -t nirbhayk/courses_ms:$TAG .
       - echo $NIRBHAY_DOCKER_HUB_PASSWORD | docker login --username nirbhayk --password-stdin
       - docker push nirbhayk/courses_ms:$TAG
@@ -41,7 +39,6 @@ phases:
     commands:
       - echo "Pushing to Kubernetes"
       - cd ../AnnouncementsMicroservice
-      - TAG=$(git log -1 --pretty=%h)
       - sed -i "s/VERSION/${TAG}/g" AnnouncementsMicroservice.yaml
       - /usr/local/bin/kubectl apply -f AnnouncementsMicroservice.yaml
       - /usr/local/bin/kubectl get pods
