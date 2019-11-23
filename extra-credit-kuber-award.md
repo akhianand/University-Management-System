@@ -51,3 +51,60 @@ The kops command to create the cluster:
       --node-size=t2.micro \
       --topology=private \
       --zones=us-east-1a,us-east-1b,us-east-1c
+
+
+### Steps to deploy application to the Kubernetes cluster
+
+1. Create a YAML manifest file for your application
+
+```
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: announcements-deployment
+  labels:
+    app: announcements
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: announcements
+  template:
+    metadata:
+      labels:
+        app: announcements
+    spec:
+      containers:
+      - name: announcements-api
+        image: itselavia/announcements:VERSION
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+```
+
+2. Add a Kubernetes Service in the manifest file to expose your application
+
+```
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: announcements-service
+spec:
+  selector:
+    app: announcements
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
+```
+
+2. Use kubectl to deploy the manifest file
+
+      ```kubectl apply -f Manifest.yaml```
+      Check the deployed pods:
+      ```kubectl get pods```
+      Check the endpoint for the service:
+      ```kubectl get services```
