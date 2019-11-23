@@ -7,13 +7,14 @@ class PaymentContainer extends Component {
     constructor(props) {
         super(props);    
         this.state = {
-            feesAmount : 0
+            feesAmount : 0,
+            currentStudentId : localStorage.getItem("userid")
         }
         //bind
     }
 
     componentDidMount() {
-        let studentId = 1001;
+        let studentId = localStorage.getItem("userid");
         axios.get(getURL('/enrollment?StudentId=' + studentId))
         .then((res) => {
             let enrolledCourses = res.data;
@@ -42,7 +43,7 @@ class PaymentContainer extends Component {
                         <p>You owe ${this.state.feesAmount}</p>
                     </div>
                     <div>
-                        <Link to="/payment/1001">Proceed to Payment >>></Link>
+                        <Link to={"/payment/"+this.state.currentStudentId}>Proceed to Payment >>></Link>
                     </div>
                 </div>
             </div>
