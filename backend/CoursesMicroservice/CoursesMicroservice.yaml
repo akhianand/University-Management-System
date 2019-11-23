@@ -21,7 +21,19 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-
+        env:
+        - name: MONGO_URL
+          value: "10.0.3.127:27017"
+        - name: DATABASE
+          value: "testdb"
+        - name: COLLECTION
+          value: "courses"
+        - name: KAFKA_SERVER
+          value: "54.91.195.100:9092"
+        - name: COURSE_CLICK_TOPIC
+          value: "search-topic"
+        - name: ENROLLMENT_TOPIC
+          value: "ENROLLMENT_TOPIC"
 ---
 
 apiVersion: v1
