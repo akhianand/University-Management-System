@@ -1,3 +1,11 @@
+## Installation
+
+### Prerequisite
+* install golang [https://golang.org/doc/install](https://golang.org/doc/install)
+* install librdkafka [https://github.com/confluentinc/confluent-kafka-go#installing-librdkafka](https://github.com/confluentinc/confluent-kafka-go#installing-librdkafka)
+* install and run kafka and zookeeper [https://kafka.apache.org/quickstart](https://kafka.apache.org/quickstart)
+* install Docker Engine
+
 ## How To Run
 * set go path to GradingMicroservice directory
 ```shell
@@ -11,16 +19,43 @@ make clean
 ```shell
 make go-get
 ```
-* build courses package
+* build grade package
 ```shell
 make build
 ```
 
-* start courses microservice server
+* start grading microservice server
 ```shell
+export MONGO_URL=<mongo connection url>
+export DATABASE=<name of the database>
+export COLLECTION=<name of the grades collection>
+export KAFKA_SERVER=<localhost:9092>
+export GRADES_TOPIC=<topic name>
+export PAYMENTS_TOPIC=<topic name>
 make start
 ```
-
+### How to run service via kubernetes
+* start kafka and zookeeper
+* set environment variables in GradingManifest.yaml
+  ```yaml
+  env:
+  - name: MONGO_URL
+    value: "update mongo url"
+  - name: DATABASE
+    value: "database name"
+  - name: COLLECTION
+    value: "collection name"
+  - name: KAFKA_SERVER
+    value: "kafka server url"
+  - name: GRADES_TOPIC
+    value: "kafka topic to publish grades"
+  - name: PAYMENTS_TOPIC
+    value: "kafka topic to publish fee payment"
+  ```
+* start service via kubernetes
+  ```yaml
+  kubectl apply -f GradingManifest.yaml   
+  ```
 ## Routes
 ### GET Health Check
 * **/ping** : GET route for health check
@@ -31,19 +66,18 @@ make start
     "Message": "Grading API is alive!"
   }
   ```
-### POST Course
+### POST Grade
 * **/grade** : POST route to submit a grade
 
   **Request**
   ```json
   {
-	"StudentID":404,
-	"StudentName":"Akshay",
-	"CourseID":272,
-	"CourseName":"Enterprise Software Overview",
-	"Term":"Spring 2020",
-	"Grade":"B+",
-	"InstructorID":204
+	"StudentID":1005,
+	"StudentName":"Hari AE",
+	"CourseID":100,
+	"CourseName":"Cloud Computing",
+	"Term":"Fall 2019",
+	"Grade":"A"
   }
   ```
   **Response**
@@ -65,14 +99,33 @@ eg. http://localhost:8080/grades?StudentID=430
   ```
   **Response**
   ```json
-[
+  [
+    {
+      "StudentID": 430,
+      "StudentName": "Yash",
+      "CourseID": 217,
+      "CourseName": "HCI",
+      "Term": "Spring 2020",
+      "Grade": "A"
+    }
+  ]
+  ```
+### POST Payment
+* **/pay** : POST route to submit a fees payment
+```json
   {
-    "StudentID": 430,
-    "StudentName": "Yash",
-    "CourseID": 217,
-    "CourseName": "HCI",
-    "Term": "Spring 2020",
-    "Grade": "A"
+   	"StudentId":470,
+   	"StudentName":"Aditya Bhole",
+	"CourseID":275,
+	"Term":"Spring 2020",
+	"Fee":9000
   }
-]
+```  
+**Response**
+  ```json
+  {
+  "Success": true,
+  "Message": "Fee Payment Transaction Recorded Successfully",
+  "TransactionID": 102
+  }
   ```
