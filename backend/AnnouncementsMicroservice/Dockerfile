@@ -6,6 +6,6 @@ RUN git clone https://github.com/edenhill/librdkafka.git && cd librdkafka && ./c
 
 WORKDIR /
 COPY main.go main.go
-RUN go get -d github.com/gorilla/mux && go get -u gopkg.in/confluentinc/confluent-kafka-go.v1/kafka
+RUN go get -d github.com/gorilla/mux && go get -u gopkg.in/confluentinc/confluent-kafka-go.v1/kafka && go get github.com/gorilla/handlers
 
 CMD ["go","run","main.go"]
