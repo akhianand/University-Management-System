@@ -110,7 +110,7 @@ class CourseDetail extends Component{
             CourseName : this.state.CourseName,
             CourseId : parseInt(this.state.CourseID),
             StudentId : parseInt(localStorage.getItem("userid")),
-            StudentName : localStorage.getItem("email"),           
+            StudentName : localStorage.getItem("name"),           
             Term: this.state.Term,
             DepartmentName : this.state.DepartmentName,
             Fees : parseFloat(this.state.Fees)

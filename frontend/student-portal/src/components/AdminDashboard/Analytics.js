@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Header from '../Header/Header';
 import {Pie, Bar, Doughnut, Line, HorizontalBar} from 'react-chartjs-2';
+import axios from 'axios';
+import { getURL } from '../../config/Config';
 
 class Analytics extends Component {
 
@@ -13,11 +15,25 @@ class Analytics extends Component {
                 datasets: [
                     {
                         label: "Classification based on Year", data: [10,15,20,25,30],
-                        backgroundColor: ["#fccf00","rgba(75, 192, 192, 0.8)",
-                        "rgba(153, 102, 255, 0.8)","rgba(15, 159, 64, 0.8)","rgba(255,255,0)","#00FFFF" ]
+                        backgroundColor: ['#FF6384',
+                        '#36A2EB',
+                        '#FFCE56','#CCC',
+                        '#4BC0C0']
                     }
                 ]},
         }
+    }
+
+    //
+    componentDidMount() {
+        this.getPopularCoursesData();
+    }
+
+    getPopularCoursesData = () => {
+        axios.get(getURL('/click-count'))
+            .then((res) => {
+                console.log('click count ', res);
+            }) 
     }
     render() {
         return (
@@ -33,7 +49,7 @@ class Analytics extends Component {
                     <hr className="mt-5"/>
                     <div className="row mt-5">
                         <div className="col-6 border">
-                            <Doughnut data={this.state.popularCoursedata}/>
+                            <HorizontalBar data={this.state.popularCoursedata}/>
                         </div>
                         <div className="col-6 border">
                             <Doughnut data={this.state.popularCoursedata}/>
