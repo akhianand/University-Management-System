@@ -8,14 +8,15 @@ class EnrollmentContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            enrollmentInfo : []
+            enrollmentInfo : [],
+            currentStudentId : localStorage.getItem("userid")
         }
 
         //bind
     }
 
     componentDidMount() {
-        let studentId = 75;
+        let studentId = localStorage.getItem("userid");
         axios.get(getURL('/enrollment?StudentId=' + studentId))
         .then((res) => {
           
@@ -65,10 +66,10 @@ class EnrollmentContainer extends Component {
                         </table>
                     </div>
                     <div>
-                        <Link to="/enrollment/1001">View Enrollment Information >>></Link>
+                        <Link to={"/enrollment/" + this.state.currentStudentId}>View Enrollment Information >>></Link>
                     </div>
                     <div>
-                        <Link to="/enrollmentcart/1000">View Enrollment Cart >>></Link>
+                        <Link to={"/enrollmentcart/" + this.state.currentStudentId}>View Enrollment Cart >>></Link>
                     </div>
                 </div>
             </div>

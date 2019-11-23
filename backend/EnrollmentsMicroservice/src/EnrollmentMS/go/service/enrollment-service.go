@@ -24,6 +24,7 @@ func AddCourseToCart(cartItem *model.CourseEnrollment) (error) {
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
 	c := session.DB(os.Getenv("DATABASE")).C("enrollment")
+	log.Printf("Cart item ", cartItem)
 	if err := c.Insert(cartItem); err != nil {
 		//this will crash the server
 		util.LogErrorWithoutFailing(err, "Mongo Insert Error")
@@ -38,7 +39,7 @@ func GetCart(studentId int) ([]model.CourseEnrollment) {
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Dial Error")
+		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
@@ -47,7 +48,7 @@ func GetCart(studentId int) ([]model.CourseEnrollment) {
 	err = c.Find(bson.M{"StudentId": studentId, "isenrolled": false}).All(&cartItems)
 	
 	if err != nil {
-		util.FailOnError(err, "Mongo find Error ")
+		util.LogErrorWithoutFailing(err, "Mongo find Error ")
 	}
 	
 	return cartItems	
@@ -58,7 +59,7 @@ func EnrollCourse(studentId int, courseId int) (error) {
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Dial Error")
+		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
@@ -73,7 +74,7 @@ func EnrollCourse(studentId int, courseId int) (error) {
 	err = c.Update(bson.M{"StudentId": studentId, "CourseId": courseId}, courseEnrollment)
 
 	if err != nil {
-		util.FailOnError(err, "Mongo Update Error")
+		util.LogErrorWithoutFailing(err, "Mongo Update Error")
 	}
 	
 	// publish course to queue
@@ -90,7 +91,7 @@ func publishCourseEnrollment(courseEnrollment model.CourseEnrollment) {
 	fmt.Println("Logging enrollment to kafka StudentID:" + strconv.Itoa(courseEnrollment.StudentId))
 	log.Printf("Logging enrollment to kafka StudentID:" + strconv.Itoa(courseEnrollment.StudentId))
 	// p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": os.Getenv("KAFKA_SERVER")})
-	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": "54.144.3.194:9092"})
+	p, err := kafka.NewProducer(&kafka.ConfigMap{"bootstrap.servers": os.Getenv("KAFKA_SERVER")})
 
 	if err != nil {
 		fmt.Println("Kafka fee submission message")
@@ -113,7 +114,7 @@ func GetEnrollments(studentId int) ([]model.CourseEnrollment) {
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Dial Error")
+		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
@@ -122,7 +123,7 @@ func GetEnrollments(studentId int) ([]model.CourseEnrollment) {
 	err = c.Find(bson.M{"StudentId": studentId, "isenrolled": true}).All(&enrolledCourses)
 	
 	if err != nil {
-		util.FailOnError(err, "Mongo find Error ")
+		util.LogErrorWithoutFailing(err, "Mongo find Error ")
 	}
 	
 	return enrolledCourses	
@@ -134,7 +135,7 @@ func GetAllEnrollments() ([]model.CourseEnrollment) {
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Dial Error")
+		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
@@ -145,7 +146,7 @@ func GetAllEnrollments() ([]model.CourseEnrollment) {
 	err = c.Find(bson.M{}).All(&enrollments)
 	
 	if err != nil {
-		util.FailOnError(err, "Mongo find Error ")
+		util.LogErrorWithoutFailing(err, "Mongo find Error ")
 	}
 	
 	return enrollments
@@ -157,7 +158,7 @@ func GetEnrollmentsByCourse(courseId int) ([]model.CourseEnrollment) {
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Dial Error")
+		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
@@ -168,7 +169,7 @@ func GetEnrollmentsByCourse(courseId int) ([]model.CourseEnrollment) {
 	err = c.Find(bson.M{"CourseId" : courseId}).All(&enrollments)
 	
 	if err != nil {
-		util.FailOnError(err, "Mongo find Error ")
+		util.LogErrorWithoutFailing(err, "Mongo find Error ")
 	}
 	
 	return enrollments
@@ -181,7 +182,7 @@ func DropCourse(studentId int, courseId int) (error) {
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Dial Error")
+		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
@@ -191,7 +192,7 @@ func DropCourse(studentId int, courseId int) (error) {
 	err = c.Remove(bson.M{"StudentId": studentId, "CourseId": courseId})
 
 	if err != nil {
-		util.FailOnError(err, "Mongo Delete Error")
+		util.LogErrorWithoutFailing(err, "Mongo Delete Error")
 	}
 
 	return nil
@@ -204,7 +205,8 @@ func updateFeePayment(studentId int, courseId int) (error) {
 	session, err := mgo.Dial(os.Getenv("MONGO_URL"))
 	if err != nil {
 		//this will crash the server
-		util.FailOnError(err, "Mongo Dial Error")
+		util.LogErrorWithoutFailing(err, "Mongo Dial Error")
+		return nil;
 	}
 	defer session.Close()
 	session.SetMode(mgo.Monotonic, true)	
@@ -219,7 +221,7 @@ func updateFeePayment(studentId int, courseId int) (error) {
 	err = c.Update(bson.M{"StudentId": studentId, "CourseId": courseId}, courseEnrollment)
 
 	if err != nil {
-		util.FailOnError(err, "Mongo Update Error")
+		util.LogErrorWithoutFailing(err, "Mongo Update Error")
 	}
 	
 	return nil

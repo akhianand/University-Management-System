@@ -23,15 +23,16 @@ func PingHandler(formatter *render.Render) http.HandlerFunc {
 func AddCourseToCartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		//Allow CORS here By * or specific origin
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		// w.Header().Set("Access-Control-Allow-Origin", "*")
 
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		// w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		
 		log.Printf("Add course to Cart handler function")
 		var cartItem model.CourseEnrollment
 		_ = json.NewDecoder(req.Body).Decode(&cartItem)
 		cartItem.IsEnrolled = false
-		cartItem.HasFeesPaid = false		
+		cartItem.HasFeesPaid = false	
+		log.Printf("cart item object " , req.Body , cartItem)	
 		service.AddCourseToCart(&cartItem)
 		formatter.JSON(w, http.StatusOK, struct {
 			Success       bool
@@ -52,7 +53,7 @@ func CartHandler(formatter *render.Render) http.HandlerFunc {
 		log.Printf("Inside Cart handler function")
 		keys, queryErr := req.URL.Query()["StudentId"]
 		if !queryErr || len(keys[0]) < 1 {
-			util.FailOnError(nil, "Query params error")
+			util.LogErrorWithoutFailing(nil, "Query params error")
 			//return
 		}
 		// params := mux.Vars(req)
@@ -60,7 +61,7 @@ func CartHandler(formatter *render.Render) http.HandlerFunc {
 		//studentId, err := strconv.Atoi(params["StudentId"])
 		studentId, err := strconv.Atoi(keys[0])
 		if err != nil {
-			util.FailOnError(err, "Conversion error")
+			util.LogErrorWithoutFailing(err, "Conversion error")
 			//return
 		}
 		// 
@@ -106,13 +107,13 @@ func RetrieveEnrollmentHandler(formatter *render.Render) http.HandlerFunc {
 
 		keys, queryErr := req.URL.Query()["StudentId"]
 		if !queryErr || len(keys[0]) < 1 {
-			util.FailOnError(nil, "Query params error")
+			util.LogErrorWithoutFailing(nil, "Query params error")
 			//return
 		}
 
 		studentId, err := strconv.Atoi(keys[0])
 		if err != nil {
-			util.FailOnError(err, "Conversion error")
+			util.LogErrorWithoutFailing(err, "Conversion error")
 			//return
 		}
 		// 
@@ -173,13 +174,13 @@ func GetEnrollmentsByCourse(formatter *render.Render) http.HandlerFunc {
 
 		keys, queryErr := req.URL.Query()["CourseId"]
 		if !queryErr || len(keys[0]) < 1 {
-			util.FailOnError(nil, "Query params error")
+			util.LogErrorWithoutFailing(nil, "Query params error")
 			//return
 		}
 
 		courseId, err := strconv.Atoi(keys[0])
 		if err != nil {
-			util.FailOnError(err, "Conversion error")
+			util.LogErrorWithoutFailing(err, "Conversion error")
 			//return
 		}
 		
