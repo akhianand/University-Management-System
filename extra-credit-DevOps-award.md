@@ -2,12 +2,11 @@
 
 ## Frontend Countinuous Deployment on Heroku
 
-Heroku is a cloud platform as a service (PaaS). This means that very minimal effort is expected from the Developer in terms of the effort requied to deploy the application. 
-
+Heroku is a cloud platform as a service (PaaS).
 
 In our scenario the steps we took to set up Continuous Deployment of Frontend over Heroku were as follows.
 
-1. Create NodeJS Application on Heroku.
+1. Create an Application on Heroku.
 2. Link Application To Github Repository.
 3. Enable Automatic Deployment option.
 4. Add new Config Var --> PROJECT_PATH = frontend/student-portal 
