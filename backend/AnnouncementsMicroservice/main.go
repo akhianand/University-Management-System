@@ -259,8 +259,23 @@ func consumeGradeMessages() {
 			fmt.Println("splits----", splits)
 
 			endIndex := len(splits)-2
+
+			sum := 0
+
 			for i := 1; i <= endIndex ; i++ {
 				fmt.Println(i, "------", splits[i])
+
+				gradeResponse, err := http.Get("http://172.20.39.6:8098/buckets/grades-content/keys/" + strconv.Itoa(data.Courseid) + "?vtag=" + splits[i])
+
+				if err != nil {
+					fmt.Printf("The HTTP request to get courseInfo with vTag failed with error %s\n", err)
+				}
+
+			gradeData, _ := ioutil.ReadAll(gradeResponse.Body)
+
+			gradeInfo := GradesMessage{}
+
+			err = json.Unmarshal(gradeData, &gradeInfo)
 			}
 
 		} else {
