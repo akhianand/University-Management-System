@@ -14,6 +14,16 @@ import (
 	"strings"
 )
 
+type GradesMessage struct {
+	ID          string `json:"_id"`
+	Studentid   int    `json:"studentid"`
+	Studentname string `json:"studentname"`
+	Courseid    int    `json:"courseid"`
+	Coursename  string `json:"coursename"`
+	Term        string `json:"term"`
+	Grade       string `json:"grade"`
+}
+
 type SearchMessage struct {
 	CourseID       int         `json:"CourseID"`
 	CourseName     string      `json:"CourseName"`
@@ -41,13 +51,13 @@ type KeyList struct {
 
 type ClickResponse struct {
 	Response []ClickBody
-  }
+}
 
-  type ClickBody struct {
-	CourseID    string
+type ClickBody struct {
+	CourseID   string
 	CourseName string
-	Clicks string
-  }
+	Clicks     string
+}
 
 func pingHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -65,7 +75,7 @@ func clickCount(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("The HTTP request for fetching all keys failed with error %s\n", err)
 	} else {
 		data, _ := ioutil.ReadAll(response.Body)
-		
+
 		err := json.Unmarshal(data, &keys)
 		if err != nil {
 			fmt.Println(err)
@@ -88,7 +98,7 @@ func clickCount(w http.ResponseWriter, r *http.Request) {
 			courseInfoVTagData, _ := ioutil.ReadAll(courseInfoVTag.Body)
 
 			splits := strings.Split(string(courseInfoVTagData), "\n")
-			vTag := splits[len(splits) - 2]
+			vTag := splits[len(splits)-2]
 
 			courseInfoResponse, err := http.Get("http://172.20.39.6:8098/buckets/click-counters/keys/" + key + "?vtag=" + vTag)
 
@@ -105,21 +115,21 @@ func clickCount(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				fmt.Println("Unmarshalling of courseInfo failed.\n", err)
 			}
-			clickBody := ClickBody {
-				CourseID: key,
-				Clicks: string(data),
+			clickBody := ClickBody{
+				CourseID:   key,
+				Clicks:     string(data),
 				CourseName: courseInfo.CourseName,
 			}
 			clickResponse.Response = append(clickResponse.Response, clickBody)
 		}
-		
+
 	}
-	
+
 	json.NewEncoder(w).Encode(clickResponse)
 }
 
 func bestPerformingCourses(w http.ResponseWriter, r *http.Request) {
-	
+
 }
 
 func publishAnnouncement(w http.ResponseWriter, r *http.Request) {
@@ -196,6 +206,29 @@ func consumeGradeMessages() {
 		if err == nil {
 			fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
 
+			data := &GradesMessage{}
+
+			err := json.Unmarshal([]byte(string(msg.Value)), data)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			_, err = http.Post("http://172.20.39.6:8098/buckets/grades/counters/"+strconv.Itoa(data.Courseid), "text/plain", bytes.NewBuffer([]byte("1")))
+			if err != nil {
+				fmt.Println("Failed while incrementing counter for grade", err)
+			}
+
+			gradeCountResp, err := http.Get("http://172.20.39.6:8098/buckets/grades/counters/" + strconv.Itoa(data.Courseid))
+			gradeCount, _ := ioutil.ReadAll(gradeCountResp.Body)
+			fmt.Println(string(gradeCount))
+
+			ifCourseRecorded, err := http.Get("http://172.20.39.6:8098/buckets/grades/keys/" + strconv.Itoa(data.Courseid))
+			if err != nil {
+				fmt.Println("Failed while checking if grade is already recorded", err)
+			}
+			ifCourseData, _ := ioutil.ReadAll(ifCourseRecorded.Body)
+			fmt.Println(ifCourseData)
+
 		} else {
 			// The client will automatically try to recover from all errors.
 			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
@@ -223,7 +256,7 @@ func consumeMessages() {
 	for {
 		msg, err := c.ReadMessage(-1)
 		if err == nil {
-			fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
+			//fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
 
 			data := &SearchMessage{}
 
@@ -233,7 +266,7 @@ func consumeMessages() {
 			}
 
 			client := &http.Client{}
-			req, err := http.NewRequest(http.MethodPut, "http://172.20.39.6:8098/buckets/click-counters/keys/"+ strconv.Itoa(data.CourseID), bytes.NewBuffer(msg.Value))
+			req, err := http.NewRequest(http.MethodPut, "http://172.20.39.6:8098/buckets/click-counters/keys/"+strconv.Itoa(data.CourseID), bytes.NewBuffer(msg.Value))
 			if err != nil {
 				panic(err)
 			}
@@ -255,7 +288,7 @@ func consumeMessages() {
 }
 
 func incrementClickCounter(id int) {
-	response, err := http.Post("http://172.20.39.6:8098/buckets/click-counters/counters/" + strconv.Itoa(id), "text/plain", bytes.NewBuffer([]byte("1")))
+	response, err := http.Post("http://172.20.39.6:8098/buckets/click-counters/counters/"+strconv.Itoa(id), "text/plain", bytes.NewBuffer([]byte("1")))
 	if err != nil {
 		fmt.Printf("The HTTP request failed with error %s\n", err)
 	} else {

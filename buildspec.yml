@@ -10,6 +10,7 @@ phases:
       - echo `pwd`
       - mkdir ~/.kube
       - aws s3 cp s3://itselavia-kops-state-store/.kube/config ~/.kube/config
+      - aws s3 cp s3://samkops-com-state-store/.kube/config ~/.kube/samarth
       - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.16.0/bin/linux/amd64/kubectl
       - chmod +x ./kubectl
       - mv ./kubectl /usr/local/bin
@@ -23,12 +24,25 @@ phases:
       - echo $DOCKER_HUB_PASSWORD | docker login --username itselavia --password-stdin
       - docker push itselavia/announcements:$TAG
 
+      - cd ../GradingMicroservice
+      - TAG=$(git log -1 --pretty=%h)
+      - docker build -t samarthkhatwani/grading_ms:$TAG .
+      - echo S@mSh@m46 | docker login --username samarthkhatwani --password-stdin
+      - docker push samarthkhatwani/grading_ms:$TAG
+
   post_build:
     commands:
       - echo "Pushing to Kubernetes"
+      - cd ../AnnouncementsMicroservice
       - TAG=$(git log -1 --pretty=%h)
       - sed -i "s/VERSION/${TAG}/g" AnnouncementsMicroservice.yaml
       - /usr/local/bin/kubectl apply -f AnnouncementsMicroservice.yaml
+
+      - cd ../GradingMicroservice
+      - sed -i "s/VERSION/${TAG}/g" GradingManifest.yaml
+      - /usr/local/bin/kubectl apply -f GradingManifest.yaml --kubeconfig=/root/.kube/samarth
+
+
 
 
 
