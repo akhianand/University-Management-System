@@ -159,7 +159,7 @@ class CourseDetail extends Component{
                 <Header /> 
                 <div className="bg-grey" style={style}> 
                     <div className="row mt-5 container">
-                        <SidePane/>
+                        <SidePane active="Courses"/>
                         <div className="main-container col-8 bg-white p-3">
                             {errorMessage}
                             <div className="row"> 

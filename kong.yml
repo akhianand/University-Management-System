@@ -15,9 +15,8 @@ _format_version: "1.1"
 # can be listed in the top-level as an array of objects:
 
 services:
-services:
 - name: course-service
-  url: https://k312y55892.execute-api.us-east-1.amazonaws.com/prod/courses
+  url: http://a2a4f747e638449c79f475b6c41be2f1-1237676453.us-east-1.elb.amazonaws.com/courses
   # Entities can store tags as metadata
   tags:
   - course
@@ -73,7 +72,7 @@ services:
 
 
 - name: click-count-service
-  url: http://a0b6338270aa911eab7a00ef2f3a9be2-1765409943.us-east-1.elb.amazonaws.com/click-count
+  url: http://a42829ec30d9a11eab7a00ef2f3a9be2-243872215.us-east-1.elb.amazonaws.com/click-count
   # Entities can store tags as metadata
   tags:
   - click-count
@@ -84,7 +83,7 @@ services:
     - /click-count
 
 - name: best-performing-courses-service
-  url: http://a0b6338270aa911eab7a00ef2f3a9be2-1765409943.us-east-1.elb.amazonaws.com/best-performing-courses
+  url: http://a42829ec30d9a11eab7a00ef2f3a9be2-243872215.us-east-1.elb.amazonaws.com/best-performing-courses
   # Entities can store tags as metadata
   tags:
   - best-performing-courses
@@ -95,7 +94,7 @@ services:
     - /best-performing-courses
 
 - name: publish-announcement-service
-  url: http://a0b6338270aa911eab7a00ef2f3a9be2-1765409943.us-east-1.elb.amazonaws.com/publish-announcement
+  url: http://a42829ec30d9a11eab7a00ef2f3a9be2-243872215.us-east-1.elb.amazonaws.com/publish-announcement
   # Entities can store tags as metadata
   tags:
   - publish-announcement
@@ -173,7 +172,7 @@ services:
 
 
 - name: grade-service
-  url: https://t9c1rm9azg.execute-api.us-east-1.amazonaws.com/prod/grade
+  url: http://a4957e86ba0a841bab4f7a87a1cd66fb-282351883.us-east-1.elb.amazonaws.com/grade
   # Entities can store tags as metadata
   tags:
   - grade
@@ -184,7 +183,7 @@ services:
     - /grade
 
 - name: grades-service
-  url: https://t9c1rm9azg.execute-api.us-east-1.amazonaws.com/prod/grades
+  url: http://a4957e86ba0a841bab4f7a87a1cd66fb-282351883.us-east-1.elb.amazonaws.com/grades
   # Entities can store tags as metadata
   tags:
   - grades
@@ -195,7 +194,7 @@ services:
     - /grades
 
 - name: pay-service
-  url: https://t9c1rm9azg.execute-api.us-east-1.amazonaws.com/prod/pay
+  url: http://a4957e86ba0a841bab4f7a87a1cd66fb-282351883.us-east-1.elb.amazonaws.com/pay
   # Entities can store tags as metadata
   tags:
   - pay
