@@ -221,7 +221,7 @@ func consumeGradeMessages() {
 			}
 
 			client := &http.Client{}
-			req, err := http.NewRequest(http.MethodPut, "http://172.20.39.6:8098/buckets/grades/keys/"+strconv.Itoa(data.Courseid), bytes.NewBuffer(msg.Value))
+			req, err := http.NewRequest(http.MethodPut, "http://172.20.39.6:8098/buckets/grades-content/keys/"+strconv.Itoa(data.Courseid), bytes.NewBuffer(msg.Value))
 			if err != nil {
 				panic(err)
 			}
@@ -240,18 +240,28 @@ func consumeGradeMessages() {
 
 			gradeCountResp, err := http.Get("http://172.20.39.6:8098/buckets/grades/counters/" + strconv.Itoa(data.Courseid))
 			gradeCount, _ := ioutil.ReadAll(gradeCountResp.Body)
-			fmt.Println(string(gradeCount))
+			fmt.Println("count --- ", string(gradeCount))
 
 
 
 
 
-			ifCourseRecorded, err := http.Get("http://172.20.39.6:8098/buckets/grades/keys/" + strconv.Itoa(data.Courseid))
+			ifCourseRecorded, err := http.Get("http://172.20.39.6:8098/buckets/grades-content/keys/" + strconv.Itoa(data.Courseid))
 			if err != nil {
 				fmt.Println("Failed while checking if grade is already recorded", err)
 			}
-			ifCourseData, _ := ioutil.ReadAll(ifCourseRecorded.Body)
-			fmt.Println(ifCourseData)
+			courseInfoVTagData, _ := ioutil.ReadAll(ifCourseRecorded.Body)
+
+			splits := strings.Split(string(courseInfoVTagData), "\n")
+
+			fmt.Println("len....", len(splits))
+
+			fmt.Println("splits----", splits)
+
+			endIndex := len(splits)-2
+			for i := 1; i <= endIndex ; i++ {
+				fmt.Println(i, "------", splits[i])
+			}
 
 		} else {
 			// The client will automatically try to recover from all errors.
