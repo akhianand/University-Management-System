@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grading-deployment
+  labels:
+    app: grading
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: grading
+  template:
+    metadata:
+      labels:
+        app: grading
+    spec:
+      containers:
+      - name: grading-api
+        image: samarthkhatwani/grading_ms:VERSION
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8082
+        env:
+        - name: MONGO_URL
+          value: "10.0.1.92:27017"
+        - name: DATABASE
+          value: "testdb"
+        - name: COLLECTION
+          value: "grade"
+        - name: KAFKA_SERVER
+          value: "54.91.195.100:9092"
+        - name: GRADE_SUBMIT_TOPIC
+          value: "grades-topic"
+        - name: FEE_PAID_TOPIC
+          value: "PAYMENT_TOPIC"    
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: grading-service
+spec:
+  selector:
+    app: grading
+  ports:
+    - port: 80
+      targetPort: 8082
+  type: LoadBalancer

@@ -26,11 +26,11 @@ func NextSequence(key string) (int, error) {
 
 	if err == mgo.ErrNotFound {
 		//initial value for sequence is 10000000
-		err = c.Insert(IDGenerator{Key: key, N: 10000000})
+		err = c.Insert(IDGenerator{Key: key, N: 1000})
 		if err != nil {
 			return -1, err
 		}
-		return 10000000, nil
+		return 1000, nil
 	} else if err != nil {
 		return -1, err
 	}

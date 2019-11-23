@@ -1,4 +1,4 @@
-const baseURL = "http://54.175.218.134:8000"
+const baseURL = "https://54.175.218.134:8443"
 
 export function getURL (route) {
     if(route.startsWith("/")){
