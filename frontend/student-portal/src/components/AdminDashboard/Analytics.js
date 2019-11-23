@@ -12,10 +12,10 @@ class Analytics extends Component {
         this.state = {
             popularCoursedata : {},
             bestPerformingCourses : {
-                labels: ["Cloud Computing", "Cloud Technologies", "Software Systems Engineering", "Distributed Systems", "Distributed Computing"],
+                labels: ["Cloud Computing", "Cloud Technologies", "Software Systems Engineering", "Distributed Systems", "Distributed Computing",""],
                 datasets: [
                     {
-                        label: "Best performing courses", data: [3.56,3.76,3.45,3.4, 3.57],
+                        label: "Best performing courses", data: [3.56,3.76,3.45,3.4, 3.57,0.0],
                         backgroundColor: ['#FF6384',
                         '#36A2EB',
                         '#FFCE56','#CCC',
@@ -24,10 +24,10 @@ class Analytics extends Component {
                 ]
             },
             worstPerformingCourses : {
-                labels: ["Cloud Computing", "Cloud Technologies", "Software Systems Engineering", "Distributed Systems",  "Distributed Computing"],
+                labels: ["Cloud Computing", "Cloud Technologies", "Software Systems Engineering", "Distributed Systems",  "Distributed Computing",""],
                 datasets: [
                     {
-                        label: "Worst performing courses", data: [3.2, 2.8, 3.0, 2.97, 3.02],
+                        label: "Worst performing courses", data: [3.2, 2.8, 3.0, 2.97, 3.02, 0.0],
                         backgroundColor: ['#FF6384',
                         '#36A2EB',
                         '#FFCE56','#CCC',
