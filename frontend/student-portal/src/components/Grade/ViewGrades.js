@@ -27,7 +27,7 @@ class ViewGrades extends Component {
           return grades;
     }
     componentDidMount() {
-        const studentID = 1002;
+        const studentID = localStorage.getItem("userid");
    //     const baseURL = "http"
     //    const viewGradesURL = getURL("/grades?StudentID=" + studentID);
         const viewGradesURL=getURL("/grades?StudentID=" + studentID)

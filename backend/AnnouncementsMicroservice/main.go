@@ -12,6 +12,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"github.com/gorilla/handlers"
 )
 
 type GradesMessage struct {
@@ -167,6 +168,12 @@ func publishAnnouncement(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
+
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
+
 	router := mux.NewRouter()
 	router.HandleFunc("/ping", pingHandler).Methods("GET")
 
@@ -180,7 +187,7 @@ func main() {
 
 	go consumeGradeMessages()
 
-	http.ListenAndServe(":8080", router)
+	http.ListenAndServe(":8080", handlers.CORS(originsOk, headersOk, methodsOk)(router))
 
 }
 
