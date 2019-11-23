@@ -17,6 +17,8 @@ Step 4 & 5 are additional steps that have to be taken to allow Heroku to monitor
 
 ![heroku-console.png](./heroku-console.png)
 
+![heroku-dash.png](./heroku-dash.png)
+
 ## Backend Continuous Deployment using AWS Code Build
 ### Summary
 Created an automatic deployment pipeline using AWS Code Build which pulls backend code from github and builds the Docker image for each micro-service, pushes the image to Docker-Hub and deploys the respective micro-service into individual Kubernetes cluster.
