@@ -27,7 +27,7 @@ phases:
       - cd ../GradingMicroservice
       - TAG=$(git log -1 --pretty=%h)
       - docker build -t samarthkhatwani/grading_ms:$TAG .
-      - echo S@mSh@m46 | docker login --username samarthkhatwani --password-stdin
+      - echo $SAMARTH_DOCKER_HUB_PASSWORD | docker login --username samarthkhatwani --password-stdin
       - docker push samarthkhatwani/grading_ms:$TAG
 
   post_build:
