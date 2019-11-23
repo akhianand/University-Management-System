@@ -260,8 +260,6 @@ func consumeGradeMessages() {
 
 			endIndex := len(splits)-2
 
-			sum := 0
-
 			for i := 1; i <= endIndex ; i++ {
 				fmt.Println(i, "------", splits[i])
 
