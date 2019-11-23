@@ -65,7 +65,7 @@ class Payment extends Component {
                 "term" : courseData[i].Term,
                 "fees" : courseData[i].Fees
             }
-            axios.post(enrollmentServiceURL + '/enrollment', data)
+            axios.post(getURL('/enrollment'), data)
                 .then((res) => {
                     
                 console.log('Payment processing successful');
