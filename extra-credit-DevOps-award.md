@@ -16,6 +16,7 @@ In our scenario the steps we took to set up Continuous Deployment of Frontend ov
 Step 4 & 5 are additional steps that have to be taken to allow Heroku to monitor only the frontend subdirectory of our application. Doing this ensures that only the frontend code is deployed on Heroku, And redeployments are triggered only where frontend changes are involved.
 
 ![heroku-console.png](./heroku-console.png)
+![heroku-dash.png](./heroku-dash.png)
 
 ## Backend Continuous Deployment using AWS CodeBuild
 
