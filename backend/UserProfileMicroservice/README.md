@@ -52,6 +52,16 @@ docker build -t <userprofile>/userprofilems:<version> .
 ```shell
 docker run --restart always --name userprofilems -td -p 8000:8000 <userprofile>/userprofilems:<version>
 ```
+
+**NOTE** Include the following Environment Variables as part of the run command
+```shell
+  - MONGO_URL=<mongo connection url> 
+  - DATABASE=<name of the database>  
+  - COLLECTION=<name of the courses collection>  
+  - KAFKA_SERVER=<ipAddressOfKafkaServer:9092>  
+  - COURSE_CLICK_TOPIC=<topic name>  
+```
+
   
 ## Routes
 

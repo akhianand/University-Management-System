@@ -44,14 +44,18 @@ phases:
       - TAG=$(git log -1 --pretty=%h)
       - sed -i "s/VERSION/${TAG}/g" AnnouncementsMicroservice.yaml
       - /usr/local/bin/kubectl apply -f AnnouncementsMicroservice.yaml
+      - /usr/local/bin/kubectl get pods
 
       - cd ../GradingMicroservice
       - sed -i "s/VERSION/${TAG}/g" GradingManifest.yaml
       - /usr/local/bin/kubectl apply -f GradingManifest.yaml --kubeconfig=/root/.kube/samarth
+      - /usr/local/bin/kubectl get pods --kubeconfig=/root/.kube/samarth
 
       - cd ../CoursesMicroservice
       - sed -i "s/VERSION/${TAG}/g" CoursesMicroservice.yaml
       - /usr/local/bin/kubectl apply -f CoursesMicroservice.yaml --kubeconfig=/root/.kube/nirbhay
+      - /usr/local/bin/kubectl get pods --kubeconfig=/root/.kube/nirbhay
+
 
 
 

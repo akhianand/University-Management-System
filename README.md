@@ -44,7 +44,7 @@ Pub-sub model is used to transmit data and notify other microservices for events
 
   [more details](https://github.com/nguyensjsu/fa19-281-helloworld/blob/master/extra-credit-Architect-award.md)
   
-* **AFK cube dimensions:**
+* **AKF cube dimensions:**
   * **X axis:** horizontal scalling with multi instance docker deployment via Kubernetes into multiple availaibility zone to ensure High Availability.
   * **Y axis:** Functional split into microservices such as Profile, Course, Enrollment, Grading and Admin
   * **Z axis:** Splitting data into shards with replicasets for each shard. Profile data is sharded based on UserID. Course data is sharded based on CourseID. Student Grading data is sharded based on Term. Multiple replicas also configured for Mongo Config Server.
