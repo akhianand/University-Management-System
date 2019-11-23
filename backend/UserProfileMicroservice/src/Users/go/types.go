@@ -2,7 +2,7 @@ package users
 
 import (
 	"net/http"
-
+	"os"
 	"github.com/unrolled/render"
 )
 
@@ -59,8 +59,8 @@ type IDGenerator struct {
 	Key string `bson:"key"`
 }
 
-var mongoURL string = "mongodb://admin:password@ec2-3-232-230-241.compute-1.amazonaws.com:27017/admin"
-var database string = "universityportal"
-var collection string = "users"
-var kafkaServer string = "54.144.3.194:9092"
-var kafkaAnnouncementTopic string = "announcements"
+var mongoURL string = os.Getenv("MONGO_URL")
+var database string = os.Getenv("DATABASE")
+var collection string = os.Getenv("COLLECTION")
+var kafkaServer string = os.Getenv("KAFKA_SERVER")
+var kafkaAnnouncementTopic string = os.Getenv("KAFKA_ANNOUNCEMENT_TOPIC")
