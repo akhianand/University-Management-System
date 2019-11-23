@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
 import {getURL} from '../../config/Config';
+import EnrollmentSidePane from '../SidePane/EnrollmentSidePane';
 
 
 class Enrollment extends Component {
@@ -63,29 +64,38 @@ class Enrollment extends Component {
               </tr>
             )
           });
+                
+        
 
         return (
             <div>
                 <Header />
-                <div className="container mt-5">
-                    <div className="text-align-center mb-5 enrollment-heading">
-                        <h3>Enrollment</h3>
-                    </div>
-                    <table className="table table-bordered table-striped">
-                        <thead>
-                        <tr className="text-align-center">
-                            <th scope="col">#</th>
-                            <th scope="col">Course ID</th>
-                            <th scope="col">Course Name</th>
-                            <th scope="col">Department Name</th>
-                            <th scope="col">Term</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {enrolledCourses}              
-                        </tbody>
-                    </table>
+                <div className="mt-5">
+                    <div className="row">
+                        <div className="col-2 mt-5">
+                            <EnrollmentSidePane active="Enrollment"/>
+                        </div>
+                        <div className="col-9">
+                            <div className="text-align-center mb-4 enrollment-heading">
+                                <h3>Enrollment</h3>
+                            </div>
+                            <table className="table table-bordered table-striped">
+                                <thead>
+                                <tr className="text-align-center">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Course ID</th>
+                                    <th scope="col">Course Name</th>
+                                    <th scope="col">Department Name</th>
+                                    <th scope="col">Term</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {enrolledCourses}              
+                                </tbody>
+                            </table>                
+                        </div>
+                    </div>                    
                 </div>
             </div>
         )

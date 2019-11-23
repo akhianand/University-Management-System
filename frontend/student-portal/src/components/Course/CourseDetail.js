@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Header from '../Header/Header';
 import SidePane from '../SidePane/SidePane'
 import { getURL } from '../../config/Config';
-import axios from 'axios'
+import axios from 'axios';
+import {Redirect} from 'react-router-dom';
 
 class CourseDetail extends Component{
     constructor(props) {
@@ -18,7 +19,8 @@ class CourseDetail extends Component{
 	        DepartmentName: null,
             Fees: null,
             SeatsEnrolled: null,
-            errorMessage: ""
+            errorMessage: "",
+            redirectToCart : false
         }
         this.getTiming = this.getTiming.bind(this)
         this.getRedirectionButton = this.getRedirectionButton.bind(this)
@@ -115,20 +117,14 @@ class CourseDetail extends Component{
             DepartmentName : this.state.DepartmentName,
             Fees : parseFloat(this.state.Fees)
         };
-        /**
-         * "CourseName": "Data Mining",
- "CourseId": 275,
- "StudentId" : 470,
- "StudentName" : "Arivoli AE",
- "Term": "Fall 2019",
- "DepartmentName": "CMPE",
- "Fees": 3000
-         */
         console.log('calling add to cart ', cartData);
         // axios.defaults.withCredentials=true;
         axios.post(getURL('/addToCart'),cartData)
         .then((res) => {
             console.log('Added to cart successfully');
+            this.setState({
+                redirectToCart : true
+            })
         });
     }
 
@@ -139,6 +135,8 @@ class CourseDetail extends Component{
             return (<button className="btn btn-primary" onClick={this.handleAddCart}>Add to cart</button>)
         }
     }
+
+  
 
     render(){
         let errorMessage = null;
@@ -154,9 +152,17 @@ class CourseDetail extends Component{
             </div>
         }
         console.log({state: this.state})
+
+        let redirectToCartLink = null;
+
+        if(this.state.redirectToCart == true) {
+            redirectToCartLink = <Redirect to={"/enrollmentCart/"+localStorage.getItem("userid")} />
+        }
+
         return (
             <div className="home-parent-container">
                 <Header /> 
+                {redirectToCartLink}
                 <div className="bg-grey" style={style}> 
                     <div className="row mt-5 container">
                         <SidePane active="Courses"/>

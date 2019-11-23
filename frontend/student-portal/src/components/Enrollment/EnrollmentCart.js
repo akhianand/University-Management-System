@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
 import {getURL} from '../../config/Config';
+import SidePane from '../SidePane/SidePane';
+import {Redirect} from 'react-router-dom';
+import EnrollmentSidePane from '../SidePane/EnrollmentSidePane';
 
 class EnrollmentCart extends Component {
 
@@ -10,6 +13,8 @@ class EnrollmentCart extends Component {
 
     this.state = {
       cartItems : [],
+      enrollmentCompleted : false,
+      redirectToEnrollment : false,
     }
 
     //bind actions
@@ -34,9 +39,12 @@ handleEnrollment = (index) => {
   axios.post(getURL('/enroll'), cartItem)
   .then((res)=> {
     console.log('Enrollment completed successfully');
-    let updatedCart = this.state.cartItems.splice(index, 1);
+    let cart = this.state.cartItems;
+    cart.splice(index, 1);
     this.setState({
-      cartItems : updatedCart
+      cartItems : cart,
+      enrollmentCompleted : true,
+      redirectToEnrollment : true
     }); 
 
     console.log('Updated Cart ', this.state.cartItems);
@@ -59,13 +67,41 @@ handleEnrollment = (index) => {
           </tr>
         )
       });
+
+      let successMessage = null;
+
+      if(this.state.enrollmentCompleted == true) {
+        successMessage = <div className="row">
+                          <div className="col-3"></div>
+                          <div className="alert alert-success alert-dismissible fade show text-align-center col-6"  role="alert">
+                            <strong>Course Enrollment Successful!</strong>   
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div> 
+                            
+                        </div>
+      }
+
+      let redirectToEnrollmentLink = null;
+      if(this.state.redirectToEnrollment == true) {
+        redirectToEnrollmentLink = <Redirect to={"/enrollment/" + localStorage.getItem("userid")} />
+      } 
       return (
         <div>
           <Header />
-          <div className="container mt-5">
-            <div className="text-align-center mb-5 enrollment-cart-heading">
+          
+          {redirectToEnrollmentLink}
+          <div className="mt-5">
+            <div className="row">
+              <div className="col-2 mt-5">
+                <EnrollmentSidePane active="Enrollment"/>
+              </div>
+              <div className="col-9">
+              <div className="text-align-center mb-4 enrollment-cart-heading">
               <h3>Enrollment Cart</h3>
             </div>
+            {successMessage}
             <table className="table table-bordered table-striped">
               <thead>
                 <tr className="text-align-center">
@@ -82,7 +118,14 @@ handleEnrollment = (index) => {
               </tbody>
             </table>
       
+              </div>
+            </div>
+            
+            
           </div>
+        
+          
+        
         </div>
       )
         

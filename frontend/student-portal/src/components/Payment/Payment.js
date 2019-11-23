@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Header from '../Header/Header';
 import axios from 'axios';
 import { getURL } from '../../config/Config';
+import {Redirect} from 'react-router-dom';
 
 class Payment extends Component {
     
@@ -12,7 +13,8 @@ class Payment extends Component {
             studentName : "",
             departmentName : "",
             feesAmount : 0,
-            enrolledCourses : []
+            enrolledCourses : [],
+            redirectToHome : false
         }
 
         //bind
@@ -67,15 +69,25 @@ class Payment extends Component {
             }
             axios.post(getURL('/pay') , data)
                 .then((res) => {                    
-                console.log('Payment processing successful');
+                    console.log('Payment processing successful');
+                    this.setState({
+                        redirectToHome : true
+                    });
                 });
         }
     }
     
-    render() {        
+    render() {     
+        
+        let redirectToHomeLink = null;
+        if(this.state.redirectToHome == true) {
+            redirectToHomeLink = <Redirect to="/" />
+        }
+
         return (
             <div className="">
                 <Header/>
+                {redirectToHomeLink}
                 <div className="container">                    
                     <div className="mt-5">                         
                         <div className="">
